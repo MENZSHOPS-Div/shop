@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Restoran - Bootstrap Restaurant Template</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicon -->
+  <link href="img/favicon.ico" rel="icon">
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+    rel="stylesheet">
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Template Stylesheet -->
+  <link href="css/style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<style>
+  .icon {
+    height: 40px;
+  }
+
+  .logo-img {
+    width: 40px;
+  }
+
+  .logo-text {
+    font-family: "sarabun";
+  }
+
+  .b-example-divider {
+    width: 100%;
+    height: 4rem;
+    background-color: rgba(0, 0, 0, .1);
+    border: solid rgba(0, 0, 0, .15);
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+  }
+
+  .d-flex.align-items-center {
+    display: flex;
+  }
+
+  .product-items {
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .img-thumbnail {
+    height: 400px;
+    width: 300px;
+  }
+
+  .modal,
+  .modal-bg {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-page {
+    z-index: 99;
+    min-width: 50%;
+    max-width: 50%;
+    max-height: 30vw;
+
+    background: #fff;
+    border-radius: 15px;
+    padding: 10px;
+  }
+
+  .modal-pages {
+    z-index: 99;
+    min-width: 60%;
+    max-width: 60%;
+    max-height: 90%;
+
+    background: #fff;
+    border-radius: 15px;
+    padding: 10px;
+  }
+
+  .modal-payment {
+
+    z-index: 999;
+    min-width: 400px;
+    max-width: 400px;
+    max-height: 80%;
+
+    background: #fff;
+    border-radius: 15px;
+    padding: 10px;
+    margin-left: 200px;
+  }
+
+  .modaldesc-content {
+    width: 100%;
+    display: flex;
+  }
+
+  .modaldesc-detail {
+    margin-left: 20px;
+  }
+
+  .modaldesc-img {
+    width: 20vw;
+    height: 20vw;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .btn-control {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2vw;
+    transition: 0.3s;
+  }
+
+  .btn-buy {
+    background: linear-gradient(125deg, #e61b36, #9c1032);
+    color: #fff;
+    margin-left: 10px;
+  }
+
+  .cartlist-items {
+    width: 50vw;
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-between;
+  }
+
+  .cartlist-left {
+    display: flex;
+  }
+
+  .cart-name {
+    font-size: 2rem;
+    color: darkblue;
+  }
+
+  .cart-price {
+    font-size: 1.5rem;
+    color: #000;
+  }
+
+  .cart-desc {
+    font-size: 1rem;
+  }
+
+  .cartlist-right {
+    display: flex;
+    align-items: center;
+    margin-right: 100px;
+  }
+
+  .cartlist-left img {
+    width: 5vw;
+    height: 5vw;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  #qrcode{
+    width: 250px;
+    height: 380px;
+    margin-left: 10px;
+  }
+
+  .btnc {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+    cursor: pointer;
+  }
+
+  #floating-icon {
+    position: fixed;
+    top: 200px;
+    /* ปรับตำแหน่งแนวตั้ง */
+    right: 20px;
+    /* ปรับตำแหน่งแนวนอน */
+    width: 60px;
+    height: 60px;
+    right: 90px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9999;
+    /* ให้ไอคอนอยู่ด้านบน */
+  }
+
+  .fa-cart-shopping {
+    font-size: 2vw;
+    color: #fff;
+  }
+
+  .cartcount {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 25px;
+    height: 25px;
+    background: red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+
+  .cartlist-name {
+    font-size: 1.5rem;
+  }
+
+  .cartlist-price {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 728px) {
+    .fa-cart-shopping {
+      font-size: 6vw;
+      color: #fff;
+    }
+
+    .modal-page {
+      z-index: 99;
+      min-width: 90%;
+      max-width: 90%;
+      max-height: 80vw;
+      overflow: scroll;
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+    }
+
+    .modal-pages {
+      z-index: 99;
+      min-width: 95%;
+      max-width: 95%;
+      max-height: 100%;
+      overflow: scroll;
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+    }
+
+    .cart-name {
+      font-size: 1rem;
+    }
+
+    .cart-price {
+      font-size: 0.80rem;
+    }
+
+    .cart-desc {
+      font-size: 0.75rem;
+    }
+
+    .btn {
+      font-size: 0.75rem;
+    }
+
+    #floating-icon {
+      right: 30px;
+    }
+    #qrcode{
+    width: 230px;
+    height: 380px;
+    margin-left: 60px;
+  }
+
+    .modal-payment {
+
+      z-index: 999;
+      min-width: 400px;
+      max-width: 400px;
+      max-height: 100%;
+      overflow: scroll;
+      background: #fff;
+      border-radius: 15px;
+      padding: 10px;
+      margin-left: 20px;
+    }
+
+    .img-thumbnail {
+      width: 150px;
+      margin-left: 50px;
+    }
+
+    .cartlist-left img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 5px;
+
+    }
+
+    .cartlist-right {
+      display: flex;
+      justify-content: end;
+      margin-right: 20px;
+      width: 30%;
+    }
+
+    .cartlist-left {
+      display: flex;
+      width: 70%;
+      font-size: 1rem;
+    }
+
+    .cartlist-items {
+      width: 100%;
+      display: flex;
+      margin-bottom: 20px;
+      justify-content: space-between;
+    }
+
+    .cartlist-name {
+      font-size: 0.80rem;
+    }
+
+    .cartlist-price {
+      font-size: 0.80rem;
+    }
+
+  }
+</style>
+
+<body>
+  <div class="container-xxl bg-white p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+      class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-xxl position-relative p-0">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+        <img class="logo-img" src="https://img5.pic.in.th/file/secure-sv1/-10029646b3f4ae4fd1.png">
+        <h1 class="logo-text text-primary fs-4 ms-1">เม็นส์ ช็อป</h1>
+        <!-- <img src="img/logo.png" alt="Logo"> -->
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+          <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav ms-auto py-0 pe-4">
+            <a href="index.html" class="nav-item nav-link">Home</a>
+
+
+            <a href="menu.html" class="nav-item nav-link active">Shop</a>
+            <a href="contact.html" class="nav-item nav-link">Ship</a>
+            <a href="service.html" class="nav-item nav-link">tracking</a>
+
+            <a href="booking.html" class="nav-item nav-link">Contact</a>
+
+      </nav>
+
+      <div class="container-xxl py-5 hero-header mb-5">
+        <div class="container my-5 py-5">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-6 text-center text-lg-start">
+              <h1 class="display-3  animated slideInLeft" style="color:darkorange;">SHOP.<br><small class="text-white fs-3" style="font-family: sarabun;">ร้านค้า</small></h1>
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Navbar & Hero End -->
+    <div id="floating-icon">
+      <div onclick="openCart()" style="cursor: pointer;" class="nav-profile-cart">
+        <i class="fas fa-cart-shopping"></i>
+        <div id="cartcount" class="cartcount" style="display: none;">
+          0
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Menu Start -->
+    <div class="container-xxl py-5">
+      <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+          <h5 class="section-title ff-secondary text-center text-primary fw-normal">MENU</h5>
+          <h1 class="mb-5"></h1>
+        </div>
+        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+          <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+            <li class="nav-item">
+              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
+
+                <div class="ps-3" onclick="searchproduct('Viagra')">
+
+                  <i class="fa-solid fa-pills"></i>
+                  <small class="text-body">Viagra</small>
+
+
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-2">
+
+                <div class="ps-3" onclick="searchproduct('Popper')">
+                  <i class="fa-solid fa-bottle-droplet"></i>
+                  <small class="text-body">Popper</small>
+
+
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-3">
+
+                <div class="ps-3" onclick="searchproduct('Gel')">
+                  <i class="fa-solid fa-droplet"></i>
+                  <small class="text-body">Rubecant Gel</small>
+
+                </div>
+
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-4">
+                <div class="ps-3" onclick="searchproduct('Other')">
+                  <i class="fa-solid fa-face-smile"></i>
+                  <small class="text-body">Other</small>
+
+
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-4">
+                <div class="ps-3" onclick="searchproduct('Other')">
+                  <i class="fa-solid fa-sack-dollar"></i>
+                  <small class="text-body">Other</small>
+
+
+                </div>
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div id="tab-1" class="tab-pane fade show p-0 active">
+              <div id="productlist" class="row g-4">
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalCart" class="modal" style="display: none;">
+      <div onclick="closeModal()" class="modal-bg"></div>
+      <div class="modal-page">
+        <h2>My cart</h2>
+        <br>
+        <div id="mycart" class="cartlist">
+
+        </div>
+        <div class="btn-control">
+          <button onclick="closeModal()" class="btn">
+            Cancel
+          </button>
+          <button onclick="renderSummaryCart()" class="btn btn-buy">
+            Buy
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Menu End -->
+
+
+    <div class="b-example-divider" style="justify-content: center;"></div>
+
+    <!-- Footer Start -->
+
+    <div class="container pt-3 pb-2">
+      <div class="copyright">
+        <div class="row">
+          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            &copy; <a class="border-bottom" href="#">https://www.menzshops.com</a>,
+
+            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+            Designed By <a class="border-bottom" href="">MENZSHOPS</a>
+          </div>
+
+          <!-- Footer End -->
+
+
+          <!-- Back to Top -->
+
+        </div>
+
+
+
+
+
+
+      </div>
+
+
+      <div id="modalDesc" class="modal" style="display: none;">
+        <div onclick="closeModal()" class="modal-bg"></div>
+        <div class="modal-page">
+          <h2>Detail</h2>
+          <br>
+          <div class="modaldesc-content ms-2">
+            <img id="mdd-img" class="modaldesc-img"
+              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+              alt="">
+            <div class="modaldesc-detail">
+              <p id="mdd-name" class="cart-name fw-bold">Product name</p>
+              <p id="mdd-price" class="cart-price fw-bold">500 THB</p>
+              <br>
+              <p id="mdd-desc" class="cart-desc">Lorem iaudantium harum doloremque alias. Quae, vel ipsum quasi,
+                voluptas, sit optio nemo magni numquam non dicta voluptates porro! Vero eveniet numquam sit aut vel
+                eligendi officiis iste tenetur expedita. Delectus vero quibusdam adipisci in. Esse.</p>
+              <br>
+              <div class="btn-control">
+                <button onclick="closeModal()" class="btn btn-secondary">
+                  Close
+                </button>
+                <button onclick="addtocart()" class="btn btn-buy">
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="modalcheckout" class="modal" style="display: none;">
+        <div class="modal-bg">
+          <div class="modal-pages">
+            <main>
+              <div class="container-md">
+                <div class="py-5 text-center">
+
+                  <h2 style="font-family: sarabun;">แบบฟอร์มชำระเงิน</h2>
+                  <p class="lead" style="font-family: sarabun;">กรุณาตรวจสอบรายการสินค้า และชำระเงิน
+                    ก่อนกดยืนยันคำสั่งซื้อ</p>
+                  <p class="lead text-center fw-bold" style="font-family: sarabun;">(ไม่มีบริการชำระค่าสินค้าปลายทาง)
+                  </p>
+                </div>
+
+                <div class="row g-5">
+                  <div class="col-md-5 col-lg-4 order-md-last">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <p>หมายเลขคำสั่งซื้อ: <span id="ordernumber"></span></p>
+                    </div>
+                    <ul id="summaryCart" class="list-group mb-3">
+
+
+
+
+
+
+                    </ul>
+
+                    <form class="card p-2">
+                      <div class="input-group">
+                        <img id="qrcode" class="img-thumbnail" src="https://img5.pic.in.th/file/secure-sv1/5-Million.png">
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="col-md-7 col-lg-8">
+                    <h4 class="mb-3" style="font-family: sarabun;">ที่อยู่สำหรับจัดส่ง</h4>
+                    <hr class="my-4">
+                    <form class="needs-validation" novalidate>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label for="firstName" class="form-label">ชื่อ</label>
+                          <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                          <div class="invalid-feedback">
+                            Valid first name is required.
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <label for="lastName" class="form-label">นามสกุล</label>
+                          <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                          <div class="invalid-feedback">
+                            Valid last name is required.
+                          </div>
+                        </div>
+
+
+
+                        <div class="col-12 mt-2">
+                          <label for="email" class="form-label">Email</label>
+                          <input type="email" class="form-control" id="email" placeholder="กรุณากรอกอีเมลล์ที่ใช้งานได้เพื่อการอัพเดทสถานะคำสั่งซื้อและการจัดส่ง" required >
+                          <div class="invalid-feedback">
+                            Valid email is required.
+                          </div>
+
+                        </div>
+
+                        <div class="col-12 mt-2">
+                          <label for="address" class="form-label">ที่อยู่</label>
+                          <input type="text" class="form-control" id="address" required>
+                          <div class="invalid-feedback">
+                            Please enter your shipping address.
+                          </div>
+                        </div>
+                        <div class="row  mt-2">
+
+                          <div class="col-4">
+                            <label for="province" class="form-label">จังหวัด</label>
+                            <input type="text" class="form-control" id="province" required>
+                            <div class="invalid-feedback">
+                              Please enter your province.
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <label for="zipcode" class="form-label">รหัสไปรษณีย์</label>
+                            <input type="text" class="form-control" id="zipcode" required>
+                            <div class="invalid-feedback">
+                              Please enter your zipcode.
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <label for="tel" class="form-label">โทร</label>
+                            <input type="text" class="form-control" id="tel" required>
+                            <div class="invalid-feedback">
+                              Please enter your mobile phone number.
+                            </div>
+
+                          </div>
+
+
+
+
+
+                          <div class="input-group mb-3 mt-3">
+                            <label>หลักฐานการชำระเงิน</label>
+                            <input type="file" class="form-control ms-4" id="inputGroupFile01">
+                          </div>
+
+                        </div>
+                      </div>
+
+                     
+
+
+                      <hr class="my-4">
+
+
+                      <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick=" sendLineMessage()" disabled>Continue to
+                        checkout</button>
+
+                    </form>
+                    <script>
+                      document.getElementById("inputGroupFile01").addEventListener("change", function() {
+                          const fileInput = document.getElementById("inputGroupFile01");
+                          const orderButton = document.getElementById("orderButton");
+              
+                          if (fileInput.files.length > 0) {
+                              orderButton.disabled = false; // เปิดปุ่มเมื่อมีไฟล์
+                          } else {
+                              orderButton.disabled = true;  // ปิดปุ่มเมื่อไม่มีไฟล์
+                          }
+                      });
+                  </script>
+              
+   
+                  </div>
+                </div>
+
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let productData = [];
+
+      function fetchPackage() {
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzUCCxLO-uJ77AG3FgIocWh11ivfbDRukr21lpkEIWuW1i3tQxCY9BrV2eGuHf21xvEPw/exec";
+
+        fetch(scriptURL)
+          .then(response => response.json())
+          .then(data => {
+            productData = data; // เก็บข้อมูลที่ดึงมา
+            renderProducts();
+          });
+      }
+
+      function renderProducts(filter = "all") {
+        console.log("Filtering by:", filter); // ตรวจสอบค่าที่ถูกส่งเข้ามา
+        let html = "";
+
+        for (let i = 0; i < productData.length; i++) {
+          console.log("Product Type:", productData[i].type); // ตรวจสอบประเภทของสินค้า
+
+          if (filter === "all" || productData[i].type === filter) {
+            let formattedPrice = parseFloat(productData[i].price).toFixed(2);
+            html += `                                 
+                 <div style="cursor: pointer;" class="col-lg-6 product-item ${productData[i].type}">
+                    <div onclick="openProductDetail(${i})" class="d-flex align-items-center">
+                        <img class="flex-shrink-0 img-fluid rounded" src="${productData[i].img}" alt="" style="width: 80px;">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>${productData[i].name}</span>
+                                <span class="text-primary">${numberWithCommas(formattedPrice)}</span>
+                            </h5>
+                            <small class="fst-italic">${productData[i].description}</small>
+                        </div>
+                    </div>
+                </div>`;
+          }
+        }
+        $("#productlist").html(html);
+      }
+
+
+      function searchproduct(param) {
+        console.log(param);
+        renderProducts(param);
+      }
+
+      function numberWithCommas(x) {
+        x = x.toString();
+        var pattern = /(-?\d+)(\d{3})/;
+        while (pattern.test(x))
+          x = x.replace(pattern, "$1,$2");
+        return x;
+      }
+
+      var productindex = 0;
+      function openProductDetail(index) {
+        productindex = index;
+        console.log(productindex)
+        $("#modalDesc").css('display', 'flex')
+        $("#mdd-img").attr('src', productData[index].img);
+        $("#mdd-name").text(productData[index].name)
+        $("#mdd-price").text(numberWithCommas(productData[index].price) + ' THB')
+        $("#mdd-desc").text(productData[index].description)
+
+      }
+
+
+
+      function closeModal() {
+        $(".modal").css('display', 'none')
+      }
+
+      var cart = [];
+      function addtocart() {
+        var pass = true;
+
+        for (let i = 0; i < cart.length; i++) {
+          if (productindex == cart[i].index) {
+            console.log('found same product')
+            cart[i].count++;
+            pass = false;
+          }
+        }
+
+        if (pass) {
+          var obj = {
+            index: productindex,
+            id: productData[productindex].id,
+            name: productData[productindex].name,
+            price: productData[productindex].price,
+            img: productData[productindex].img,
+            count: 1
+          };
+          closeModal();
+
+          // console.log(obj)
+          cart.push(obj)
+        }
+        console.log(cart)
+
+
+        $("#cartcount").css('display', 'flex').text(cart.length);
+
+      }
+
+      function openCart() {
+        $('#modalCart').css('display', 'flex')
+        rendercart();
+
+      }
+      function openCheckout() {
+        $('#modalcheckout').css('display', 'flex');
+        generateOrderNumber();
+
+
+      }
+
+      function openPayment() {
+        $('#modalcheckout').css('display', 'none');
+
+      }
+
+      function rendercart() {
+        if (cart.length > 0) {
+          var html = '';
+          for (let i = 0; i < cart.length; i++) {
+            html += `<div class="cartlist-items">
+                        <div class="cartlist-left">
+                            <img src="${cart[i].img}" alt="">
+                            <div class="cartlist-detail">
+                                <p class="carlist-name">${cart[i].name}</p>
+                                <p class="cartlist-price">${numberWithCommas(cart[i].price * cart[i].count)} THB</p>
+                            </div>
+                        </div>
+                        <div class="cartlist-right">
+                            <p onclick="deinitems('-', ${i})" class="btnc">-</p>
+                            <p id="countitems${i}" style="margin: 0 20px;">${cart[i].count}</p>
+                            <p onclick="deinitems('+', ${i})" class="btnc">+</p>
+                        </div>
+                    </div>`;
+          }
+          $("#mycart").html(html)
+        }
+        else {
+          $("#mycart").html(`<p>Not found product list</p>`)
+        }
+      }
+
+      function renderSummaryCart() {
+        if (cart.length > 0) {
+          let html = '';
+          let totalPrice = 0;
+
+          for (let i = 0; i < cart.length; i++) {
+            let itemTotal = cart[i].price * cart[i].count;
+            totalPrice += itemTotal;
+
+            html += `  
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0" style="font-family: sarabun; font-size: 0.80rem">${cart[i].name}</h6>
+                        <small class="text-body-secondary fs-6">x ${cart[i].count}</small>
+                    </div>
+                    <span class="text-body-secondary" style="font-family: sarabun; font-size: 0.80rem">${numberWithCommas(itemTotal)} THB</span>
+                </li>
+            `;
+          }
+
+          // เพิ่มแสดงราคารวมด้านล่างสุด
+          html += `  
+            <li class="list-group-item d-flex justify-content-between bg-light">
+                <strong>รวมทั้งหมด</strong>
+                <strong>${numberWithCommas(totalPrice)} THB</strong>
+            </li>
+        `;
+
+          $("#summaryCart").html(html);
+          openCheckout();
+        } else {
+          $("#summaryCart").html(`<p>ไม่มีสินค้าในตะกร้า</p>`);
+        }
+      }
+
+
+      function deinitems(action, index) {
+        if (action === '-') {
+          if (cart[index].count > 1) {
+            cart[index].count--; // ลดจำนวนสินค้า
+            $("#countitems" + index).text(cart[index].count);
+            rendercart();
+          } else if (cart[index].count === 1) {
+            // แสดง SweetAlert ก่อนลบสินค้า
+            Swal.fire({
+              icon: 'warning',
+              title: 'Are you sure to delete?',
+              showConfirmButton: true,
+              showCancelButton: true,
+              confirmButtonText: 'Delete',
+              cancelButtonText: 'Cancel'
+            }).then((res) => {
+              if (res.isConfirmed) {
+                cart.splice(index, 1); // ลบสินค้า
+                rendercart();
+                updateCartCount();
+              }
+            });
+          }
+        } else if (action === '+') {
+          cart[index].count++; // เพิ่มจำนวนสินค้า
+          $("#countitems" + index).text(cart[index].count);
+          rendercart();
+        }
+      }
+
+      // ฟังก์ชันอัปเดตจำนวนสินค้าในไอคอนตะกร้า
+      function updateCartCount() {
+        if (cart.length > 0) {
+          $("#cartcount").css('display', 'flex').text(cart.length);
+        } else {
+          $("#cartcount").css('display', 'none');
+        }
+      }
+ 
+
+      async function sendLineMessage() {
+  event.preventDefault();
+  if (cart.length > 0) {
+        let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+        let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+        let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+        let address = document.getElementById("address")?.value|| "ไม่มีข้อมูล";
+        let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+        let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+        let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+        let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+
+        console.log("📌 ตรวจสอบค่าก่อนส่ง:");
+        console.log("ชื่อ:", name);
+        console.log("นามสกุล:", lastname);
+        console.log("ที่อยู่:", address);
+        console.log("จังหวัด:", province);
+        console.log("รหัสไปรษณีย์:", zipcode);
+
+        console.log("เบอร์โทร:", tel);
+
+        let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
+
+        let message = `📦 *ออเดอร์ใหม่!* \n\n` +
+                      `🛒 *Order Number:* ${orderNumber}\n` +
+                      `🏠 *ที่อยู่:* ${fulladdress}\n` +
+                      `📞 *เบอร์โทร:* ${tel}\n\n` +
+                      `🏠 *E Mail:* ${email}\n` +
+                      `🛍 *รายการสินค้า:*\n`;
+                      cart.forEach((item, index) => {
+            message += `\n${index + 1}. ${item.name}  x ${item.count}`;
+        });
+
+        message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
+                 
+
+    try {
+        let response = await fetch("http://localhost:3000/send-line", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: message })
+        });
+
+        let result = await response.json();
+        console.log(result);
+
+        if (response.ok) {
+            alert("✅ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งพร้อมใบเสร็จได้ที่อีเมลล์ของท่าน ✅ ท่านสามารถติดต่อแอดมินได้ที่ LINE : @MENZSHOPS  ");
+        } else {
+            alert("❌ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE : @menzshops");
+        }
+        document.getElementById("ordernumber").textContent = " ";
+        document.getElementById("firstName").innerText = " ";
+        document.getElementById("lastName").innerText = " ";
+        document.getElementById("address").innerText = " ";
+        document.getElementById("province").innerText = " ";
+        document.getElementById("zipcode").innerText = " ";
+        document.getElementById("tel").innerText = " ";
+        document.getElementById("email").innerText = " ";
+        clearCart()
+        window.location.href = "index.html";
+    } catch (error) {
+        console.error("Error:", error);
+    }
+  }
+}
+
+
+      function generateOrderNumber() {
+        let orderNumber = Math.floor(10000000 + Math.random() * 90000000); // สุ่มเลข 8 หลัก
+        document.getElementById("ordernumber").textContent = orderNumber; // แสดงผลใน HTML
+      }
+
+      function clearCart() {
+    cart = []; // ล้างตะกร้า
+    rendercart(); // อัปเดตการแสดงผลตะกร้า
+    updateCartCount(); // อัปเดตจำนวนสินค้าในไอคอนตะกร้า
+    $("#modalCart").css('display', 'none'); // ปิดหน้าต่างตะกร้า (ถ้าต้องการ)
+}
+
+
+      // เรียกฟังก์ชันเมื่อหน้าเว็บโหลด
+      window.onload = fetchPackage;
+
+    </script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
