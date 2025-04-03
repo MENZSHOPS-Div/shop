@@ -6,8 +6,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const LINE_TOKEN = "ZklVifJPnjnCdb3GiabOWCSdx34J+OiJf6uv/+dY5+iVXIKGgrkaHy/vUNQSv+jCYxkLUqSpwO/IHn0+iiyt0St6DaRb84kHYosUgjdHXZnXcvrwgdt0ErSn1cdF+uAPFTsmMDYbUzsdxDKHip+2eQdB04t89/1O/w1cDnyilFU=";
-const USER_ID = "C81d532e59594879a230da92782e11eca";
+import "dotenv/config";
+
+const LINE_TOKEN = process.env.LINE_TOKEN;
+const USER_ID = process.env.USER_ID;
+
 
 app.post("/send-line", async (req, res) => {
     try {
@@ -32,4 +35,5 @@ app.post("/send-line", async (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log("✅ Server running on http://localhost:3000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
