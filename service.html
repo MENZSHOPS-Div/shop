@@ -341,10 +341,25 @@
     height: 380px;
     margin-left: 60px;
   }
-  .iframe-container {
+iframe-container {
+            width: 80%;
+            max-width: 500px;
+            min-width: 500px;
+            height: 700px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            background: #fff;
+            padding: 5px;
+            box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.3), 
+                        inset -5px -5px 10px rgba(255, 255, 255, 0.7),
+                        5px 5px 10px rgba(0, 0, 0, 0.2);
+        }
+	   iframe {
             width: 90%;
-           
-           
+            height: 100%;
+            border: none;
+            border-radius: 5px;
         }
 
     .modal-payment {
