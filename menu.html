@@ -985,7 +985,7 @@ async function sendLineMessage() {
     message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
 
     try {
-      let response = await fetch("https://line-api-backend.onrender.com/push", {
+      let response = await fetch("https://line-api-backend.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
