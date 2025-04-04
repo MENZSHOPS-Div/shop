@@ -957,71 +957,62 @@
       }
  
 
-  async function sendLineMessage() {
+async function sendLineMessage() {
   event.preventDefault();
+
   if (cart.length > 0) {
-        let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
-        let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
-        let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
-        let address = document.getElementById("address")?.value|| "ไม่มีข้อมูล";
-        let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
-        let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
-        let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
-        let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+    let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+    let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+    let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+    let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+    let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+    let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+    let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+    let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
 
-        console.log("📌 ตรวจสอบค่าก่อนส่ง:");
-        console.log("ชื่อ:", name);
-        console.log("นามสกุล:", lastname);
-        console.log("ที่อยู่:", address);
-        console.log("จังหวัด:", province);
-        console.log("รหัสไปรษณีย์:", zipcode);
+    let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
+    let message = `📦 *ออเดอร์ใหม่!* \n\n` +
+                  `🛒 *Order Number:* ${orderNumber}\n` +
+                  `🏠 *ที่อยู่:* ${fulladdress}\n` +
+                  `📞 *เบอร์โทร:* ${tel}\n\n` +
+                  `📧 *E-Mail:* ${email}\n` +
+                  `🛍 *รายการสินค้า:*\n`;
 
-        console.log("เบอร์โทร:", tel);
+    cart.forEach((item, index) => {
+      message += `\n${index + 1}. ${item.name} x ${item.count}`;
+    });
 
-        let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
-
-        let message = `📦 *ออเดอร์ใหม่!* \n\n` +
-                      `🛒 *Order Number:* ${orderNumber}\n` +
-                      `🏠 *ที่อยู่:* ${fulladdress}\n` +
-                      `📞 *เบอร์โทร:* ${tel}\n\n` +
-                      `🏠 *E Mail:* ${email}\n` +
-                      `🛍 *รายการสินค้า:*\n`;
-                      cart.forEach((item, index) => {
-            message += `\n${index + 1}. ${item.name}  x ${item.count}`;
-        });
-
-        message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
-                 
+    message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
 
     try {
-        let response = await fetch("https://backend-t1ha.onrender.com", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ message: message })
-        });
+      let response = await fetch("https://line-api-backend.onrender.com/push", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: message })
+      });
 
-        let result = await response.json();
-        console.log(result);
+      let result = await response.json();
+      console.log(result);
 
-        if (response.ok) {
-            alert("✅ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งพร้อมใบเสร็จได้ที่อีเมลล์ของท่าน ✅ ท่านสามารถติดต่อแอดมินได้ที่ LINE : @MENZSHOPS  ");
-        } else {
-            alert("❌ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE : @menzshops");
-        }
+      if (response.ok) {
+        alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งได้ที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
         document.getElementById("ordernumber").textContent = " ";
-        document.getElementById("firstName").innerText = " ";
-        document.getElementById("lastName").innerText = " ";
-        document.getElementById("address").innerText = " ";
-        document.getElementById("province").innerText = " ";
-        document.getElementById("zipcode").innerText = " ";
-        document.getElementById("tel").innerText = " ";
-        document.getElementById("email").innerText = " ";
-        clearCart()
+        document.getElementById("firstName").value = " ";
+        document.getElementById("lastName").value = " ";
+        document.getElementById("address").value = " ";
+        document.getElementById("province").value = " ";
+        document.getElementById("zipcode").value = " ";
+        document.getElementById("tel").value = " ";
+        document.getElementById("email").value = " ";
+        clearCart();
         window.location.href = "index.html";
+      } else {
+        alert("❌ ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE: @menzshops");
+      }
     } catch (error) {
-        console.error("Error:", error);
+      console.error("Error:", error);
     }
   }
 }
