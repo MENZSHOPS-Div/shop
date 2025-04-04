@@ -956,7 +956,6 @@
         }
       }
  
-
 async function sendLineMessage() {
   event.preventDefault();
 
@@ -985,7 +984,7 @@ async function sendLineMessage() {
     message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
 
     try {
-      let response = await fetch("https://line-api-backend.onrender.com", {
+      let response = await fetch("https://line-api-backend.onrender.com/push", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -1016,6 +1015,7 @@ async function sendLineMessage() {
     }
   }
 }
+
 
 
       function generateOrderNumber() {
