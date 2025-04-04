@@ -601,7 +601,12 @@
         <div class="modal-bg" id="checkoutbg">
          
           <div class="modal-pages" id="checkout">
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeCheckOut()"></button>
+            <script>
+              function closeCheckOut(){
+                $("#modalcheckout").css('display' , 'none');
+              }
+            </script>
             <main>
               <div class="container-md">
                 <div class="py-5 text-center">
