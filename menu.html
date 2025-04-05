@@ -119,7 +119,20 @@
     border-radius: 15px;
     padding: 10px;
   }
-
+ .modal-qrcode {
+    display: block;
+    z-index: 99;
+    min-width: 400px;
+    max-width: 400px;
+    max-height: 800px;
+    background: white;
+    position: fixed;
+    top: 150px;
+    left: 500px;
+     border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+  }
   .modal-payment {
 
     z-index: 999;
@@ -254,6 +267,15 @@
     color: #fff;
   }
 
+  #confirm{
+    display: flex;
+    margin-top: 200px;
+  }
+
+  #mobileconfirm{
+    display: none;
+  }
+
   .cartcount {
     position: absolute;
     top: -15px;
@@ -267,16 +289,18 @@
     align-items: center;
     color: #fff;
   }
-  .modal-dialog{
-    min-width: 350px;
-    max-width: 350px;
-  }
+
   .cartlist-name {
     font-size: 1.5rem;
   }
 
   .cartlist-price {
     font-size: 1.5rem;
+  }
+
+  .modal-dialog{
+    min-width: 350px;
+    max-width: 350px;
   }
 
   @media (max-width: 728px) {
@@ -298,11 +322,19 @@
       padding: 20px;
     }
     .modal-qrcode {
-     left: 10px;
+     left: 30px;
      max-width: 350px;
      min-width: 350px;
 
     }
+    #confirm{
+    display: none;
+  
+  }
+
+  #mobileconfirm{
+    display: flex;
+  }
 
     .modal-pages {
       z-index: 99;
@@ -649,7 +681,12 @@
                     <form class="card p-2">
                       <div class="d-grid gap-2">
                          <button class="btn btn-outline-primary" type="button" onclick="openQr()">กดเพื่อชำระเงิน</button>
-                       
+                      </div>
+                    </form>
+                      <form id="confirm" class="card p-2">
+                      <div class="d-grid gap-2">
+                      <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="sendLineMessage()" disabled>ยืนยันคำสั่งซื้อ
+                      </button>
                       </div>
                     </form>
                   </div>
@@ -661,7 +698,7 @@
                       <div class="row">
                         <div class="col-sm-6">
                           <label for="firstName" class="form-label">ชื่อ</label>
-                          <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                          <input type="text" class="form-control form-control-sm" id="firstName" placeholder="" value="" required>
                           <div class="invalid-feedback">
                             Valid first name is required.
                           </div>
@@ -669,49 +706,123 @@
 
                         <div class="col-sm-6">
                           <label for="lastName" class="form-label">นามสกุล</label>
-                          <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                          <input type="text" class="form-control form-control-sm" id="lastName" placeholder="" value="" required>
                           <div class="invalid-feedback">
                             Valid last name is required.
                           </div>
                         </div>
-
+                         
+                        <div class="container">
+                          <p class="mb-4">ช่องทางที่สะดวกให้ติดต่อกลับที่สุด</p>
+                          
+                          <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" value="" id="checkboxLine" onchange="handleCheckboxChange(this)">
+                            <label class="form-check-label" for="checkboxLine">LINE</label>
+                          </div>
+                      
+                          <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" value="" id="checkboxPhone" onchange="handleCheckboxChange(this)">
+                            <label class="form-check-label" for="checkboxPhone">หมายเลขโทรศัพท์</label>
+                          </div>
+                      
+                          <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" value="" id="checkboxEmail" onchange="handleCheckboxChange(this)">
+                            <label class="form-check-label" for="checkboxEmail">อีเมลล์</label>
+                          </div>
+                        </div>
+                      
+                        <script>
+                          function handleCheckboxChange(selectedCheckbox) {
+                            // ดึง checkbox ทั้งหมด
+                            const checkboxes = document.querySelectorAll('.form-check-input');
+                      
+                            // ปิดช่องอื่น ๆ ยกเว้นช่องที่เลือก
+                            checkboxes.forEach(checkbox => {
+                              if (checkbox !== selectedCheckbox) {
+                                checkbox.checked = false;
+                              }
+                            });
+                      
+                            // เรียกฟังก์ชันเมื่อมีการเลือก
+                            if (selectedCheckbox.checked) {
+                              switch (selectedCheckbox.id) {
+                                case "checkboxLine":
+                                  function1();
+                                  break;
+                                case "checkboxPhone":
+                                  function2();
+                                  break;
+                                case "checkboxEmail":
+                                  function3();
+                                  break;
+                              }
+                            }
+                          }
+                      
+                          function function1() {
+                            $("#line").css('display' , 'flex');
+                            $("#mobile").css('display' , 'none');
+                            $("#mail").css('display' , 'none');
+                          }
+                      
+                          function function2() {
+                            $("#line").css('display' , 'none');
+                            $("#mobile").css('display' , 'flex');
+                            $("#mail").css('display' , 'none');
+                          }
+                      
+                          function function3() {
+                            $("#line").css('display' , 'none');
+                            $("#mobile").css('display' , 'none');
+                            $("#mail").css('display' , 'flex');
+                          }
+                        </script>
+                      
+                      
 
 
                         <div class="col-12 mt-2">
-                          <label for="email" class="form-label">Email</label>
-                          <input type="email" class="form-control" id="email" placeholder="กรุณากรอกอีเมลล์ที่ใช้งานได้เพื่อการอัพเดทสถานะคำสั่งซื้อและการจัดส่ง" required >
-                          <div class="invalid-feedback">
-                            Valid email is required.
+                          <div class="row">
+                            <label id="line" style="display: none;">กรุณาใส่ LINE Id</label>
+                            <label id="mobile" style="display: none;">กรุณาใส่เบอร์โทรที่สะดวกให้ติดต่อกลับ</label>
+                            <label id="mail" style="display: none;">กรุณาใส่อีเมลล์ที่ใช้งานปัจจุบัน</label>
                           </div>
+                          <div class="col-6">
+                          <input type="email" class="form-control form-control-sm" id="email">
+                          <div class="invalid-feedback">
+                            Valid contact is required.
+                          </div>
+                        </div>
+                          
 
                         </div>
 
                         <div class="col-12 mt-2">
                           <label for="address" class="form-label">ที่อยู่</label>
-                          <input type="text" class="form-control" id="address" required>
+                          <input type="text" class="form-control form-control-sm" id="address" required>
                           <div class="invalid-feedback">
                             Please enter your shipping address.
                           </div>
                         </div>
-                        <div class="row  mt-2">
+                        <div class="row  mt-2 mb-3">
 
                           <div class="col-4">
                             <label for="province" class="form-label">จังหวัด</label>
-                            <input type="text" class="form-control" id="province" required>
+                            <input type="text" class="form-control form-control-sm" id="province" required>
                             <div class="invalid-feedback">
                               Please enter your province.
                             </div>
                           </div>
                           <div class="col-4">
                             <label for="zipcode" class="form-label">รหัสไปรษณีย์</label>
-                            <input type="text" class="form-control" id="zipcode" required>
+                            <input type="text" class="form-control form-control-sm" id="zipcode" required>
                             <div class="invalid-feedback">
                               Please enter your zipcode.
                             </div>
                           </div>
                           <div class="col-4">
                             <label for="tel" class="form-label">โทร</label>
-                            <input type="text" class="form-control" id="tel" required>
+                            <input type="text" class="form-control form-control-sm" id="tel" required>
                             <div class="invalid-feedback">
                               Please enter your mobile phone number.
                             </div>
@@ -728,13 +839,12 @@
                       </div>
 
                      
+                    </form>
 
+                      <form id="mobileconfirm" class="card p-2">
 
-                      <hr class="my-4">
-
-
-                      <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="sendLineMessage()" disabled>Continue to
-                        checkout</button>
+                      <button class="w-100 btn btn-primary btn-lg" id="mobileorderButton" onclick="sendLineMessage()" disabled>ยืนยันคำสั่งซื้อ
+                        </button>
 
                     </form>
                           
@@ -745,39 +855,42 @@
         </div>
       </div>
     </div>
-<div id="qrpayment" class="modal" style="display: none; max-widht: 300px; min-width: 300px;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeQr()"></button>
-            </div>
-         <div class="modal-body">
-          
-                       
-            <img class="img-thumbnail ms-4" style="max-width: 260px; min-width: 270px;" src="https://img5.pic.in.th/file/secure-sv1/5-Million.png" alt="5 Million" border="0">
-             <div class="input-group mb-3 mt-3">
-                            <label>หลักฐานการชำระเงิน</label>
-                            <input type="file" class="form-control ms-4" id="inputGroupFile01">
-                          </div>
-             <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr()">ยืนยันการชำระเงิน
-                        </button>
-                 <script>
-                      document.getElementById("inputGroupFile01").addEventListener("change", function() {
-                          const fileInput = document.getElementById("inputGroupFile01");
-                          const orderButton = document.getElementById("orderButton");
+
+    <div id="qrpayment" class="modal" style="display: none;">
+      <div class="modal-dialog ms-5">
+        <div class="modal-content">
+          <div class="modal-header">
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeQr()"></button>
+                </div>
+             <div class="modal-body">
               
-                          if (fileInput.files.length > 0) {
-                              orderButton.disabled = false; // เปิดปุ่มเมื่อมีไฟล์
-                          } else {
-                              orderButton.disabled = true;  // ปิดปุ่มเมื่อไม่มีไฟล์
-                          }
-                      });
-                       </script>
-   
+                           
+                <img class="img-thumbnail ms-4" style="max-width: 260px; min-width: 270px;" src="https://img5.pic.in.th/file/secure-sv1/5-Million.png" alt="5 Million" border="0">
+                 <div class="input-group mb-3 mt-3">
+                                <label>หลักฐานการชำระเงิน</label>
+                                <input type="file" class="form-control ms-4" id="inputGroupFile01">
+                              </div>
+                 <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr()">ยืนยันการชำระเงิน
+                            </button>
+                     <script>
+                          document.getElementById("inputGroupFile01").addEventListener("change", function() {
+                              const fileInput = document.getElementById("inputGroupFile01");
+                              const orderButton = document.getElementById("orderButton");
+                              const mobileorderButton = document.getElementById("mobileorderButton");
+                              if (fileInput.files.length > 0) {
+                                  orderButton.disabled = false;
+                                  mobileorderButton.disabled = false;  // เปิดปุ่มเมื่อมีไฟล์
+                              } else {
+                                  orderButton.disabled = true;
+                                  mobileorderButton.disabled = true;   // ปิดปุ่มเมื่อไม่มีไฟล์
+                              }
+                          });
+                           </script>
+       
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-          
+              
     <script>
       let productData = [];
 
@@ -1027,7 +1140,7 @@ async function sendLineMessage() {
                   `🛒 *Order Number:* ${orderNumber}\n` +
                   `🏠 *ที่อยู่:* ${fulladdress}\n` +
                   `📞 *เบอร์โทร:* ${tel}\n\n` +
-                  `📧 *E-Mail:* ${email}\n` +
+                  `📧 *ติดต่อกลับ:* ${email}\n` +
                   `🛍 *รายการสินค้า:*\n`;
 
     cart.forEach((item, index) => {
