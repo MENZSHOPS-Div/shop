@@ -145,6 +145,17 @@
     border-radius: 10px;
   }
 
+  .modal-qrcode {
+    width: 50%;
+    height: 80%;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 20px;
+    left: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .btn-control {
     display: flex;
     justify-content: flex-end;
@@ -731,10 +742,10 @@
       </div>
     </div>
 
-      <div id="qrpayment" class="modal" style="display: none;">
+      <div  class="modal-qrcode" style="display: none;">
         <div class="modal-bg" id="checkoutbg">
          
-          <div id="qrcodes" class="modal-pages">
+          <div class="modal-pages">
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeQr()"></button>
             <script>
               function closeQr(){
