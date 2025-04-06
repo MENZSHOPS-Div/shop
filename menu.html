@@ -230,10 +230,12 @@
     height: 380px;
     margin-left: 10px;
   }
-  .btn-outline-secondary{
-      width: 20px;
-      height: 20px;
-      border-color: gray;
+
+  .btn-outline-secondary {
+    width: 40px;
+    height: 40px;
+    border-color: gray;
+    border: 2px;
 
   }
 
@@ -311,6 +313,8 @@
   .modal-dialog {
     min-width: 350px;
     max-width: 350px;
+    top: 200px;
+    left: 500px;
   }
 
   @media (max-width: 728px) {
@@ -334,8 +338,9 @@
       padding: 20px;
     }
 
-    .modal-qrcode {
-      left: 30px;
+    .modal-dialog {
+      left: 10px;
+      top: 30px;
       max-width: 350px;
       min-width: 350px;
 
@@ -409,7 +414,8 @@
       width: 100px;
       height: 100px;
       object-fit: cover;
-      border-radius: 5px;
+      
+      text-align: center;
 
     }
 
@@ -583,7 +589,7 @@
     <div id="modalCart" class="modal" style="display: none;">
       <div onclick="closeModal()" class="modal-bg"></div>
       <div class="modal-page">
-        <h2>My cart</h2>
+        <h2 style="font-family: sarabun;">รถเข็นของฉัน</h2>
         <br>
         <div id="mycart" class="cartlist">
 
@@ -933,24 +939,24 @@
         }
 
         function renderProducts(filter = "all") {
-  console.log("Filtering by:", filter);
-  let html = "";
+          console.log("Filtering by:", filter);
+          let html = "";
 
-  for (let i = 0; i < productData.length; i++) {
-    console.log("Product Type:", productData[i].type);
+          for (let i = 0; i < productData.length; i++) {
+            console.log("Product Type:", productData[i].type);
 
-    if (filter === "all" || productData[i].type === filter) {
-      let product = productData[i];
-      let formattedPrice = parseFloat(product.price).toFixed(2);
-      let isSoldOut = product.qty === 0;
+            if (filter === "all" || productData[i].type === filter) {
+              let product = productData[i];
+              let formattedPrice = parseFloat(product.price).toFixed(2);
+              let isSoldOut = product.qty === 0;
 
-      let disabledClass = isSoldOut ? "opacity-50 pointer-events-none" : "";
-      let textMutedClass = isSoldOut ? "text-muted" : "";
+              let disabledClass = isSoldOut ? "opacity-50 pointer-events-none" : "";
+              let textMutedClass = isSoldOut ? "text-muted" : "";
 
-      // เปลี่ยนจาก text-success → text-primary
-      let stockText = !isSoldOut ? ` &nbsp;|&nbsp; <span class="text-primary">มี ${product.qty} ชิ้น</span>` : "";
+              // เปลี่ยนจาก text-success → text-primary
+              let stockText = !isSoldOut ? ` &nbsp;|&nbsp; <span class="text-primary">มี ${product.qty} ชิ้น</span>` : "";
 
-      html += `                                 
+              html += `                                 
         <div class="col-lg-6 product-item ${product.type} ${disabledClass}">
           <div ${!isSoldOut ? `onclick="openProductDetail(${i})"` : ""} class="d-flex align-items-center">
             <img class="flex-shrink-0 img-fluid rounded" src="${product.img}" alt="" style="width: 80px;">
@@ -968,13 +974,13 @@
             </div>
           </div>
         </div>`;
-    }
-  }
+            }
+          }
 
-  $("#productlist").html(html);
-}
+          $("#productlist").html(html);
+        }
 
- 
+
 
 
 
@@ -1050,6 +1056,7 @@
         }
         function openCheckout() {
           $('#modalcheckout').css('display', 'flex');
+          $("#floating-icon").css('display', 'none');
           generateOrderNumber();
 
 
@@ -1071,7 +1078,8 @@
           if (cart.length > 0) {
             var html = '';
             for (let i = 0; i < cart.length; i++) {
-              html += `<div class="card p-1 mb-2">
+              html += `   <div class="container">
+                        <hr class="my-2">
                          <div class="cartlist-items">
                         <div class="cartlist-left">
                             <img src="${cart[i].img}" alt="">
@@ -1085,7 +1093,7 @@
                             <p id="countitems${i}" style="margin: 0 20px;">${cart[i].count}</p>
                             <p onclick="deinitems('+', ${i})" class="btn btn-outline-secondary">+</p>
                         </div>
-                      </div>
+                    </div>
                     </div>`;
             }
             $("#mycart").html(html)
