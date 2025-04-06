@@ -1065,7 +1065,8 @@
           if (cart.length > 0) {
             var html = '';
             for (let i = 0; i < cart.length; i++) {
-              html += `<div class="cartlist-items">
+              html += `<div class="card p-2>
+                         <div class="cartlist-items">
                         <div class="cartlist-left">
                             <img src="${cart[i].img}" alt="">
                             <div class="cartlist-detail">
@@ -1074,10 +1075,11 @@
                             </div>
                         </div>
                         <div class="cartlist-right">
-                            <p onclick="deinitems('-', ${i})" class="btnc">-</p>
+                            <p onclick="deinitems('-', ${i})" class="btn btn-outline-secondary">-</p>
                             <p id="countitems${i}" style="margin: 0 20px;">${cart[i].count}</p>
-                            <p onclick="deinitems('+', ${i})" class="btnc">+</p>
+                            <p onclick="deinitems('+', ${i})" class="btn btn-outline-secondary">+</p>
                         </div>
+                      </div>
                     </div>`;
             }
             $("#mycart").html(html)
