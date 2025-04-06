@@ -31,7 +31,7 @@
   <link href="lib/animate/animate.min.css" rel="stylesheet">
   <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
   <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
- 
+
 
 
   <!-- Customized Bootstrap Stylesheet -->
@@ -41,7 +41,7 @@
 
   <link href="css/style.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
+
 </head>
 
 <head>
@@ -60,7 +60,7 @@
   .logo-text {
     font-family: "sarabun";
   }
- 
+
 
   .b-example-divider {
     width: 100%;
@@ -119,7 +119,8 @@
     border-radius: 15px;
     padding: 10px;
   }
- .modal-qrcode {
+
+  .modal-qrcode {
     display: block;
     z-index: 99;
     min-width: 400px;
@@ -129,10 +130,11 @@
     position: fixed;
     top: 150px;
     left: 500px;
-     border-radius: 15px;
+    border-radius: 15px;
     justify-content: center;
     align-items: center;
   }
+
   .modal-payment {
 
     z-index: 999;
@@ -163,7 +165,7 @@
   }
 
 
-  
+
   .btn-control {
     display: flex;
     justify-content: flex-end;
@@ -222,7 +224,8 @@
     border-radius: 5px;
     margin-right: 10px;
   }
-  #qrcode{
+
+  #qrcode {
     width: 250px;
     height: 380px;
     margin-left: 10px;
@@ -238,9 +241,10 @@
     border: 1px solid #000;
     cursor: pointer;
   }
-  #qrcodes{
-      display: block;
-      width: 300px;
+
+  #qrcodes {
+    display: block;
+    width: 300px;
   }
 
   #floating-icon {
@@ -267,12 +271,12 @@
     color: #fff;
   }
 
-  #confirm{
+  #confirm {
     display: flex;
     margin-top: 200px;
   }
 
-  #mobileconfirm{
+  #mobileconfirm {
     display: none;
   }
 
@@ -298,10 +302,9 @@
     font-size: 1.5rem;
   }
 
-  .modal-dialog{
+  .modal-dialog {
     min-width: 350px;
     max-width: 350px;
-    left: 500px;
   }
 
   @media (max-width: 728px) {
@@ -309,12 +312,11 @@
       font-size: 6vw;
       color: #fff;
     }
-    .modal-dialog{
-    left: 5px;
-    }
-    .col-4{
+
+    .col-4 {
       min-width: 90%;
     }
+
     .modal-page {
       z-index: 99;
       min-width: 90%;
@@ -325,20 +327,22 @@
       border-radius: 15px;
       padding: 20px;
     }
+
     .modal-qrcode {
-     left: 30px;
-     max-width: 350px;
-     min-width: 350px;
+      left: 30px;
+      max-width: 350px;
+      min-width: 350px;
 
     }
-    #confirm{
-    display: none;
-  
-  }
 
-  #mobileconfirm{
-    display: flex;
-  }
+    #confirm {
+      display: none;
+
+    }
+
+    #mobileconfirm {
+      display: flex;
+    }
 
     .modal-pages {
       z-index: 99;
@@ -350,7 +354,7 @@
       border-radius: 15px;
       padding: 20px;
     }
-    
+
     .cart-name {
       font-size: 1rem;
     }
@@ -370,11 +374,12 @@
     #floating-icon {
       right: 30px;
     }
-    #qrcode{
-    width: 230px;
-    height: 380px;
-    margin-left: 60px;
-  }
+
+    #qrcode {
+      width: 230px;
+      height: 380px;
+      margin-left: 60px;
+    }
 
     .modal-payment {
 
@@ -472,7 +477,8 @@
         <div class="container my-5 py-5">
           <div class="row align-items-center g-5">
             <div class="col-lg-6 text-center text-lg-start">
-              <h1 class="display-3  animated slideInLeft" style="color:darkorange;">SHOP.<br><small class="text-white fs-3" style="font-family: sarabun;">ร้านค้า</small></h1>
+              <h1 class="display-3  animated slideInLeft" style="color:darkorange;">SHOP.<br><small
+                  class="text-white fs-3" style="font-family: sarabun;">ร้านค้า</small></h1>
 
 
             </div>
@@ -649,12 +655,13 @@
       </div>
       <div id="modalcheckout" class="modal" style="display: none;">
         <div class="modal-bg" id="checkoutbg">
-         
+
           <div class="modal-pages" id="checkout">
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeCheckOut()"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+              onclick="closeCheckOut()"></button>
             <script>
-              function closeCheckOut(){
-                $("#modalcheckout").css('display' , 'none');
+              function closeCheckOut() {
+                $("#modalcheckout").css('display', 'none');
               }
             </script>
             <main>
@@ -684,13 +691,15 @@
 
                     <form class="card p-2">
                       <div class="d-grid gap-2">
-                         <button class="btn btn-outline-primary" type="button" onclick="openQr()">กดเพื่อชำระเงิน</button>
+                        <button class="btn btn-outline-primary" type="button"
+                          onclick="openQr()">กดเพื่อชำระเงิน</button>
                       </div>
                     </form>
-                      <form id="confirm" class="card p-2">
+                    <form id="confirm" class="card p-2">
                       <div class="d-grid gap-2">
-                      <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="sendLineMessage()" disabled>ยืนยันคำสั่งซื้อ
-                      </button>
+                        <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="sendLineMessage()"
+                          disabled>ยืนยันคำสั่งซื้อ
+                        </button>
                       </div>
                     </form>
                   </div>
@@ -702,7 +711,8 @@
                       <div class="row">
                         <div class="col-sm-6">
                           <label for="firstName" class="form-label">ชื่อ</label>
-                          <input type="text" class="form-control form-control-sm" id="firstName" placeholder="" value="" required>
+                          <input type="text" class="form-control form-control-sm" id="firstName" placeholder="" value=""
+                            required>
                           <div class="invalid-feedback">
                             Valid first name is required.
                           </div>
@@ -710,43 +720,47 @@
 
                         <div class="col-sm-6">
                           <label for="lastName" class="form-label">นามสกุล</label>
-                          <input type="text" class="form-control form-control-sm" id="lastName" placeholder="" value="" required>
+                          <input type="text" class="form-control form-control-sm" id="lastName" placeholder="" value=""
+                            required>
                           <div class="invalid-feedback">
                             Valid last name is required.
                           </div>
                         </div>
-                         
+
                         <div class="container">
                           <p class="mb-4">ช่องทางที่สะดวกให้ติดต่อกลับที่สุด</p>
-                          
+
                           <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="checkboxLine" onchange="handleCheckboxChange(this)">
+                            <input class="form-check-input" type="checkbox" value="" id="checkboxLine"
+                              onchange="handleCheckboxChange(this)">
                             <label class="form-check-label" for="checkboxLine">LINE</label>
                           </div>
-                      
+
                           <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="checkboxPhone" onchange="handleCheckboxChange(this)">
+                            <input class="form-check-input" type="checkbox" value="" id="checkboxPhone"
+                              onchange="handleCheckboxChange(this)">
                             <label class="form-check-label" for="checkboxPhone">หมายเลขโทรศัพท์</label>
                           </div>
-                      
+
                           <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="checkboxEmail" onchange="handleCheckboxChange(this)">
+                            <input class="form-check-input" type="checkbox" value="" id="checkboxEmail"
+                              onchange="handleCheckboxChange(this)">
                             <label class="form-check-label" for="checkboxEmail">อีเมลล์</label>
                           </div>
                         </div>
-                      
+
                         <script>
                           function handleCheckboxChange(selectedCheckbox) {
                             // ดึง checkbox ทั้งหมด
                             const checkboxes = document.querySelectorAll('.form-check-input');
-                      
+
                             // ปิดช่องอื่น ๆ ยกเว้นช่องที่เลือก
                             checkboxes.forEach(checkbox => {
                               if (checkbox !== selectedCheckbox) {
                                 checkbox.checked = false;
                               }
                             });
-                      
+
                             // เรียกฟังก์ชันเมื่อมีการเลือก
                             if (selectedCheckbox.checked) {
                               switch (selectedCheckbox.id) {
@@ -762,27 +776,27 @@
                               }
                             }
                           }
-                      
+
                           function function1() {
-                            $("#line").css('display' , 'flex');
-                            $("#mobile").css('display' , 'none');
-                            $("#mail").css('display' , 'none');
+                            $("#line").css('display', 'flex');
+                            $("#mobile").css('display', 'none');
+                            $("#mail").css('display', 'none');
                           }
-                      
+
                           function function2() {
-                            $("#line").css('display' , 'none');
-                            $("#mobile").css('display' , 'flex');
-                            $("#mail").css('display' , 'none');
+                            $("#line").css('display', 'none');
+                            $("#mobile").css('display', 'flex');
+                            $("#mail").css('display', 'none');
                           }
-                      
+
                           function function3() {
-                            $("#line").css('display' , 'none');
-                            $("#mobile").css('display' , 'none');
-                            $("#mail").css('display' , 'flex');
+                            $("#line").css('display', 'none');
+                            $("#mobile").css('display', 'none');
+                            $("#mail").css('display', 'flex');
                           }
                         </script>
-                      
-                      
+
+
 
 
                         <div class="col-12 mt-2">
@@ -792,12 +806,12 @@
                             <label id="mail" style="display: none;">กรุณาใส่อีเมลล์ที่ใช้งานปัจจุบัน</label>
                           </div>
                           <div class="col-6">
-                          <input type="email" class="form-control form-control-sm" id="email">
-                          <div class="invalid-feedback">
-                            Valid contact is required.
+                            <input type="email" class="form-control form-control-sm" id="email">
+                            <div class="invalid-feedback">
+                              Valid contact is required.
+                            </div>
                           </div>
-                        </div>
-                          
+
 
                         </div>
 
@@ -837,21 +851,22 @@
 
 
 
-                         
+
 
                         </div>
                       </div>
 
-                     
-                    </form>
-
-                      <form id="mobileconfirm" class="card p-2">
-
-                      <button class="w-100 btn btn-primary btn-lg" id="mobileorderButton" onclick="sendLineMessage()" disabled>ยืนยันคำสั่งซื้อ
-                        </button>
 
                     </form>
-                          
+
+                    <form id="mobileconfirm" class="card p-2">
+
+                      <button class="w-100 btn btn-primary btn-lg" id="mobileorderButton" onclick="sendLineMessage()"
+                        disabled>ยืนยันคำสั่งซื้อ
+                      </button>
+
+                    </form>
+
                   </div>
                 </div>
             </main>
@@ -864,172 +879,193 @@
       <div class="modal-dialog ms-5">
         <div class="modal-content">
           <div class="modal-header">
-           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeQr()"></button>
-                </div>
-             <div class="modal-body">
-              
-                           
-                <img class="img-thumbnail ms-4" style="max-width: 260px; min-width: 270px;" src="https://img5.pic.in.th/file/secure-sv1/5-Million.png" alt="5 Million" border="0">
-                 <div class="input-group mb-3 mt-3">
-                                <label>หลักฐานการชำระเงิน</label>
-                                <input type="file" class="form-control ms-4" id="inputGroupFile01">
-                              </div>
-                 <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr()">ยืนยันการชำระเงิน
-                            </button>
-                     <script>
-                          document.getElementById("inputGroupFile01").addEventListener("change", function() {
-                              const fileInput = document.getElementById("inputGroupFile01");
-                              const orderButton = document.getElementById("orderButton");
-                              const mobileorderButton = document.getElementById("mobileorderButton");
-                              if (fileInput.files.length > 0) {
-                                  orderButton.disabled = false;
-                                  mobileorderButton.disabled = false;  // เปิดปุ่มเมื่อมีไฟล์
-                              } else {
-                                  orderButton.disabled = true;
-                                  mobileorderButton.disabled = true;   // ปิดปุ่มเมื่อไม่มีไฟล์
-                              }
-                          });
-                           </script>
-       
-              </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+              onclick="closeQr()"></button>
+          </div>
+          <div class="modal-body">
+
+
+            <img class="img-thumbnail ms-4" style="max-width: 260px; min-width: 270px;"
+              src="https://img5.pic.in.th/file/secure-sv1/5-Million.png" alt="5 Million">
+            <div class="input-group mb-3 mt-3">
+              <label>หลักฐานการชำระเงิน</label>
+              <input type="file" class="form-control ms-4" id="inputGroupFile01">
+            </div>
+            <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr()">ยืนยันการชำระเงิน
+            </button>
+            <script>
+              document.getElementById("inputGroupFile01").addEventListener("change", function () {
+                const fileInput = document.getElementById("inputGroupFile01");
+                const orderButton = document.getElementById("orderButton");
+                const mobileorderButton = document.getElementById("mobileorderButton");
+                if (fileInput.files.length > 0) {
+                  orderButton.disabled = false;
+                  mobileorderButton.disabled = false;  // เปิดปุ่มเมื่อมีไฟล์
+                } else {
+                  orderButton.disabled = true;
+                  mobileorderButton.disabled = true;   // ปิดปุ่มเมื่อไม่มีไฟล์
+                }
+              });
+            </script>
+
+          </div>
+        </div>
+      </div>
+
+      <script>
+        let productData = [];
+
+        function fetchPackage() {
+          const scriptURL = "https://script.google.com/macros/s/AKfycbyNM6gCYEfx6xTT3czZhkQAfKY3bmvhYdPHY_sjR-p3WSPGfSuc99rJlrbDowu-uBahpA/exec";
+
+          fetch(scriptURL)
+            .then(response => response.json())
+            .then(data => {
+              productData = data; // เก็บข้อมูลที่ดึงมา
+              renderProducts();
+            });
+        }
+
+        function renderProducts(filter = "all") {
+  console.log("Filtering by:", filter);
+  let html = "";
+
+  for (let i = 0; i < productData.length; i++) {
+    console.log("Product Type:", productData[i].type);
+
+    if (filter === "all" || productData[i].type === filter) {
+      let product = productData[i];
+      let formattedPrice = parseFloat(product.price).toFixed(2);
+      let isSoldOut = product.qty === 0;
+
+      let disabledClass = isSoldOut ? "opacity-50 pointer-events-none" : "";
+      let textMutedClass = isSoldOut ? "text-muted" : "";
+
+      // เปลี่ยนจาก text-success → text-primary
+      let stockText = !isSoldOut ? ` &nbsp;|&nbsp; <span class="text-primary">มี ${product.qty} ชิ้น</span>` : "";
+
+      html += `                                 
+        <div class="col-lg-6 product-item ${product.type} ${disabledClass}">
+          <div ${!isSoldOut ? `onclick="openProductDetail(${i})"` : ""} class="d-flex align-items-center">
+            <img class="flex-shrink-0 img-fluid rounded" src="${product.img}" alt="" style="width: 80px;">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span class="${textMutedClass}">
+                  ${product.name}
+                </span>
+                ${isSoldOut ? `<span class="badge bg-danger align-self-start">Sold Out</span>` : ""}
+                <span class="text-primary ${textMutedClass}">${numberWithCommas(formattedPrice)}</span>
+              </h5>
+              <small style="font-family: sarabun;">
+                ${product.description}${stockText}
+              </small>
             </div>
           </div>
-              
-    <script>
-      let productData = [];
+        </div>`;
+    }
+  }
 
-      function fetchPackage() {
-        const scriptURL = "https://script.google.com/macros/s/AKfycbzUCCxLO-uJ77AG3FgIocWh11ivfbDRukr21lpkEIWuW1i3tQxCY9BrV2eGuHf21xvEPw/exec";
+  $("#productlist").html(html);
+}
 
-        fetch(scriptURL)
-          .then(response => response.json())
-          .then(data => {
-            productData = data; // เก็บข้อมูลที่ดึงมา
-            renderProducts();
-          });
-      }
-
-      function renderProducts(filter = "all") {
-        console.log("Filtering by:", filter); // ตรวจสอบค่าที่ถูกส่งเข้ามา
-        let html = "";
-
-        for (let i = 0; i < productData.length; i++) {
-          console.log("Product Type:", productData[i].type); // ตรวจสอบประเภทของสินค้า
-
-          if (filter === "all" || productData[i].type === filter) {
-            let formattedPrice = parseFloat(productData[i].price).toFixed(2);
-            html += `                                 
-                 <div style="cursor: pointer;" class="col-lg-6 product-item ${productData[i].type}">
-                    <div onclick="openProductDetail(${i})" class="d-flex align-items-center">
-                        <img class="flex-shrink-0 img-fluid rounded" src="${productData[i].img}" alt="" style="width: 80px;">
-                        <div class="w-100 d-flex flex-column text-start ps-4">
-                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                <span>${productData[i].name}</span>
-                                <span class="text-primary">${numberWithCommas(formattedPrice)}</span>
-                            </h5>
-                            <small style="font-family: sarabun;">${productData[i].description}</small>
-                        </div>
-                    </div>
-                </div>`;
-          }
-        }
-        $("#productlist").html(html);
-      }
-
-
-      function searchproduct(param) {
-        console.log(param);
-        renderProducts(param);
-      }
-
-      function numberWithCommas(x) {
-        x = x.toString();
-        var pattern = /(-?\d+)(\d{3})/;
-        while (pattern.test(x))
-          x = x.replace(pattern, "$1,$2");
-        return x;
-      }
-
-      var productindex = 0;
-      function openProductDetail(index) {
-        productindex = index;
-        console.log(productindex)
-        $("#modalDesc").css('display', 'flex')
-        $("#mdd-img").attr('src', productData[index].img);
-        $("#mdd-name").text(productData[index].name)
-        $("#mdd-price").text(numberWithCommas(productData[index].price) + ' THB')
-        $("#mdd-desc").text(productData[index].description)
-
-      }
+ 
 
 
 
-      function closeModal() {
-        $(".modal").css('display', 'none')
-      }
 
-      var cart = [];
-      function addtocart() {
-        var pass = true;
-
-        for (let i = 0; i < cart.length; i++) {
-          if (productindex == cart[i].index) {
-            console.log('found same product')
-            cart[i].count++;
-            pass = false;
-          }
+        function searchproduct(param) {
+          console.log(param);
+          renderProducts(param);
         }
 
-        if (pass) {
-          var obj = {
-            index: productindex,
-            id: productData[productindex].id,
-            name: productData[productindex].name,
-            price: productData[productindex].price,
-            img: productData[productindex].img,
-            count: 1
-          };
-          closeModal();
-
-          // console.log(obj)
-          cart.push(obj)
+        function numberWithCommas(x) {
+          x = x.toString();
+          var pattern = /(-?\d+)(\d{3})/;
+          while (pattern.test(x))
+            x = x.replace(pattern, "$1,$2");
+          return x;
         }
-        console.log(cart)
+
+        var productindex = 0;
+        function openProductDetail(index) {
+          productindex = index;
+          console.log(productindex)
+          $("#modalDesc").css('display', 'flex')
+          $("#mdd-img").attr('src', productData[index].img);
+          $("#mdd-name").text(productData[index].name)
+          $("#mdd-price").text(numberWithCommas(productData[index].price) + ' THB')
+          $("#mdd-desc").text(productData[index].description)
+
+        }
 
 
-        $("#cartcount").css('display', 'flex').text(cart.length);
 
-      }
+        function closeModal() {
+          $(".modal").css('display', 'none')
+        }
 
-      function openCart() {
-        $('#modalCart').css('display', 'flex')
-        rendercart();
+        var cart = [];
+        function addtocart() {
+          var pass = true;
 
-      }
-      function openCheckout() {
-        $('#modalcheckout').css('display', 'flex');
-        generateOrderNumber();
-
-
-      }
-
-      function openPayment() {
-        $('#modalcheckout').css('display', 'none');
-
-      }
-
-       function closeQr(){
-                $("#qrpayment").css('display' , 'none');
-              }
-       function openQr(){
-                 $("#qrpayment").css('display' , 'block');
-              }
-
-      function rendercart() {
-        if (cart.length > 0) {
-          var html = '';
           for (let i = 0; i < cart.length; i++) {
-            html += `<div class="cartlist-items">
+            if (productindex == cart[i].index) {
+              console.log('found same product')
+              cart[i].count++;
+              pass = false;
+            }
+          }
+
+          if (pass) {
+            var obj = {
+              index: productindex,
+              id: productData[productindex].id,
+              name: productData[productindex].name,
+              price: productData[productindex].price,
+              img: productData[productindex].img,
+              count: 1
+            };
+            closeModal();
+
+            // console.log(obj)
+            cart.push(obj)
+          }
+          console.log(cart)
+
+
+          $("#cartcount").css('display', 'flex').text(cart.length);
+
+        }
+
+        function openCart() {
+          $('#modalCart').css('display', 'flex')
+          rendercart();
+
+        }
+        function openCheckout() {
+          $('#modalcheckout').css('display', 'flex');
+          generateOrderNumber();
+
+
+        }
+
+        function openPayment() {
+          $('#modalcheckout').css('display', 'none');
+
+        }
+
+        function closeQr() {
+          $("#qrpayment").css('display', 'none');
+        }
+        function openQr() {
+          $("#qrpayment").css('display', 'block');
+        }
+
+        function rendercart() {
+          if (cart.length > 0) {
+            var html = '';
+            for (let i = 0; i < cart.length; i++) {
+              html += `<div class="cartlist-items">
                         <div class="cartlist-left">
                             <img src="${cart[i].img}" alt="">
                             <div class="cartlist-detail">
@@ -1043,24 +1079,24 @@
                             <p onclick="deinitems('+', ${i})" class="btnc">+</p>
                         </div>
                     </div>`;
+            }
+            $("#mycart").html(html)
           }
-          $("#mycart").html(html)
+          else {
+            $("#mycart").html(`<p>Not found product list</p>`)
+          }
         }
-        else {
-          $("#mycart").html(`<p>Not found product list</p>`)
-        }
-      }
 
-      function renderSummaryCart() {
-        if (cart.length > 0) {
-          let html = '';
-          let totalPrice = 0;
+        function renderSummaryCart() {
+          if (cart.length > 0) {
+            let html = '';
+            let totalPrice = 0;
 
-          for (let i = 0; i < cart.length; i++) {
-            let itemTotal = cart[i].price * cart[i].count;
-            totalPrice += itemTotal;
+            for (let i = 0; i < cart.length; i++) {
+              let itemTotal = cart[i].price * cart[i].count;
+              totalPrice += itemTotal;
 
-            html += `  
+              html += `  
                 <li class="list-group-item d-flex justify-content-between lh-sm">
                     <div>
                         <h6 class="my-0" style="font-family: sarabun; font-size: 0.80rem">${cart[i].name}</h6>
@@ -1069,156 +1105,156 @@
                     <span class="text-body-secondary" style="font-family: sarabun; font-size: 0.80rem">${numberWithCommas(itemTotal)} THB</span>
                 </li>
             `;
-          }
+            }
 
-          // เพิ่มแสดงราคารวมด้านล่างสุด
-          html += `  
+            // เพิ่มแสดงราคารวมด้านล่างสุด
+            html += `  
             <li class="list-group-item d-flex justify-content-between bg-light">
                 <strong>รวมทั้งหมด</strong>
                 <strong>${numberWithCommas(totalPrice)} THB</strong>
             </li>
         `;
 
-          $("#summaryCart").html(html);
-          openCheckout();
-        } else {
-          $("#summaryCart").html(`<p>ไม่มีสินค้าในตะกร้า</p>`);
+            $("#summaryCart").html(html);
+            openCheckout();
+          } else {
+            $("#summaryCart").html(`<p>ไม่มีสินค้าในตะกร้า</p>`);
+          }
         }
-      }
 
 
-      function deinitems(action, index) {
-        if (action === '-') {
-          if (cart[index].count > 1) {
-            cart[index].count--; // ลดจำนวนสินค้า
+        function deinitems(action, index) {
+          if (action === '-') {
+            if (cart[index].count > 1) {
+              cart[index].count--; // ลดจำนวนสินค้า
+              $("#countitems" + index).text(cart[index].count);
+              rendercart();
+            } else if (cart[index].count === 1) {
+              // แสดง SweetAlert ก่อนลบสินค้า
+              Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure to delete?',
+                showConfirmButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel'
+              }).then((res) => {
+                if (res.isConfirmed) {
+                  cart.splice(index, 1); // ลบสินค้า
+                  rendercart();
+                  updateCartCount();
+                }
+              });
+            }
+          } else if (action === '+') {
+            cart[index].count++; // เพิ่มจำนวนสินค้า
             $("#countitems" + index).text(cart[index].count);
             rendercart();
-          } else if (cart[index].count === 1) {
-            // แสดง SweetAlert ก่อนลบสินค้า
-            Swal.fire({
-              icon: 'warning',
-              title: 'Are you sure to delete?',
-              showConfirmButton: true,
-              showCancelButton: true,
-              confirmButtonText: 'Delete',
-              cancelButtonText: 'Cancel'
-            }).then((res) => {
-              if (res.isConfirmed) {
-                cart.splice(index, 1); // ลบสินค้า
-                rendercart();
-                updateCartCount();
-              }
-            });
           }
-        } else if (action === '+') {
-          cart[index].count++; // เพิ่มจำนวนสินค้า
-          $("#countitems" + index).text(cart[index].count);
-          rendercart();
         }
-      }
 
-      // ฟังก์ชันอัปเดตจำนวนสินค้าในไอคอนตะกร้า
-      function updateCartCount() {
-        if (cart.length > 0) {
-          $("#cartcount").css('display', 'flex').text(cart.length);
-        } else {
-          $("#cartcount").css('display', 'none');
+        // ฟังก์ชันอัปเดตจำนวนสินค้าในไอคอนตะกร้า
+        function updateCartCount() {
+          if (cart.length > 0) {
+            $("#cartcount").css('display', 'flex').text(cart.length);
+          } else {
+            $("#cartcount").css('display', 'none');
+          }
         }
-      }
- 
-async function sendLineMessage() {
-  event.preventDefault();
 
-  if (cart.length > 0) {
-    let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
-    let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
-    let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
-    let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
-    let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
-    let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
-    let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
-    let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+        async function sendLineMessage() {
+          event.preventDefault();
 
-    let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
-    let message = `📦 *ออเดอร์ใหม่!* \n\n` +
-                  `🛒 *Order Number:* ${orderNumber}\n` +
-                  `🏠 *ที่อยู่:* ${fulladdress}\n` +
-                  `📞 *เบอร์โทร:* ${tel}\n\n` +
-                  `📧 *ติดต่อกลับ:* ${email}\n` +
-                  `🛍 *รายการสินค้า:*\n`;
+          if (cart.length > 0) {
+            let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+            let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+            let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+            let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+            let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+            let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+            let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+            let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
 
-    cart.forEach((item, index) => {
-      message += `\n${index + 1}. ${item.name} x ${item.count}`;
-    });
+            let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
+            let message = `📦 *ออเดอร์ใหม่!* \n\n` +
+              `🛒 *Order Number:* ${orderNumber}\n` +
+              `🏠 *ที่อยู่:* ${fulladdress}\n` +
+              `📞 *เบอร์โทร:* ${tel}\n\n` +
+              `📧 *ติดต่อกลับ:* ${email}\n` +
+              `🛍 *รายการสินค้า:*\n`;
 
-    message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
+            cart.forEach((item, index) => {
+              message += `\n${index + 1}. ${item.name} x ${item.count}`;
+            });
 
-    try {
-      let response = await fetch("https://line-api-backend.onrender.com/push", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message: message })
-      });
+            message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
 
-      let result = await response.json();
-      console.log(result);
+            try {
+              let response = await fetch("https://line-api-backend.onrender.com/push", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: message })
+              });
 
-      if (response.ok) {
-        alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
-        document.getElementById("ordernumber").textContent = " ";
-        document.getElementById("firstName").value = " ";
-        document.getElementById("lastName").value = " ";
-        document.getElementById("address").value = " ";
-        document.getElementById("province").value = " ";
-        document.getElementById("zipcode").value = " ";
-        document.getElementById("tel").value = " ";
-        document.getElementById("email").value = " ";
-        clearCart();
-        window.location.href = "index.html";
-      } else {
-        alert("❌ ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE: @menzshops");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-}
+              let result = await response.json();
+              console.log(result);
 
+              if (response.ok) {
+                alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
+                document.getElementById("ordernumber").textContent = " ";
+                document.getElementById("firstName").value = " ";
+                document.getElementById("lastName").value = " ";
+                document.getElementById("address").value = " ";
+                document.getElementById("province").value = " ";
+                document.getElementById("zipcode").value = " ";
+                document.getElementById("tel").value = " ";
+                document.getElementById("email").value = " ";
+                clearCart();
+                window.location.href = "index.html";
+              } else {
+                alert("❌ ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE: @menzshops");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+            }
+          }
+        }
 
 
-      function generateOrderNumber() {
-        let orderNumber = Math.floor(10000000 + Math.random() * 90000000); // สุ่มเลข 8 หลัก
-        document.getElementById("ordernumber").textContent = orderNumber; // แสดงผลใน HTML
-      }
 
-      function clearCart() {
-    cart = []; // ล้างตะกร้า
-    rendercart(); // อัปเดตการแสดงผลตะกร้า
-    updateCartCount(); // อัปเดตจำนวนสินค้าในไอคอนตะกร้า
-    $("#modalCart").css('display', 'none'); // ปิดหน้าต่างตะกร้า (ถ้าต้องการ)
-}
+        function generateOrderNumber() {
+          let orderNumber = Math.floor(10000000 + Math.random() * 90000000); // สุ่มเลข 8 หลัก
+          document.getElementById("ordernumber").textContent = orderNumber; // แสดงผลใน HTML
+        }
+
+        function clearCart() {
+          cart = []; // ล้างตะกร้า
+          rendercart(); // อัปเดตการแสดงผลตะกร้า
+          updateCartCount(); // อัปเดตจำนวนสินค้าในไอคอนตะกร้า
+          $("#modalCart").css('display', 'none'); // ปิดหน้าต่างตะกร้า (ถ้าต้องการ)
+        }
 
 
-      // เรียกฟังก์ชันเมื่อหน้าเว็บโหลด
-      window.onload = fetchPackage;
+        // เรียกฟังก์ชันเมื่อหน้าเว็บโหลด
+        window.onload = fetchPackage;
 
-    </script>
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+      </script>
+      <!-- JavaScript Libraries -->
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="lib/wow/wow.min.js"></script>
+      <script src="lib/easing/easing.min.js"></script>
+      <script src="lib/waypoints/waypoints.min.js"></script>
+      <script src="lib/counterup/counterup.min.js"></script>
+      <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+      <script src="lib/tempusdominus/js/moment.min.js"></script>
+      <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+      <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+      <!-- Template Javascript -->
+      <script src="js/main.js"></script>
 </body>
 
 </html>
