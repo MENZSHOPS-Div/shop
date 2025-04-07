@@ -726,6 +726,7 @@
             <script>
               function closeCheckOut() {
                 $("#modalcheckout").css('display', 'none');
+                openBasket();
               }
             </script>
             <main>
@@ -1296,6 +1297,7 @@
         document.getElementById("tel").value = " ";
         document.getElementById("email").value = " ";
         clearCart();
+        openBasket();
         window.location.href = "index.html";
       } else {
         alert("❌ ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE: @menzshops");
@@ -1307,7 +1309,9 @@
   }
 }
 
-
+function openBasket() {
+   $("#floating-icon").css('display', 'flex');
+}
 
         function generateOrderNumber() {
           let orderNumber = Math.floor(10000000 + Math.random() * 90000000); // สุ่มเลข 8 หลัก
