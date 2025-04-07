@@ -181,7 +181,7 @@
   }
 
   .btn-buy {
-    background: linear-gradient(125deg, #e61b36, #9c1032);
+    background: linear-gradient(125deg, #f08a16, #f5bb1c);
     color: #fff;
     margin-left: 10px;
   }
@@ -279,9 +279,23 @@
     color: #fff;
   }
 
+  .product-item {
+  transition: background-color 0.3s, box-shadow 0.3s;
+  border-radius: 8px;
+}
+
+.product-item:hover {
+  background-color: #e9ecef;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+
   #confirm {
     display: flex;
     margin-top: 200px;
+  }
+  .descript{
+    font-family: "sarabun";
   }
 
   #mobileconfirm {
@@ -382,6 +396,10 @@
       font-size: 0.75rem;
     }
 
+    .descript{
+    font-size: 0.75rem;
+  }
+
     #floating-icon {
       right: 30px;
     }
@@ -417,6 +435,10 @@
       
       text-align: center;
 
+    }
+
+    #productname,#productprice{
+      font-size: 1rem;
     }
 
     .cartlist-right {
@@ -639,20 +661,26 @@
       <div id="modalDesc" class="modal" style="display: none;">
         <div onclick="closeModal()" class="modal-bg"></div>
         <div class="modal-page">
+        <div class="card p-2" style="border-radius: 10px;"> 
           <h2>Detail</h2>
           <br>
           <div class="modaldesc-content ms-2">
+            <div class="card p-1" style="border-radius: 10px;">
             <img id="mdd-img" class="modaldesc-img"
               src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
               alt="">
+            </div>
             <div class="modaldesc-detail">
-              <p id="mdd-name" class="cart-name fw-bold">Product name</p>
-              <p id="mdd-price" class="cart-price fw-bold">500 THB</p>
+              <p id="mdd-name" class="cart-name fw-bold" style="font-family: sarabun;">Product name</p>
+              <hr class="my-1">
+              <p id="mdd-price" class="cart-price fw-bold" style="font-family: sarabun;">500 THB</p>
               <br>
               <p id="mdd-desc" class="cart-desc">Lorem iaudantium harum doloremque alias. Quae, vel ipsum quasi,
                 voluptas, sit optio nemo magni numquam non dicta voluptates porro! Vero eveniet numquam sit aut vel
                 eligendi officiis iste tenetur expedita. Delectus vero quibusdam adipisci in. Esse.</p>
               <br>
+              <hr>
+              <hr style="margin-bottom: 30px;">
               <div class="btn-control">
                 <button onclick="closeModal()" class="btn btn-secondary">
                   Close
@@ -664,6 +692,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
       <div id="modalcheckout" class="modal" style="display: none;">
         <div class="modal-bg" id="checkoutbg">
@@ -956,19 +985,19 @@
               // เปลี่ยนจาก text-success → text-primary
               let stockText = !isSoldOut ? ` &nbsp;|&nbsp; <span class="text-primary">มี ${product.qty} ชิ้น</span>` : "";
 
-              html += `                                 
-        <div class="col-lg-6 product-item ${product.type} ${disabledClass}">
-          <div ${!isSoldOut ? `onclick="openProductDetail(${i})"` : ""} class="d-flex align-items-center">
+              html += `                                
+        <div class="col-lg-6 product-item ${product.type} ${disabledClass}" style="cursor: pointer;">
+          <div ${!isSoldOut ? `onclick="openProductDetail(${i})"` : ""} class="d-flex align-items-center" >
             <img class="flex-shrink-0 img-fluid rounded" src="${product.img}" alt="" style="width: 80px;">
             <div class="w-100 d-flex flex-column text-start ps-4">
               <h5 class="d-flex justify-content-between border-bottom pb-2">
-                <span class="${textMutedClass}">
+                <span id="productname" class="${textMutedClass}">
                   ${product.name}
                 </span>
                 ${isSoldOut ? `<span class="badge bg-danger align-self-start">Sold Out</span>` : ""}
-                <span class="text-primary ${textMutedClass}">${numberWithCommas(formattedPrice)}</span>
+                <span id="productprice" class="text-primary ${textMutedClass}">${numberWithCommas(formattedPrice)}</span>
               </h5>
-              <small style="font-family: sarabun;">
+              <small class="descript">
                 ${product.description}${stockText}
               </small>
             </div>
@@ -1005,7 +1034,7 @@
           $("#modalDesc").css('display', 'flex')
           $("#mdd-img").attr('src', productData[index].img);
           $("#mdd-name").text(productData[index].name)
-          $("#mdd-price").text(numberWithCommas(productData[index].price) + ' THB')
+          $("#mdd-price").text('ราคา ' + numberWithCommas(productData[index].price) + ' THB')
           $("#mdd-desc").text(productData[index].description)
 
         }
