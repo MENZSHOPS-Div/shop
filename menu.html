@@ -250,6 +250,29 @@
     cursor: pointer;
   }
 
+  .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* พื้นหลังโปร่ง ๆ */
+  display: none; /* ซ่อนเริ่มต้น */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem 3rem;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
   #qrcodes {
     display: block;
     width: 300px;
@@ -732,9 +755,12 @@
 
                     <form class="card p-2">
                       <div class="d-grid gap-2">
-                        <button class="btn btn-outline-primary" type="button"
+                        <button class="btn-buy" type="button"
                           onclick="openQr()">กดเพื่อชำระเงิน</button>
                       </div>
+
+                  
+                      
                     </form>
                     <form id="confirm" class="card p-2">
                       <div class="d-grid gap-2">
@@ -952,6 +978,13 @@
           </div>
         </div>
       </div>
+
+      <div id="loadingModal" class="modal-overlay">
+        <div class="modal-content">
+          <span>⏳ รอสักครู่ กำลังส่งคำสั่งซื้อ...</span>
+        </div>
+      </div>
+      
 
       <script>
         let productData = [];
@@ -1208,64 +1241,71 @@
         }
 
         async function sendLineMessage() {
-          event.preventDefault();
+  event.preventDefault();
 
-          if (cart.length > 0) {
-            let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
-            let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
-            let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
-            let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
-            let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
-            let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
-            let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
-            let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+  if (cart.length > 0) {
+    // 👉 แสดงข้อความ loading
+    document.getElementById("loadingModal").style.display = "flex"; // แสดง
 
-            let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
-            let message = `📦 *ออเดอร์ใหม่!* \n\n` +
-              `🛒 *Order Number:* ${orderNumber}\n` +
-              `🏠 *ที่อยู่:* ${fulladdress}\n` +
-              `📞 *เบอร์โทร:* ${tel}\n\n` +
-              `📧 *ติดต่อกลับ:* ${email}\n` +
-              `🛍 *รายการสินค้า:*\n`;
+    let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+    let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+    let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+    let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+    let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+    let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+    let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+    let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
 
-            cart.forEach((item, index) => {
-              message += `\n${index + 1}. ${item.name} x ${item.count}`;
-            });
+    let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
+    let message = `📦 *ออเดอร์ใหม่!* \n\n` +
+      `🛒 *Order Number:* ${orderNumber}\n` +
+      `🏠 *ที่อยู่:* ${fulladdress}\n` +
+      `📞 *เบอร์โทร:* ${tel}\n\n` +
+      `📧 *ติดต่อกลับ:* ${email}\n` +
+      `🛍 *รายการสินค้า:*\n`;
 
-            message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
+    cart.forEach((item, index) => {
+      message += `\n${index + 1}. ${item.name} x ${item.count}`;
+    });
 
-            try {
-              let response = await fetch("https://line-api-backend.onrender.com/push", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ message: message })
-              });
+    message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
 
-              let result = await response.json();
-              console.log(result);
+    try {
+      let response = await fetch("https://line-api-backend.onrender.com/push", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: message })
+      });
 
-              if (response.ok) {
-                alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
-                document.getElementById("ordernumber").textContent = " ";
-                document.getElementById("firstName").value = " ";
-                document.getElementById("lastName").value = " ";
-                document.getElementById("address").value = " ";
-                document.getElementById("province").value = " ";
-                document.getElementById("zipcode").value = " ";
-                document.getElementById("tel").value = " ";
-                document.getElementById("email").value = " ";
-                clearCart();
-                window.location.href = "index.html";
-              } else {
-                alert("❌ ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE: @menzshops");
-              }
-            } catch (error) {
-              console.error("Error:", error);
-            }
-          }
-        }
+      let result = await response.json();
+      console.log(result);
+
+      // 👉 ซ่อนข้อความ loading
+      document.getElementById("loadingModal").style.display = "none"; // ซ่อน
+
+      if (response.ok) {
+        alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
+        document.getElementById("ordernumber").textContent = " ";
+        document.getElementById("firstName").value = " ";
+        document.getElementById("lastName").value = " ";
+        document.getElementById("address").value = " ";
+        document.getElementById("province").value = " ";
+        document.getElementById("zipcode").value = " ";
+        document.getElementById("tel").value = " ";
+        document.getElementById("email").value = " ";
+        clearCart();
+        window.location.href = "index.html";
+      } else {
+        alert("❌ ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE: @menzshops");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      document.getElementById("loadingMessage").style.display = "none";
+    }
+  }
+}
 
 
 
