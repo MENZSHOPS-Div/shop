@@ -1438,7 +1438,7 @@
 
         async function sendLineMessage() {
           event.preventDefault();
-
+         openLoading();
           if (cart.length > 0) {
             // 👉 แสดงข้อความ loading
             document.getElementById("loadingModal").style.display = "flex"; // แสดง
@@ -1499,7 +1499,7 @@
               }
             } catch (error) {
               console.error("Error:", error);
-              document.getElementById("loadingMessage").style.display = "none";
+            hideLoading();
             }
           }
         }
@@ -1520,7 +1520,13 @@
           $("#modalCart").css('display', 'none'); // ปิดหน้าต่างตะกร้า (ถ้าต้องการ)
         }
 
+      function openLoading() {
+        $("#loadingModal").css('display','flex');
+      }
 
+      function hideLoading() {
+        $("#loadingModal").css('display','none');
+      }
         // เรียกฟังก์ชันเมื่อหน้าเว็บโหลด
         window.onload = fetchPackage;
 
