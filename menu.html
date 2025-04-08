@@ -493,6 +493,12 @@
     }
 
   }
+
+  .category-active {
+  border-bottom: 2px solid darkorange;
+  color: darkorange !important;
+}
+
 </style>
 
 <body>
@@ -576,48 +582,41 @@
                 </div>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-2">
-
-                <div class="ps-3" onclick="searchproduct('Popper')">
-                  <i class="fa-solid fa-bottle-droplet"></i>
-                  <small class="text-body">Popper</small>
-
-
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-3">
-
-                <div class="ps-3" onclick="searchproduct('Gel')">
-                  <i class="fa-solid fa-droplet"></i>
-                  <small class="text-body">Rubecant Gel</small>
-
-                </div>
-
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-4">
-                <div class="ps-3" onclick="searchproduct('Other')">
-                  <i class="fa-solid fa-face-smile"></i>
-                  <small class="text-body">Other</small>
-
-
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-4">
-                <div class="ps-3" onclick="searchproduct('Promotion')">
-                  <i class="fa-solid fa-sack-dollar"></i>
-                  <small class="text-body">Promotion</small>
-
-
-                </div>
-              </a>
-            </li>
+            
+              <li class="nav-item">
+                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-tab" data-bs-toggle="pill" href="#tab-2" onclick="searchproduct('Popper')">
+                  <div class="ps-3">
+                    <i class="fa-solid fa-bottle-droplet"></i>
+                    <small class="text-body">Popper</small>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-tab" data-bs-toggle="pill" href="#tab-3" onclick="searchproduct('Gel')">
+                  <div class="ps-3">
+                    <i class="fa-solid fa-droplet"></i>
+                    <small class="text-body">Rubecant Gel</small>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-tab" data-bs-toggle="pill" href="#tab-4" onclick="searchproduct('Other')">
+                  <div class="ps-3">
+                    <i class="fa-solid fa-face-smile"></i>
+                    <small class="text-body">Other</small>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-tab" data-bs-toggle="pill" href="#tab-4" onclick="searchproduct('Promotion')">
+                  <div class="ps-3">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                    <small class="text-body">Promotion</small>
+                  </div>
+                </a>
+              </li>
+            
+            
           </ul>
           <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
@@ -634,13 +633,18 @@
     <div id="modalCart" class="modal" style="display: none;">
       <div onclick="closeModal()" class="modal-bg"></div>
       <div class="modal-page">
-        <h2 style="font-family: sarabun;">รถเข็นของฉัน</h2>
-        <br>
+        <div class="card p-2 mb-3">
+          <div style="display: flex;">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg><h2 style="font-family: sarabun;">รถเข็นของฉัน</h2>
+        </div>
+          <br>
         <div id="mycart" class="cartlist">
 
         </div>
+        <hr class="my-2">
+      </div>
         <div class="btn-control">
-          <button onclick="closeModal()" class="btn">
+          <button onclick="closeModal()" class="btn btn-secondary">
             Cancel
           </button>
           <button onclick="renderSummaryCart()" class="btn btn-buy">
@@ -733,10 +737,11 @@
               <div class="container-md">
                 <div class="py-2 text-center">
 
-                  <h class="lead" style="font-family: sarabun;">แบบฟอร์มชำระเงิน</h>
+    
+    <h class="lead fw-bold" style="font-family: sarabun; color: #0F172B ">แบบฟอร์มชำระเงิน</h>
                   <p  style="font-family: sarabun;">กรุณาตรวจสอบรายการสินค้า และชำระเงิน
                     ก่อนกดยืนยันคำสั่งซื้อ</p>
-                  <p class="text-success text-center fw-bold" style="font-family: sarabun;">(ไม่มีบริการชำระค่าสินค้าปลายทาง)
+                  <p class="text-center fw-bold" style="font-family: sarabun; color:darkorange">(ไม่มีบริการชำระค่าสินค้าปลายทาง)
                   </p>
                 </div>
 
@@ -1051,6 +1056,7 @@
         function searchproduct(param) {
           console.log(param);
           renderProducts(param);
+          activateCategory(this);
         }
 
         function numberWithCommas(x) {
