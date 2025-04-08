@@ -225,6 +225,11 @@
     margin-right: 10px;
   }
 
+  .input-group-text {
+    font-family: "sarabun";
+    font-size: 1.25rem;
+  }
+
   #qrcode {
     width: 250px;
     height: 380px;
@@ -251,27 +256,29 @@
   }
 
   .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* พื้นหลังโปร่ง ๆ */
-  display: none; /* ซ่อนเริ่มต้น */
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* พื้นหลังโปร่ง ๆ */
+    display: none;
+    /* ซ่อนเริ่มต้น */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
 
-.modal-content {
-  background: white;
-  padding: 2rem 3rem;
-  border-radius: 10px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
+  .modal-content {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
 
   #qrcodes {
     display: block;
@@ -303,21 +310,22 @@
   }
 
   .product-item {
-  transition: background-color 0.3s, box-shadow 0.3s;
-  border-radius: 8px;
-}
+    transition: background-color 0.3s, box-shadow 0.3s;
+    border-radius: 8px;
+  }
 
-.product-item:hover {
-  background-color: #e9ecef;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
+  .product-item:hover {
+    background-color: #e9ecef;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
 
 
   #confirm {
     display: flex;
     margin-top: 200px;
   }
-  .descript{
+
+  .descript {
     font-family: "sarabun";
   }
 
@@ -348,16 +356,25 @@
   }
 
   .modal-dialog {
-    min-width: 350px;
-    max-width: 350px;
-    top: 200px;
-    left: 500px;
+
+    top: 150px;
+    left: 80px;
+  }
+
+  .txtpay {
+    font-family: "sarabun";
+    font-size: 1.25rem;
   }
 
   @media (max-width: 728px) {
     .fa-cart-shopping {
       font-size: 6vw;
       color: #fff;
+    }
+
+    .txtpay {
+
+      font-size: 0.80rem;
     }
 
     .col-4 {
@@ -378,8 +395,8 @@
     .modal-dialog {
       left: 10px;
       top: 30px;
-      max-width: 350px;
-      min-width: 350px;
+
+      max-width: 90%;
 
     }
 
@@ -419,9 +436,9 @@
       font-size: 0.75rem;
     }
 
-    .descript{
-    font-size: 0.75rem;
-  }
+    .descript {
+      font-size: 0.75rem;
+    }
 
     #floating-icon {
       right: 30px;
@@ -446,21 +463,19 @@
       margin-left: 20px;
     }
 
-    .img-thumbnail {
-      width: 150px;
-      margin-left: 50px;
-    }
+  
 
     .cartlist-left img {
       width: 100px;
       height: 100px;
       object-fit: cover;
-      
+
       text-align: center;
 
     }
 
-    #productname,#productprice{
+    #productname,
+    #productprice {
       font-size: 1rem;
     }
 
@@ -495,10 +510,9 @@
   }
 
   .category-active {
-  border-bottom: 2px solid darkorange;
-  color: darkorange !important;
-}
-
+    border-bottom: 2px solid darkorange;
+    color: darkorange !important;
+  }
 </style>
 
 <body>
@@ -568,81 +582,91 @@
           <h5 class="section-title ff-secondary text-center text-primary fw-normal">MENU</h5>
           <h1 class="mb-5"></h1>
         </div>
+    
         <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
           <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
             <li class="nav-item">
-              <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
-
-                <div class="ps-3" onclick="searchproduct('Viagra')">
-
-                  <i class="fa-solid fa-pills"></i>
-                  <small class="text-body">Viagra</small>
-
-
-                </div>
+              <a class="nav-link active category-tab" data-bs-toggle="pill" href="#tab-1" onclick="searchproduct('Viagra')">
+                <i class="fa-solid fa-bottle-droplet"></i>
+                <small class="text-body">Viagra</small>
               </a>
             </li>
-            
-              <li class="nav-item">
-                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-tab" data-bs-toggle="pill" href="#tab-2" onclick="searchproduct('Popper')">
-                  <div class="ps-3">
-                    <i class="fa-solid fa-bottle-droplet"></i>
-                    <small class="text-body">Popper</small>
-                  </div>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-tab" data-bs-toggle="pill" href="#tab-3" onclick="searchproduct('Gel')">
-                  <div class="ps-3">
-                    <i class="fa-solid fa-droplet"></i>
-                    <small class="text-body">Rubecant Gel</small>
-                  </div>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-tab" data-bs-toggle="pill" href="#tab-4" onclick="searchproduct('Other')">
-                  <div class="ps-3">
-                    <i class="fa-solid fa-face-smile"></i>
-                    <small class="text-body">Other</small>
-                  </div>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 category-tab" data-bs-toggle="pill" href="#tab-4" onclick="searchproduct('Promotion')">
-                  <div class="ps-3">
-                    <i class="fa-solid fa-sack-dollar"></i>
-                    <small class="text-body">Promotion</small>
-                  </div>
-                </a>
-              </li>
-            
-            
+            <li class="nav-item">
+              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-2" onclick="searchproduct('Popper')">
+                <i class="fa-solid fa-bottle-droplet"></i>
+                <small class="text-body">Popper</small>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-3" onclick="searchproduct('Gel')">
+                <i class="fa-solid fa-droplet"></i>
+                <small class="text-body">Rubecant Gel</small>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-4" onclick="searchproduct('Other')">
+                <i class="fa-solid fa-face-smile"></i>
+                <small class="text-body">Other</small>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-5" onclick="searchproduct('Promotion')">
+                <i class="fa-solid fa-sack-dollar"></i>
+                <small class="text-body">Promotion</small>
+              </a>
+            </li>
           </ul>
+    
           <div class="tab-content">
-            <div id="tab-1" class="tab-pane fade show p-0 active">
+            <div class="tab-pane fade show active" id="tab-1">
               <div id="productlist" class="row g-4">
-
-
+                <!-- Viagra content -->
+              </div>
+            </div>
+            <div class="tab-pane fade" id="tab-2">
+              <div id="popperlist" class="row g-4">
+                <!-- Popper content -->
+              </div>
+            </div>
+            <div class="tab-pane fade" id="tab-3">
+              <div id="gellist" class="row g-4">
+                <!-- Gel content -->
+              </div>
+            </div>
+            <div class="tab-pane fade" id="tab-4">
+              <div id="otherlist" class="row g-4">
+                <!-- Other content -->
+              </div>
+            </div>
+            <div class="tab-pane fade" id="tab-5">
+              <div id="promotionlist" class="row g-4">
+                <!-- Promotion content -->
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
+    
+    
     <div id="modalCart" class="modal" style="display: none;">
       <div onclick="closeModal()" class="modal-bg"></div>
       <div class="modal-page">
         <div class="card p-2 mb-3">
           <div style="display: flex;">
-          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg><h2 style="font-family: sarabun;">รถเข็นของฉัน</h2>
-        </div>
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+              <path
+                d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
+            </svg>
+            <h2 style="font-family: sarabun;">รถเข็นของฉัน</h2>
+          </div>
           <br>
-        <div id="mycart" class="cartlist">
+          <div id="mycart" class="cartlist">
 
+          </div>
+          <hr class="my-2">
         </div>
-        <hr class="my-2">
-      </div>
         <div class="btn-control">
           <button onclick="closeModal()" class="btn btn-secondary">
             Cancel
@@ -688,38 +712,38 @@
       <div id="modalDesc" class="modal" style="display: none;">
         <div onclick="closeModal()" class="modal-bg"></div>
         <div class="modal-page">
-        <div class="card p-2" style="border-radius: 10px;"> 
-          <h2>Detail</h2>
-          <br>
-          <div class="modaldesc-content ms-2">
-            <div class="card p-1" style="border-radius: 10px;">
-            <img id="mdd-img" class="modaldesc-img"
-              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
-              alt="">
-            </div>
-            <div class="modaldesc-detail">
-              <p id="mdd-name" class="cart-name fw-bold" style="font-family: sarabun;">Product name</p>
-              <hr class="my-1">
-              <p id="mdd-price" class="cart-price fw-bold" style="font-family: sarabun;">500 THB</p>
-              <br>
-              <p id="mdd-desc" class="cart-desc">Lorem iaudantium harum doloremque alias. Quae, vel ipsum quasi,
-                voluptas, sit optio nemo magni numquam non dicta voluptates porro! Vero eveniet numquam sit aut vel
-                eligendi officiis iste tenetur expedita. Delectus vero quibusdam adipisci in. Esse.</p>
-              <br>
-              <hr>
-              <hr style="margin-bottom: 30px;">
-              <div class="btn-control">
-                <button onclick="closeModal()" class="btn btn-secondary">
-                  Close
-                </button>
-                <button onclick="addtocart()" class="btn btn-buy">
-                  Add to cart
-                </button>
+          <div class="card p-2" style="border-radius: 10px;">
+            <h2>Detail</h2>
+            <br>
+            <div class="modaldesc-content ms-2">
+              <div class="card p-1" style="border-radius: 10px;">
+                <img id="mdd-img" class="modaldesc-img"
+                  src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+                  alt="">
+              </div>
+              <div class="modaldesc-detail">
+                <p id="mdd-name" class="cart-name fw-bold" style="font-family: sarabun;">Product name</p>
+                <hr class="my-1">
+                <p id="mdd-price" class="cart-price fw-bold" style="font-family: sarabun;">500 THB</p>
+                <br>
+                <p id="mdd-desc" class="cart-desc">Lorem iaudantium harum doloremque alias. Quae, vel ipsum quasi,
+                  voluptas, sit optio nemo magni numquam non dicta voluptates porro! Vero eveniet numquam sit aut vel
+                  eligendi officiis iste tenetur expedita. Delectus vero quibusdam adipisci in. Esse.</p>
+                <br>
+                <hr>
+                <hr style="margin-bottom: 30px;">
+                <div class="btn-control">
+                  <button onclick="closeModal()" class="btn btn-secondary">
+                    Close
+                  </button>
+                  <button onclick="addtocart()" class="btn btn-buy">
+                    Add to cart
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
       <div id="modalcheckout" class="modal" style="display: none;">
         <div class="modal-bg" id="checkoutbg">
@@ -737,11 +761,12 @@
               <div class="container-md">
                 <div class="py-2 text-center">
 
-    
-    <h class="lead fw-bold" style="font-family: sarabun; color: #0F172B ">แบบฟอร์มชำระเงิน</h>
-                  <p  style="font-family: sarabun;">กรุณาตรวจสอบรายการสินค้า และชำระเงิน
+
+                  <h class="lead fw-bold" style="font-family: sarabun; color: #0F172B ">แบบฟอร์มชำระเงิน</h>
+                  <p style="font-family: sarabun;">กรุณาตรวจสอบรายการสินค้า และชำระเงิน
                     ก่อนกดยืนยันคำสั่งซื้อ</p>
-                  <p class="text-center fw-bold" style="font-family: sarabun; color:darkorange">(ไม่มีบริการชำระค่าสินค้าปลายทาง)
+                  <p class="text-center fw-bold" style="font-family: sarabun; color:darkorange">
+                    (ไม่มีบริการชำระค่าสินค้าปลายทาง)
                   </p>
                 </div>
 
@@ -761,12 +786,11 @@
 
                     <form class="card p-2">
                       <div class="d-grid gap-2">
-                        <button class="btn btn-buy"
-                          onclick="openQr()">กดเพื่อชำระเงิน</button>
+                        <button class="btn btn-buy" onclick="openQr()">กดเพื่อชำระเงิน</button>
                       </div>
 
-                  
-                      
+
+
                     </form>
                     <form id="confirm" class="card p-2">
                       <div class="d-grid gap-2">
@@ -949,38 +973,41 @@
     </div>
 
     <div id="qrpayment" class="modal" style="display: none;">
-      <div class="modal-dialog ms-5">
+      <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-              onclick="closeQr()"></button>
-          </div>
-          <div class="modal-body">
-
-
-            <img class="img-thumbnail ms-4" style="max-width: 260px; min-width: 270px;"
-              src="https://img5.pic.in.th/file/secure-sv1/5-Million.png" alt="5 Million">
-            <div class="input-group mb-3 mt-3">
-              <label>หลักฐานการชำระเงิน</label>
-              <input type="file" class="form-control ms-4" id="inputGroupFile01">
+          <div class="container-lg">
+            
+            <div class="modal-header">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                onclick="closeQr()"></button>
             </div>
-            <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr()">ยืนยันการชำระเงิน
-            </button>
-            <script>
-              document.getElementById("inputGroupFile01").addEventListener("change", function () {
-                const fileInput = document.getElementById("inputGroupFile01");
-                const orderButton = document.getElementById("orderButton");
-                const mobileorderButton = document.getElementById("mobileorderButton");
-                if (fileInput.files.length > 0) {
-                  orderButton.disabled = false;
-                  mobileorderButton.disabled = false;  // เปิดปุ่มเมื่อมีไฟล์
-                } else {
-                  orderButton.disabled = true;
-                  mobileorderButton.disabled = true;   // ปิดปุ่มเมื่อไม่มีไฟล์
-                }
-              });
-            </script>
+            <div class="modal-body">
+              <div class="card p-4">
 
+              <img class="img-thumbnail"  style="width: 100%;"
+                src="https://img5.pic.in.th/file/secure-sv1/5-Million.png" alt="5 Million">
+              <div class="input-group mb-3 mt-3">
+                <span class="input-group-text fs-6">อัพโหลดสลิป</span>
+                <input type="file" class="form-control form-control-sm" id="inputGroupFile01">
+              </div>
+              <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr()">ยืนยันการชำระเงิน
+              </button>
+              <script>
+                document.getElementById("inputGroupFile01").addEventListener("change", function () {
+                  const fileInput = document.getElementById("inputGroupFile01");
+                  const orderButton = document.getElementById("orderButton");
+                  const mobileorderButton = document.getElementById("mobileorderButton");
+                  if (fileInput.files.length > 0) {
+                    orderButton.disabled = false;
+                    mobileorderButton.disabled = false;  // เปิดปุ่มเมื่อมีไฟล์
+                  } else {
+                    orderButton.disabled = true;
+                    mobileorderButton.disabled = true;   // ปิดปุ่มเมื่อไม่มีไฟล์
+                  }
+                });
+              </script>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -990,74 +1017,80 @@
           <span>⏳ รอสักครู่ กำลังส่งคำสั่งซื้อ...</span>
         </div>
       </div>
-      
+
 
       <script>
         let productData = [];
-
+      
         function fetchPackage() {
           const scriptURL = "https://script.google.com/macros/s/AKfycbyNM6gCYEfx6xTT3czZhkQAfKY3bmvhYdPHY_sjR-p3WSPGfSuc99rJlrbDowu-uBahpA/exec";
-
+      
           fetch(scriptURL)
             .then(response => response.json())
             .then(data => {
-              productData = data; // เก็บข้อมูลที่ดึงมา
-              renderProducts();
+              productData = data;
+              renderProducts("Viagra", "productlist"); // ค่าเริ่มต้น
             });
         }
-
-        function renderProducts(filter = "all") {
+      
+        function renderProducts(filter, targetId) {
           console.log("Filtering by:", filter);
           let html = "";
-
+      
           for (let i = 0; i < productData.length; i++) {
-            console.log("Product Type:", productData[i].type);
-
             if (filter === "all" || productData[i].type === filter) {
               let product = productData[i];
               let formattedPrice = parseFloat(product.price).toFixed(2);
               let isSoldOut = product.qty === 0;
-
               let disabledClass = isSoldOut ? "opacity-50 pointer-events-none" : "";
               let textMutedClass = isSoldOut ? "text-muted" : "";
-
-              // เปลี่ยนจาก text-success → text-primary
               let stockText = !isSoldOut ? ` &nbsp;|&nbsp; <span class="text-primary">มี ${product.qty} ชิ้น</span>` : "";
-
-              html += `                                
-        <div class="col-lg-6 product-item ${product.type} ${disabledClass}" style="cursor: pointer;">
-          <div ${!isSoldOut ? `onclick="openProductDetail(${i})"` : ""} class="d-flex align-items-center" >
-            <img class="flex-shrink-0 img-fluid rounded" src="${product.img}" alt="" style="width: 80px;">
-            <div class="w-100 d-flex flex-column text-start ps-4">
-              <h5 class="d-flex justify-content-between border-bottom pb-2">
-                <span id="productname" class="${textMutedClass}">
-                  ${product.name}
-                </span>
-                ${isSoldOut ? `<span class="badge bg-danger align-self-start">Sold Out</span>` : ""}
-                <span id="productprice" class="text-primary ${textMutedClass}">${numberWithCommas(formattedPrice)}</span>
-              </h5>
-              <small class="descript">
-                ${product.description}${stockText}
-              </small>
-            </div>
-          </div>
-        </div>`;
+      
+              html += `
+              <div class="col-lg-6 product-item ${product.type} ${disabledClass}" style="cursor: pointer;">
+                <div ${!isSoldOut ? `onclick="openProductDetail(${i})"` : ""} class="d-flex align-items-center">
+                  <img class="flex-shrink-0 img-fluid rounded" src="${product.img}" alt="" style="width: 80px;">
+                  <div class="w-100 d-flex flex-column text-start ps-4">
+                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                      <span class="${textMutedClass}">${product.name}</span>
+                      ${isSoldOut ? `<span class="badge bg-danger align-self-start">Sold Out</span>` : ""}
+                      <span class="text-primary ${textMutedClass}">${numberWithCommas(formattedPrice)}</span>
+                    </h5>
+                    <small class="descript">${product.description}${stockText}</small>
+                  </div>
+                </div>
+              </div>`;
             }
           }
-
-          $("#productlist").html(html);
+      
+          // ล้างข้อมูลทุก container
+          document.querySelectorAll('.tab-pane .row.g-4').forEach(el => el.innerHTML = "");
+      
+          // ใส่ข้อมูลที่กรองไว้ลงใน container ที่กำหนด
+          document.getElementById(targetId).innerHTML = html;
         }
-
-
-
-
-
-
+      
         function searchproduct(param) {
-          console.log(param);
-          renderProducts(param);
-          activateCategory(this);
+          const targetMap = {
+            "Viagra": "productlist",
+            "Popper": "popperlist",
+            "Gel": "gellist",
+            "Other": "otherlist",
+            "Promotion": "promotionlist"
+          };
+      
+          const targetId = targetMap[param] || "productlist";
+          renderProducts(param, targetId);
         }
+      
+        function numberWithCommas(x) {
+          return Number(x).toLocaleString("en-US");
+        }
+      
+        // เรียกเมื่อโหลด
+        fetchPackage();
+      
+      
 
         function numberWithCommas(x) {
           x = x.toString();
@@ -1140,6 +1173,7 @@
           $("#qrpayment").css('display', 'none');
         }
         function openQr() {
+          event.preventDefault();
           $("#qrpayment").css('display', 'block');
         }
 
@@ -1248,76 +1282,76 @@
         }
 
         async function sendLineMessage() {
-  event.preventDefault();
+          event.preventDefault();
 
-  if (cart.length > 0) {
-    // 👉 แสดงข้อความ loading
-    document.getElementById("loadingModal").style.display = "flex"; // แสดง
+          if (cart.length > 0) {
+            // 👉 แสดงข้อความ loading
+            document.getElementById("loadingModal").style.display = "flex"; // แสดง
 
-    let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
-    let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
-    let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
-    let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
-    let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
-    let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
-    let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
-    let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+            let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+            let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+            let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+            let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+            let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+            let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+            let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+            let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
 
-    let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
-    let message = `📦 *ออเดอร์ใหม่!* \n\n` +
-      `🛒 *Order Number:* ${orderNumber}\n` +
-      `🏠 *ที่อยู่:* ${fulladdress}\n` +
-      `📞 *เบอร์โทร:* ${tel}\n\n` +
-      `📧 *ติดต่อกลับ:* ${email}\n` +
-      `🛍 *รายการสินค้า:*\n`;
+            let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
+            let message = `📦 *ออเดอร์ใหม่!* \n\n` +
+              `🛒 *Order Number:* ${orderNumber}\n` +
+              `🏠 *ที่อยู่:* ${fulladdress}\n` +
+              `📞 *เบอร์โทร:* ${tel}\n\n` +
+              `📧 *ติดต่อกลับ:* ${email}\n` +
+              `🛍 *รายการสินค้า:*\n`;
 
-    cart.forEach((item, index) => {
-      message += `\n${index + 1}. ${item.name} x ${item.count}`;
-    });
+            cart.forEach((item, index) => {
+              message += `\n${index + 1}. ${item.name} x ${item.count}`;
+            });
 
-    message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
+            message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
 
-    try {
-      let response = await fetch("https://line-api-backend.onrender.com/push", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message: message })
-      });
+            try {
+              let response = await fetch("https://line-api-backend.onrender.com/push", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: message })
+              });
 
-      let result = await response.json();
-      console.log(result);
+              let result = await response.json();
+              console.log(result);
 
-      // 👉 ซ่อนข้อความ loading
-      document.getElementById("loadingModal").style.display = "none"; // ซ่อน
+              // 👉 ซ่อนข้อความ loading
+              document.getElementById("loadingModal").style.display = "none"; // ซ่อน
 
-      if (response.ok) {
-        alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
-        document.getElementById("ordernumber").textContent = " ";
-        document.getElementById("firstName").value = " ";
-        document.getElementById("lastName").value = " ";
-        document.getElementById("address").value = " ";
-        document.getElementById("province").value = " ";
-        document.getElementById("zipcode").value = " ";
-        document.getElementById("tel").value = " ";
-        document.getElementById("email").value = " ";
-        clearCart();
-        openBasket();
-        window.location.href = "index.html";
-      } else {
-        alert("❌ ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE: @menzshops");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      document.getElementById("loadingMessage").style.display = "none";
-    }
-  }
-}
+              if (response.ok) {
+                alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
+                document.getElementById("ordernumber").textContent = " ";
+                document.getElementById("firstName").value = " ";
+                document.getElementById("lastName").value = " ";
+                document.getElementById("address").value = " ";
+                document.getElementById("province").value = " ";
+                document.getElementById("zipcode").value = " ";
+                document.getElementById("tel").value = " ";
+                document.getElementById("email").value = " ";
+                clearCart();
+                openBasket();
+                window.location.href = "index.html";
+              } else {
+                alert("❌ ขออภัย ระบบขัดข้องชั่วคราว กรุณาติดต่อแอดมินที่ LINE: @menzshops");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              document.getElementById("loadingMessage").style.display = "none";
+            }
+          }
+        }
 
-function openBasket() {
-   $("#floating-icon").css('display', 'flex');
-}
+        function openBasket() {
+          $("#floating-icon").css('display', 'flex');
+        }
 
         function generateOrderNumber() {
           let orderNumber = Math.floor(10000000 + Math.random() * 90000000); // สุ่มเลข 8 หลัก
