@@ -371,7 +371,7 @@
       font-size: 6vw;
       color: #fff;
     }
-    .img-cart{
+    #imgcart{
       width: 20px;
     }
 
@@ -1226,7 +1226,7 @@
                         <hr class="my-2">
                          <div class="cartlist-items">
                         <div class="cartlist-left">
-                            <img class="img-cart" src="${cart[i].img}" alt="">
+                            <img id="imgcart" src="${cart[i].img}" alt="">
                             <div class="cartlist-detail">
                                 <p class="carlist-name">${cart[i].name}</p>
                                 <p class="cartlist-price">${numberWithCommas(cart[i].price * cart[i].count)} THB</p>
