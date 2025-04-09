@@ -304,10 +304,6 @@
     /* ให้ไอคอนอยู่ด้านบน */
   }
 
-  .card{
-    margin-bottom: 10px;
-  }
-
   .fa-cart-shopping {
     font-size: 2vw;
     color: #fff;
@@ -322,12 +318,6 @@
     background-color: #e9ecef;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   }
-
-  .tight-line {
-  line-height: 0.8;
-  margin: 2;
-  padding: 0;
-}
 
 
   #confirm {
@@ -376,26 +366,12 @@
     font-size: 1.25rem;
   }
 
-  .btn-control{
-      margin-top: 150px;
-      margin-left: 110px;
-      
-    }
-
-
   @media (max-width: 728px) {
     .fa-cart-shopping {
       font-size: 6vw;
       color: #fff;
     }
-
-    .btn-control{
-      margin-top: 15px;
-      margin-left: 250px;
-      
-    }
-
-    #imgcart {
+    #imgcart{
       width: 50px;
       height: 50px;
     }
@@ -408,32 +384,19 @@
     .col-4 {
       min-width: 90%;
     }
-    
-    .modal-bg {
-      left: 0;
-      max-width: 90%;
-    }
 
     .modal-page {
       z-index: 99;
-      min-width: 75%;
-      max-width: 75%;
-      min-height: 230px;
-      max-height: 230px;
+      min-width: 90%;
+      max-width: 90%;
+      max-height: 1200px;
       overflow: scroll;
       background: #fff;
       border-radius: 15px;
       padding: 20px;
-      margin-right: 10px;
     }
 
-    .tight-line {
-  line-height: 1;
-  margin: 1;
-  padding: 0;
-}
-
-
+   
 
     #confirm {
       display: none;
@@ -457,12 +420,10 @@
 
     .cart-name {
       font-size: 1rem;
-      margin-bottom: 5px;
     }
 
     .cart-price {
       font-size: 0.80rem;
-      margin-bottom: 10px;
     }
 
     .cart-desc {
@@ -499,17 +460,14 @@
       padding: 10px;
       margin-left: 20px;
     }
-    
-     .modal {
-      width: 100%;
-     }
 
+  
 
     .cartlist-left img {
       width: 100px;
       height: 100px;
       object-fit: cover;
-      border-radius: 5px;
+      text-align: center;
 
     }
 
@@ -588,81 +546,48 @@
       top: 1rem;
       right: 1rem;
     }
-   
-    #cardpic {
-      max-height: 80px;
-      max-width: 80px;
-      min-height: 80px;
-      min-width: 80px;
-    }
-    
-    #mdd-img {
-      height: 70px;
-      width: 70px;
-    }
+    #modalDesc{
+      min-height: 600px;
+      top: 50px;
+      left: 10px;
 
-    .modaldesc-detail{
-      max-height: 100px;
-      max-width:  60px;
-      min-height: 60px;
-      min-width: 100px;
-    }
-
-    .cart-name {
-      font-family: sarabyn;
-      font-size: 0.75rem;
-
-    }
-     
-    .cart-price {
-      font-family: sarabyn;
-      font-size: 0.50rem;
-      
-    }
-
-    .cart-desc {
-      font-family: sarabyn;
-      font-size: 0.50rem;
-    }
-    .card {
-      margin-bottom: 5px;
-    }
-
-    h2 {
-      font-size: 1rem;
-      margin-bottom: 5px;
-    }
-
-    .category-active {
-      border-bottom: 2px solid darkorange;
-      color: darkorange !important;
-    }
-
-    hr {
-      display: none;
-    }
-   
-    #destok,#deskno{
-      height: 20px;
-      font-size: 0.5rem;
-      padding-top: 3px;
-      align-items: end;
-      
-    }
-
-    #deskno {
-      min-width: 135px;
-      max-width: 135px;
-    
-    }
-
-    #pname , #pprice {
-      font-size: 1rem;
-    }
-
-   
   }
 
+  .category-active {
+    border-bottom: 2px solid darkorange;
+    color: darkorange !important;
+  }
+
+  #pctotal{
+    display: none;
+  }
+
+  #mobileline{
+    max-width: 100px;
+    min-width: 100px;
+    max-height: 100px;
+    min-height: 100px;
+  }
+
+  hr{
+    display: none;
+  }
+
+  #btnadd{
+    min-width: 100px;
+    max-width: 100px;
+    font-size: 0.5rem;
+  }
+  #btncancle{
+    font-size: 0.5rem;
+  }
+
+  .modal-dialog{
+    width: 90%;
+  }
+ 
+
+}
 </style>
 
 <body>
@@ -671,7 +596,7 @@
     <div id="spinner"
       class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
       <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-        <span class="sr-only">Loading... </span>
+        <span class="sr-only">Loading...</span>
       </div>
     </div>
     <!-- Spinner End -->
@@ -684,7 +609,7 @@
         <h1 class="logo-text text-primary fs-4 ms-1">เม็นส์ ช็อป</h1>
         <!-- <img src="img/logo.png" alt="Logo"> -->
 
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse ">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
           <span class="fa fa-bars"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -732,43 +657,41 @@
           <h5 class="section-title ff-secondary text-center text-primary fw-normal">MENU</h5>
           <h1 class="mb-5"></h1>
         </div>
-
+    
         <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
           <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
             <li class="nav-item">
-              <a class="nav-link active category-tab" data-bs-toggle="pill" href="#tab-1 "
-                onclick="searchproduct('Viagra')">
+              <a class="nav-link active category-tab" data-bs-toggle="pill" href="#tab-1" onclick="searchproduct('Viagra')">
                 <i class="fa-solid fa-bottle-droplet"></i>
                 <small class="text-body">Viagra</small>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-2 " onclick="searchproduct('Popper')">
+              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-2" onclick="searchproduct('Popper')">
                 <i class="fa-solid fa-bottle-droplet"></i>
                 <small class="text-body">Popper</small>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-3 " onclick="searchproduct('Gel')">
+              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-3" onclick="searchproduct('Gel')">
                 <i class="fa-solid fa-droplet"></i>
                 <small class="text-body">Rubecant Gel</small>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-4 " onclick="searchproduct('Other')">
+              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-4" onclick="searchproduct('Other')">
                 <i class="fa-solid fa-face-smile"></i>
                 <small class="text-body">Other</small>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-5 "
-                onclick="searchproduct('Promotion')">
+              <a class="nav-link category-tab" data-bs-toggle="pill" href="#tab-5" onclick="searchproduct('Promotion')">
                 <i class="fa-solid fa-sack-dollar"></i>
                 <small class="text-body">Promotion</small>
               </a>
             </li>
           </ul>
-
+    
           <div class="tab-content">
             <div class="tab-pane fade show active" id="tab-1">
               <div id="productlist" class="row g-4">
@@ -799,8 +722,8 @@
         </div>
       </div>
     </div>
-
-
+    
+    
     <div id="modalCart" class="modal" style="display: none;">
       <div onclick="closeModal()" class="modal-bg"></div>
       <div class="modal-page">
@@ -862,22 +785,20 @@
 
 
       <div id="modalDesc" class="modal" style="display: none;">
-      
-         <div onclick="closeModal()" class="modal-bg"></div>
-         <div class="modal-page">
+        <div onclick="closeModal()" class="modal-bg"></div>
+        <div class="modal-page">
           <div class="card p-2" style="border-radius: 10px;">
             <h2>Detail</h2>
             <br>
             <div class="modaldesc-content ms-2">
-              <div id="cardpic" class="card p-1" style="border-radius: 10px;">
+              <div id="mobileline" class="card p-1" style="border-radius: 10px;">
                 <img id="mdd-img" class="modaldesc-img"
                   src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
                   alt="">
-               </div>
-          
-               <div class="modaldesc-detail tight-line ms-3">
-                 <p id="mdd-name" class="cart-name fw-bold" style="font-family: sarabun;">Product name</p>
-                   <hr class="my-1">
+              </div>
+              <div class="modaldesc-detail">
+                <p id="mdd-name" class="cart-name fw-bold" style="font-family: sarabun;">Product name</p>
+                <hr class="my-1">
                 <p id="mdd-price" class="cart-price fw-bold" style="font-family: sarabun;">500 THB</p>
                 <br>
                 <p id="mdd-desc" class="cart-desc">Lorem iaudantium harum doloremque alias. Quae, vel ipsum quasi,
@@ -886,19 +807,18 @@
                 <br>
                 <hr>
                 <hr style="margin-bottom: 30px;">
-                <div class="btn-control ms-2">
-                  <button id="destok" onclick="closeModal()" class="btn btn-secondary">
+                <div class="btn-control">
+                  <button id="btncancle" onclick="closeModal()" class="btn btn-secondary">
                     Close
                   </button>
-                  <button id="deskno" onclick="addtocart()" class="btn btn-buy">
+                  <button id="btnadd" onclick="addtocart()" class="btn btn-buy">
                     Add to cart
                   </button>
                 </div>
               </div>
             </div>
-         </div>
-     
-      </div>
+          </div>
+        </div>
       </div>
       <div id="modalcheckout" class="modal" style="display: none;">
         <div class="modal-bg" id="checkoutbg">
@@ -908,8 +828,8 @@
               onclick="closeCheckOut()"></button>
             <script>
               function closeCheckOut() {
-                $("#modalcheckout ").css('display', 'none');
-                $("#floating-icon ").css('display', 'flex');
+                $("#modalcheckout").css('display', 'none');
+                $("#floating-icon").css('display', 'flex');
               }
             </script>
             <main>
@@ -917,7 +837,7 @@
                 <div class="py-2 text-center">
 
 
-                  <h class="lead fw-bold" style="font-family: sarabun; color:  #0F172B ">แบบฟอร์มชำระเงิน</h>
+                  <h class="lead fw-bold" style="font-family: sarabun; color: #0F172B ">แบบฟอร์มชำระเงิน</h>
                   <p style="font-family: sarabun;">กรุณาตรวจสอบรายการสินค้า และชำระเงิน
                     ก่อนกดยืนยันคำสั่งซื้อ</p>
                   <p class="text-center fw-bold" style="font-family: sarabun; color:darkorange">
@@ -926,7 +846,7 @@
                 </div>
 
                 <div class="row g-5">
-                  <div class="col-md-5 col-lg-4 order-md-last">
+                  <div id="pctotal" class="col-md-5 col-lg-4 order-md-last">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                       <p>หมายเลขคำสั่งซื้อ: <span id="ordernumber"></span></p>
                     </div>
@@ -942,16 +862,13 @@
                     <form class="card p-2">
                       <div class="d-grid gap-2">
                         <button class="btn btn-buy" onclick="openQr()">กดเพื่อชำระเงิน</button>
-                      </div>
+                     
 
 
 
-                    </form>
-                    <form id="confirm" class="card p-2">
-                      <div class="d-grid gap-2">
-                        <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="sendLineMessage()"
-                          disabled>ยืนยันคำสั่งซื้อ
-                        </button>
+                   
+                        <button class="btn btn-buy" id="orderButton" onclick="sendLineMessage()"
+                          disabled>ยืนยันคำสั่งซื้อ</button>
                       </div>
                     </form>
                   </div>
@@ -1078,11 +995,37 @@
 
                           <div class="col-4">
                             <label for="province" class="form-label">จังหวัด</label>
-                            <input type="text" class="form-control form-control-sm" id="province" required>
-                            <div class="invalid-feedback">
-                              Please enter your province.
-                            </div>
+                            <select type="text" class="form-control form-control-sm" id="province">
+                              <option selected disabled>Loading provinces...</option>
+                            </select>
                           </div>
+
+                          
+
+                          <script>
+                            function loadProvince(){
+                            const scriptURL = "https://script.google.com/macros/s/AKfycbwHU1aqw9TATKgHVNcTFSBomSWAdzortx8dgaKAdjfQstl30yb34jtziUk-XTjcHi134g/exec"; // ใส่ลิงก์ Web App ที่คุณได้มา
+                          
+                            fetch(scriptURL)
+                              .then(res => res.json())
+                              .then(data => {
+                                const select = document.getElementById("province");
+                                select.innerHTML = '<option selected disabled>เลือกจังหวัด</option>';
+                          
+                                data.forEach(province => {
+                                  const option = document.createElement("option");
+                                  option.value = province;
+                                  option.textContent = province;
+                                  select.appendChild(option);
+                                });
+                              })
+                              .catch(err => {
+                                console.error("Error fetching provinces:", err);
+                                document.getElementById("province").innerHTML = '<option>Error loading provinces</option>';
+                              });
+                            }
+                          </script>
+
                           <div class="col-4">
                             <label for="zipcode" class="form-label">รหัสไปรษณีย์</label>
                             <input type="text" class="form-control form-control-sm" id="zipcode" required>
@@ -1113,9 +1056,33 @@
 
                     <form id="mobileconfirm" class="card p-2">
 
-                      <button class="w-100 btn btn-primary btn-lg" id="mobileorderButton" onclick="sendLineMessage()"
-                        disabled>ยืนยันคำสั่งซื้อ
-                      </button>
+                      <div id="mobiletotal" class="col-md-5 col-lg-4 order-md-last">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                          <p>หมายเลขคำสั่งซื้อ: <span id="ordernumber"></span></p>
+                        </div>
+                        <ul id="summaryCarts" class="list-group mb-3">
+    
+    
+    
+    
+    
+    
+                        </ul>
+    
+                        <form class="card p-2">
+                          <div class="d-grid gap-2">
+                            <button class="btn btn-buy" onclick="openQr()">กดเพื่อชำระเงิน</button>
+                        
+    
+    
+    
+                      
+                            <button class="btn btn-buy" id="orderButtons" onclick="sendLineMessage()"
+                              disabled>ยืนยันคำสั่งซื้อ
+                            </button>
+                          </div>
+                        </form>
+                      </div>
 
                     </form>
 
@@ -1126,12 +1093,70 @@
         </div>
       </div>
     </div>
+    <script>
+       document.getElementById("province").addEventListener("change", function() {
+  renderSummaryCarts(); // ไม่ต้องส่ง event แล้ว
+});
+
+function renderSummaryCarts() {
+  if (cart.length > 0) {
+    let html = '';
+    let totalPrice = 0;
+
+    for (let i = 0; i < cart.length; i++) {
+      let itemTotal = cart[i].price * cart[i].count;
+      totalPrice += itemTotal;
+
+      html += `  
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+                <h6 class="my-0" style="font-family: sarabun; font-size: 0.80rem">${cart[i].name}</h6>
+                <small class="text-body-secondary fs-6">x ${cart[i].count}</small>
+            </div>
+            <span class="text-body-secondary" style="font-family: sarabun; font-size: 0.80rem">${numberWithCommas(itemTotal)} THB</span>
+        </li>
+      `;
+    }
+
+    // เช็กจังหวัด แล้วกำหนดค่าขนส่ง
+    let shipprice = 0;
+    let selectedProvince = document.getElementById("province").value;
+    let specialProvinces = ["ภูเก็ต", "ปัตตานี", "ยะลา"];
+
+    if (specialProvinces.includes(selectedProvince)) {
+      shipprice = 50;
+    }
+
+    let grandTotal = totalPrice + shipprice;
+
+    html += `  
+      <li class="list-group-item d-flex justify-content-between bg-light">
+          <div>
+              <small class="text-muted">ค่าส่ง</small><br>
+              <strong>รวมทั้งหมด</strong>
+          </div>
+          <div>
+              <small class="text-muted">${numberWithCommas(shipprice)} THB</small><br>
+              <strong>${numberWithCommas(grandTotal)} THB</strong>
+          </div>
+      </li>
+    `;
+
+    $("#summaryCart").html(html);
+    $("#summaryCarts").html(html);
+
+  } else {
+    $("#summaryCart").html(`<p>ไม่มีสินค้าในตะกร้า</p>`);
+  }
+}
+
+    </script>
 
     <div id="qrpayment" class="modal" style="display: none;">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="container-lg">
-
+            
             <div class="modal-header">
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                 onclick="closeQr()"></button>
@@ -1139,28 +1164,28 @@
             <div class="modal-body">
               <div class="card p-4">
 
-                <img class="img-thumbnail" style="width: 100%;"
-                  src="https://img5.pic.in.th/file/secure-sv1/5-Million.png" alt="5 Million">
-                <div class="input-group mb-3 mt-3">
-                  <span class="input-group-text fs-6">อัพโหลดสลิป</span>
-                  <input type="file" class="form-control form-control-sm" id="inputGroupFile01">
-                </div>
-                <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr()">ยืนยันการชำระเงิน
-                </button>
-                <script>
-                  document.getElementById("inputGroupFile01").addEventListener(" change ", function () {
-                    const fileInput = document.getElementById("inputGroupFile01");
-                    const orderButton = document.getElementById("orderButton");
-                    const mobileorderButton = document.getElementById("mobileorderButton");
-                    if (fileInput.files.length > 0) {
-                      orderButton.disabled = false;
-                      mobileorderButton.disabled = false;  // เปิดปุ่มเมื่อมีไฟล์
-                    } else {
-                      orderButton.disabled = true;
-                      mobileorderButton.disabled = true;   // ปิดปุ่มเมื่อไม่มีไฟล์
-                    }
-                  });
-                </script>
+              <img class="img-thumbnail"  style="width: 100%;"
+                src="https://img5.pic.in.th/file/secure-sv1/5-Million.png" alt="5 Million">
+              <div class="input-group mb-3 mt-3">
+                <span class="input-group-text fs-6">อัพโหลดสลิป</span>
+                <input type="file" class="form-control form-control-sm" id="inputGroupFile01">
+              </div>
+              <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr()">ยืนยันการชำระเงิน
+              </button>
+              <script>
+                document.getElementById("inputGroupFile01").addEventListener("change", function () {
+                  const fileInput = document.getElementById("inputGroupFile01");
+                  const orderButton = document.getElementById("orderButton");
+                  const mobileorderButton = document.getElementById("orderButtons");
+                  if (fileInput.files.length > 0) {
+                    orderButton.disabled = false;
+                    mobileorderButton.disabled = false;  // เปิดปุ่มเมื่อมีไฟล์
+                  } else {
+                    orderButton.disabled = true;
+                    mobileorderButton.disabled = true;   // ปิดปุ่มเมื่อไม่มีไฟล์
+                  }
+                });
+              </script>
               </div>
             </div>
           </div>
@@ -1169,17 +1194,17 @@
 
       <div id="loadingModal" class="modal-overlay">
         <div class="modal-content">
-          <span>⏳ รอสักครู่ กำลังส่งคำสั่งซื้อ... </span>
+          <span>⏳ รอสักครู่ กำลังส่งคำสั่งซื้อ...</span>
         </div>
       </div>
 
 
       <script>
         let productData = [];
-
+      
         function fetchPackage() {
           const scriptURL = "https://script.google.com/macros/s/AKfycbyNM6gCYEfx6xTT3czZhkQAfKY3bmvhYdPHY_sjR-p3WSPGfSuc99rJlrbDowu-uBahpA/exec";
-
+      
           fetch(scriptURL)
             .then(response => response.json())
             .then(data => {
@@ -1187,11 +1212,11 @@
               renderProducts("Viagra", "productlist"); // ค่าเริ่มต้น
             });
         }
-
+      
         function renderProducts(filter, targetId) {
-
+          console.log("Filtering by:", filter);
           let html = "";
-
+      
           for (let i = 0; i < productData.length; i++) {
             if (filter === "all" || productData[i].type === filter) {
               let product = productData[i];
@@ -1200,16 +1225,16 @@
               let disabledClass = isSoldOut ? "opacity-50 pointer-events-none" : "";
               let textMutedClass = isSoldOut ? "text-muted" : "";
               let stockText = !isSoldOut ? ` &nbsp;|&nbsp; <span class="text-primary">มี ${product.qty} ชิ้น</span>` : "";
-
+      
               html += `
               <div class="col-lg-6 product-item ${product.type} ${disabledClass}" style="cursor: pointer;">
                 <div ${!isSoldOut ? `onclick="openProductDetail(${i})"` : ""} class="d-flex align-items-center">
                   <img class="flex-shrink-0 img-fluid rounded" src="${product.img}" alt="" style="width: 80px;">
                   <div class="w-100 d-flex flex-column text-start ps-4">
                     <h5 class="d-flex justify-content-between border-bottom pb-2">
-                      <span id="pname" class="${textMutedClass}">${product.name}</span>
+                      <span class="${textMutedClass}">${product.name}</span>
                       ${isSoldOut ? `<span class="badge bg-danger align-self-start">Sold Out</span>` : ""}
-                      <span id="pprice" class="text-primary ${textMutedClass}">${numberWithCommas(formattedPrice)}</span>
+                      <span class="text-primary ${textMutedClass}">${numberWithCommas(formattedPrice)}</span>
                     </h5>
                     <small class="descript">${product.description}${stockText}</small>
                   </div>
@@ -1217,14 +1242,14 @@
               </div>`;
             }
           }
-
+      
           // ล้างข้อมูลทุก container
           document.querySelectorAll('.tab-pane .row.g-4').forEach(el => el.innerHTML = "");
-
+      
           // ใส่ข้อมูลที่กรองไว้ลงใน container ที่กำหนด
           document.getElementById(targetId).innerHTML = html;
         }
-
+      
         function searchproduct(param) {
           const targetMap = {
             "Viagra": "productlist",
@@ -1233,19 +1258,19 @@
             "Other": "otherlist",
             "Promotion": "promotionlist"
           };
-
+      
           const targetId = targetMap[param] || "productlist";
           renderProducts(param, targetId);
         }
-
+      
         function numberWithCommas(x) {
           return Number(x).toLocaleString("en-US");
         }
-
+      
         // เรียกเมื่อโหลด
         fetchPackage();
-
-
+      
+      
 
         function numberWithCommas(x) {
           x = x.toString();
@@ -1302,7 +1327,7 @@
           console.log(cart)
 
 
-          $("#cartcount ").css(' display ', ' flex ').text(cart.length);
+          $("#cartcount").css('display', 'flex').text(cart.length);
 
         }
 
@@ -1315,6 +1340,7 @@
           $('#modalcheckout').css('display', 'flex');
           $("#floating-icon").css('display', 'none');
           generateOrderNumber();
+          loadProvince()
 
 
         }
@@ -1354,7 +1380,7 @@
                     </div>
                     </div>`;
             }
-            $("#mycart ").html(html)
+            $("#mycart").html(html)
           }
           else {
             $("#mycart").html(`<p>Not found product list</p>`)
@@ -1373,7 +1399,7 @@
               html += `  
                 <li class="list-group-item d-flex justify-content-between lh-sm">
                     <div>
-                        <h6 class="my-0" style="font-family: sarabun; font-size: 0.80rem"> ${cart[i].name} < /h6>
+                        <h6 class="my-0" style="font-family: sarabun; font-size: 0.80rem">${cart[i].name}</h6>
                         <small class="text-body-secondary fs-6">x ${cart[i].count}</small>
                     </div>
                     <span class="text-body-secondary" style="font-family: sarabun; font-size: 0.80rem">${numberWithCommas(itemTotal)} THB</span>
@@ -1389,7 +1415,8 @@
             </li>
         `;
 
-            $("#summaryCart ").html(html);
+            $("#summaryCart").html(html);
+            $("#summaryCarts").html(html);
             openCheckout();
           } else {
             $("#summaryCart").html(`<p>ไม่มีสินค้าในตะกร้า</p>`);
@@ -1438,7 +1465,7 @@
 
         async function sendLineMessage() {
           event.preventDefault();
-         openLoading();
+
           if (cart.length > 0) {
             // 👉 แสดงข้อความ loading
             document.getElementById("loadingModal").style.display = "flex"; // แสดง
@@ -1499,7 +1526,7 @@
               }
             } catch (error) {
               console.error("Error:", error);
-            hideLoading();
+              document.getElementById("loadingMessage").style.display = "none";
             }
           }
         }
@@ -1520,13 +1547,7 @@
           $("#modalCart").css('display', 'none'); // ปิดหน้าต่างตะกร้า (ถ้าต้องการ)
         }
 
-      function openLoading() {
-        $("#loadingModal").css('display','flex');
-      }
 
-      function hideLoading() {
-        $("#loadingModal").css('display','none');
-      }
         // เรียกฟังก์ชันเมื่อหน้าเว็บโหลด
         window.onload = fetchPackage;
 
