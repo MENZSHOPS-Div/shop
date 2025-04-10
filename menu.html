@@ -217,6 +217,12 @@
     margin-right: 100px;
   }
 
+  #waiting{
+    left: 80px;
+    min-width: 300px;
+    max-width: 300px;
+  }
+
   .cartlist-left img {
     width: 5vw;
     height: 5vw;
@@ -278,6 +284,10 @@
     font-weight: bold;
     color: #333;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+
+  #waitingload{
+    background-color: transparent;
   }
 
   #qrcodes {
@@ -366,6 +376,19 @@
     font-size: 1.25rem;
   }
 
+  .modal-waiting {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* พื้นหลังดำโปร่งใส */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000; /* ให้ลอยอยู่บนสุด */
+}
+
   @media (max-width: 728px) {
     .fa-cart-shopping {
       font-size: 6vw;
@@ -395,7 +418,11 @@
       border-radius: 15px;
       padding: 20px;
     }
-
+    
+    #waitingload{
+    background-color: transparent;
+    margin-left: 20px;
+  }
    
 
     #confirm {
@@ -573,6 +600,12 @@
     display: none;
   }
 
+  #waiting{
+    left: 10px;
+    min-width: 300px;
+    max-width: 300px;
+  }
+
   #btnadd{
     min-width: 100px;
     max-width: 100px;
@@ -648,7 +681,13 @@
         </div>
       </div>
     </div>
-
+    <div id="waiting" class="modal-waiting" style="display: none;">
+      <div class="modal-content">
+        <p>Request processing....</p>
+        
+      </div>
+    </div>
+    
 
     <!-- Menu Start -->
     <div class="container-xxl py-5">
@@ -1192,9 +1231,12 @@ function renderSummaryCarts() {
         </div>
       </div>
 
-      <div id="loadingModal" class="modal-overlay">
+      <div id="loadingModal" class="modal" style="display: block;">
         <div class="modal-content">
-          <span>⏳ รอสักครู่ กำลังส่งคำสั่งซื้อ...</span>
+          <div class="modal-body">
+
+                   <p>รอสักครู่......</p>
+          </div>
         </div>
       </div>
 
@@ -1203,6 +1245,7 @@ function renderSummaryCarts() {
         let productData = [];
       
         function fetchPackage() {
+          
           const scriptURL = "https://script.google.com/macros/s/AKfycbyNM6gCYEfx6xTT3czZhkQAfKY3bmvhYdPHY_sjR-p3WSPGfSuc99rJlrbDowu-uBahpA/exec";
       
           fetch(scriptURL)
@@ -1358,6 +1401,14 @@ function renderSummaryCarts() {
           $("#qrpayment").css('display', 'block');
         }
 
+        function openLoading(){
+          $("#waiting").css('display' , 'flex');
+        }
+
+        function hideLoading(){
+          $("#waiting").css('display' , 'none');
+        }
+
         function rendercart() {
           if (cart.length > 0) {
             var html = '';
@@ -1465,7 +1516,7 @@ function renderSummaryCarts() {
 
         async function sendLineMessage() {
           event.preventDefault();
-
+          openLoading();
           if (cart.length > 0) {
             // 👉 แสดงข้อความ loading
             document.getElementById("loadingModal").style.display = "flex"; // แสดง
@@ -1529,6 +1580,7 @@ function renderSummaryCarts() {
               document.getElementById("loadingMessage").style.display = "none";
             }
           }
+          hideLoading();
         }
 
         function openBasket() {
