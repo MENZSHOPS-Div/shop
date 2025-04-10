@@ -286,6 +286,25 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   }
 
+  #floating-img {
+    position: fixed;
+    bottom: 50px;
+    /* ปรับตำแหน่งแนวตั้ง */
+    right: 10px;
+    /* ปรับตำแหน่งแนวนอน */
+    width: 100px;
+    height: 100px;
+    right: 30px;
+    background: rgba(247, 246, 246, 0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9999;
+    /* ให้ไอคอนอยู่ด้านบน */
+  }
+
   #waitingload{
     background-color: transparent;
   }
@@ -1132,6 +1151,13 @@
         </div>
       </div>
     </div>
+
+    <a id="floating-img" href="https://lin.ee/aRPDrkm">
+      <div style="cursor: pointer;" class="nav-profile-cart">
+        <img src="https://img2.pic.in.th/pic/admin-contact-1.png" style="width: 80px; height: 80px;">
+       
+      </div>
+    </a>
     <script>
        document.getElementById("province").addEventListener("change", function() {
   renderSummaryCarts(); // ไม่ต้องส่ง event แล้ว
