@@ -1026,23 +1026,27 @@
                               }
                             }
                           }
-
+                        var sentback = document.getElementById("sentback");
+                          
                           function function1() {
                             $("#line").css('display', 'flex');
                             $("#mobile").css('display', 'none');
                             $("#mail").css('display', 'none');
-                          }
+                            sentback.textContent = "LINE";
+                            }
 
                           function function2() {
                             $("#line").css('display', 'none');
                             $("#mobile").css('display', 'flex');
                             $("#mail").css('display', 'none');
+                            sentback.textContent = "Tel";
                           }
 
                           function function3() {
                             $("#line").css('display', 'none');
                             $("#mobile").css('display', 'none');
                             $("#mail").css('display', 'flex');
+                            sentback.textContent = "Email";
                           }
                         </script>
 
@@ -1055,6 +1059,7 @@
                             <label id="mobile" style="display: none;">กรุณาใส่เบอร์โทรที่สะดวกให้ติดต่อกลับ</label>
                             <label id="mail" style="display: none;">กรุณาใส่อีเมลล์ที่ใช้งานปัจจุบัน</label>
                           </div>
+                          <span id="sentback" style="display: none;"></span>
                           <div class="col-6">
                             <input type="email" class="form-control form-control-sm" id="email">
                             <div class="invalid-feedback">
@@ -1578,13 +1583,14 @@ function renderSummaryCarts() {
             let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
             let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
             let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+            let sentback = document.getElementById("sentback")?.textContent || "ไม่มีข้อมูล";
 
             let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
             let message = `📦 *ออเดอร์ใหม่!* \n\n` +
               `🛒 *Order Number:* ${orderNumber}\n` +
               `🏠 *ที่อยู่:* ${fulladdress}\n` +
               `📞 *เบอร์โทร:* ${tel}\n\n` +
-              `📧 *ติดต่อกลับ:* ${email}\n` +
+              `📧 *ติดต่อกลับ:* ${sentback} ${email}\n` +
               `🛍 *รายการสินค้า:*\n`;
 
             cart.forEach((item, index) => {
