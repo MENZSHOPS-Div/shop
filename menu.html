@@ -347,7 +347,8 @@
     background-color: #e9ecef;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   }
-
+  #waiting {
+   min-width: 100%
 
   #confirm {
     display: flex;
@@ -701,10 +702,22 @@
       </div>
     </div>
     <div id="waiting" class="modal-waiting" style="display: none;">
-      <div class="modal-content">
-        <p>Request processing....</p>
-        
-      </div>
+       <div class="modal-content" style="min-width: 200px; max-width: 200px;">
+      <div class="row">
+    <div class="col-2">
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/kgdqzapd.json"
+    trigger="loop"
+    state="loop-clock"
+    style="width:20px;height:20px">
+</lord-icon>
+</div>
+<div class="col-10">
+      <p style="color:rgb(16, 8, 49)">Request processing....</p>
+    </div>
+    </div>
+    </div>
     </div>
     
 
@@ -1641,7 +1654,7 @@ function renderSummaryCarts() {
       <script src="lib/tempusdominus/js/moment.min.js"></script>
       <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
       <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
+      
       <!-- Template Javascript -->
       <script src="js/main.js"></script>
 </body>
