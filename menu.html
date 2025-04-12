@@ -1624,6 +1624,7 @@ function renderSummaryCarts() {
                 document.getElementById("zipcode").value = " ";
                 document.getElementById("tel").value = " ";
                 document.getElementById("email").value = " ";
+                await submitOrderToBackend();
                 clearCart();
                 openBasket();
                 window.location.href = "index.html";
@@ -1653,6 +1654,38 @@ function renderSummaryCarts() {
           updateCartCount(); // อัปเดตจำนวนสินค้าในไอคอนตะกร้า
           $("#modalCart").css('display', 'none'); // ปิดหน้าต่างตะกร้า (ถ้าต้องการ)
         }
+
+        async function submitOrderToBackend() {
+  try {
+    let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+    let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+    let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+    let totalAmount = cart.reduce((sum, item) => sum + item.price * item.count, 0);
+
+    let payload = {
+      orderNumber: orderNumber,
+      fullName: `${name} ${lastname}`,
+      totalAmount: totalAmount
+    };
+
+    let response = await fetch("http://localhost:5000/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+      console.log("✅ บันทึกลงระบบหลังบ้านแล้ว");
+    } else {
+      console.error("❌ เกิดข้อผิดพลาดในการบันทึก:", await response.text());
+    }
+  } catch (err) {
+    console.error("❌ Exception เกิดขึ้น:", err);
+  }
+}
+
 
 
         // เรียกฟังก์ชันเมื่อหน้าเว็บโหลด
