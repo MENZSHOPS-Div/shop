@@ -948,7 +948,7 @@
 
 
                    
-                        <button class="btn btn-buy" id="orderButton" onclick="sendLineMessage()"
+                        <button class="btn btn-buy" id="orderButton" onclick="saveToDatabase(orderData)"
                           disabled>ยืนยันคำสั่งซื้อ</button>
                       </div>
                     </form>
@@ -1163,7 +1163,7 @@
     
     
                       
-                            <button class="btn btn-buy" id="orderButtons" onclick="sendLineMessage()"
+                            <button class="btn btn-buy" id="orderButtons" onclick="saveToDatabase(orderData)"
                               disabled>ยืนยันคำสั่งซื้อ
                             </button>
                           </div>
@@ -1568,6 +1568,26 @@ function renderSummaryCarts() {
           }
         }
 
+        async function saveToDatabase(orderData) {
+  try {
+    let response = await fetch("http://localhost:3000/save-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderData)
+    });
+
+    let result = await response.json();
+    console.log("บันทึกข้อมูลลงฐานข้อมูล:", result);
+    return result;
+  } catch (error) {
+    console.error("❌ บันทึกข้อมูลผิดพลาด:", error);
+    throw error;
+  }
+}
+
+
         async function sendLineMessage() {
           event.preventDefault();
           openLoading();
@@ -1672,8 +1692,7 @@ function renderSummaryCarts() {
           updateCartCount(); // อัปเดตจำนวนสินค้าในไอคอนตะกร้า
           $("#modalCart").css('display', 'none'); // ปิดหน้าต่างตะกร้า (ถ้าต้องการ)
         }
-
-        async function submitOrderToBackend() {
+  async function submitOrderToBackend() {
   try {
     let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
     let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
