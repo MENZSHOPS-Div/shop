@@ -1609,6 +1609,7 @@ function renderSummaryCarts() {
       let result = await response.json();
       console.log("บันทึกข้อมูลลงฐานข้อมูล:", result);
       return result;
+      await sendLineMessage();
     } catch (error) {
       console.error("❌ บันทึกข้อมูลผิดพลาด:", error);
       throw error;
