@@ -1026,27 +1026,30 @@
                               }
                             }
                           }
-                        var sentback = document.getElementById("sentback");
+                        
                           
                           function function1() {
                             $("#line").css('display', 'flex');
                             $("#mobile").css('display', 'none');
                             $("#mail").css('display', 'none');
-                            sentback.textContent = "LINE";
+                            var sentback = document.getElementById("sentback");
+                            sentback.innerText = "LINE";
                             }
 
                           function function2() {
                             $("#line").css('display', 'none');
                             $("#mobile").css('display', 'flex');
                             $("#mail").css('display', 'none');
-                            sentback.textContent = "Tel";
+                            var sentback = document.getElementById("sentback");
+                            sentback.innerText = "Tel";
                           }
 
                           function function3() {
                             $("#line").css('display', 'none');
                             $("#mobile").css('display', 'none');
                             $("#mail").css('display', 'flex');
-                            sentback.textContent = "Email";
+                           var sentback = document.getElementById("sentback");
+                            sentback.innerText = "Email";
                           }
                         </script>
 
@@ -1569,6 +1572,7 @@ function renderSummaryCarts() {
         }
 
         async function saveToDatabase(orderData) {
+          event.preventDefault();
   try {
     let response = await fetch("http://localhost:3000/save-order", {
       method: "POST",
