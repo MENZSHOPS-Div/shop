@@ -1632,14 +1632,14 @@ function renderSummaryCarts() {
             let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
             let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
             let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
-            let sentback = document.getElementById("sentback")?.textContent || "ไม่มีข้อมูล";
+            let detail = document.getElementById("sentback")?.textContent || "ไม่มีข้อมูล";
 
             let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
             let message = `📦 *ออเดอร์ใหม่!* \n\n` +
               `🛒 *Order Number:* ${orderNumber}\n` +
               `🏠 *ที่อยู่:* ${fulladdress}\n` +
               `📞 *เบอร์โทร:* ${tel}\n\n` +
-              `📧 *ติดต่อกลับ:* ${sentback} ${email}\n` +
+              `📧 *ติดต่อกลับ:* ${detail} ${email}\n` +
               `🛍 *รายการสินค้า:*\n`;
 
             cart.forEach((item, index) => {
