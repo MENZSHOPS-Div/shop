@@ -948,8 +948,14 @@
 
 
                    
-                        <button class="btn btn-buy" id="orderButton" onclick="saveToDatabase(orderData)"
+                        <button class="btn btn-buy" id="orderButton"
                           disabled>ยืนยันคำสั่งซื้อ</button>
+                         <script>
+                              document.getElementById("orderButton").addEventListener("click", function() {
+ saveToDatabase(orderData); // ไม่ต้องส่ง event แล้ว
+}
+                              
+                            </script>
                       </div>
                     </form>
                   </div>
@@ -1166,9 +1172,15 @@
     
     
                       
-                            <button class="btn btn-buy" id="orderButtons" onclick="saveToDatabase(orderData)"
+                            <button class="btn btn-buy" id="orderButtons"
                               disabled>ยืนยันคำสั่งซื้อ
                             </button>
+                            <script>
+                              document.getElementById("orderButtons").addEventListener("click", function() {
+ saveToDatabase(orderData); // ไม่ต้องส่ง event แล้ว
+}
+                              
+                            </script>
                           </div>
                         </form>
                       </div>
@@ -1191,7 +1203,7 @@
     </a>
     <script>
        document.getElementById("province").addEventListener("change", function() {
-  renderSummaryCarts(); // ไม่ต้องส่ง event แล้ว
+  renderSummaryCarts() ; // ไม่ต้องส่ง event แล้ว
 });
 
 function renderSummaryCarts() {
