@@ -948,14 +948,42 @@
 
 
                    
-                        <button class="btn btn-buy" id="orderButton"
+                        <button class="btn btn-buy" id="orderButton" type="button"
                           disabled>ยืนยันคำสั่งซื้อ</button>
-                         <script>
-                              document.getElementById("orderButton").addEventListener("click", function() {
- saveToDatabase(orderData); // ไม่ต้องส่ง event แล้ว
-});
-                              
-                            </script>
+                        <script>
+  document.getElementById("orderButtons").addEventListener("click", function (event) {
+    event.preventDefault(); // ✅ ป้องกัน refresh
+
+    // ✅ เตรียมข้อมูลจาก input
+    const orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+    const name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+    const lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+    const address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+    const province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+    const zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+    const tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+    const email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+    const detail = document.getElementById("detail")?.textContent || "ไม่มีข้อมูล";
+
+    const orderData = {
+      orderNumber,
+      name,
+      lastname,
+      address,
+      province,
+      zipcode,
+      tel,
+      email,
+      detail,
+      cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
+    };
+
+    saveToDatabase(orderData);
+  });
+
+ 
+</script>
+
                       </div>
                     </form>
                   </div>
@@ -1172,15 +1200,42 @@
     
     
                       
-                            <button class="btn btn-buy" id="orderButtons"
+                            <button class="btn btn-buy" id="orderButtons" type="button"
                               disabled>ยืนยันคำสั่งซื้อ
                             </button>
-                            <script>
-                              document.getElementById("orderButtons").addEventListener("click", function() {
- saveToDatabase(orderData); // ไม่ต้องส่ง event แล้ว
-});
-                              
-                            </script>
+                             <script>
+  document.getElementById("orderButtons").addEventListener("click", function (event) {
+    event.preventDefault(); // ✅ ป้องกัน refresh
+
+    // ✅ เตรียมข้อมูลจาก input
+    const orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+    const name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+    const lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+    const address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+    const province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+    const zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+    const tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+    const email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+    const detail = document.getElementById("detail")?.textContent || "ไม่มีข้อมูล";
+
+    const orderData = {
+      orderNumber,
+      name,
+      lastname,
+      address,
+      province,
+      zipcode,
+      tel,
+      email,
+      detail,
+      cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
+    };
+
+    saveToDatabase(orderData);
+  });
+
+ 
+</script>
                           </div>
                         </form>
                       </div>
@@ -1602,7 +1657,24 @@ function renderSummaryCarts() {
     throw error;
   }
 }
+ async function saveToDatabase(orderData) {
+    try {
+      let response = await fetch("http://localhost:3000/save-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderData)
+      });
 
+      let result = await response.json();
+      console.log("บันทึกข้อมูลลงฐานข้อมูล:", result);
+      return result;
+    } catch (error) {
+      console.error("❌ บันทึกข้อมูลผิดพลาด:", error);
+      throw error;
+    }
+  }
 
         async function sendLineMessage() {
           event.preventDefault();
