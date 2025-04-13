@@ -950,39 +950,10 @@
                    
                         <button class="btn btn-buy" id="orderButton" type="button"
                           disabled>ยืนยันคำสั่งซื้อ</button>
-                        <script>
-  document.getElementById("orderButtons").addEventListener("click", function (event) {
-    event.preventDefault(); // ✅ ป้องกัน refresh
-
-    // ✅ เตรียมข้อมูลจาก input
-    const orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
-    const name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
-    const lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
-    const address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
-    const province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
-    const zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
-    const tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
-    const email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
-    const detail = document.getElementById("detail")?.textContent || "ไม่มีข้อมูล";
-
-    const orderData = {
-      orderNumber,
-      name,
-      lastname,
-      address,
-      province,
-      zipcode,
-      tel,
-      email,
-      detail,
-      cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
-    };
-
-    saveToDatabase(orderData);
-  });
+                     
 
  
-</script>
+
 
                       </div>
                     </form>
@@ -1203,39 +1174,7 @@
                             <button class="btn btn-buy" id="orderButtons" type="button"
                               disabled>ยืนยันคำสั่งซื้อ
                             </button>
-                             <script>
-  document.getElementById("orderButtons").addEventListener("click", function (event) {
-    event.preventDefault(); // ✅ ป้องกัน refresh
-
-    // ✅ เตรียมข้อมูลจาก input
-    const orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
-    const name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
-    const lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
-    const address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
-    const province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
-    const zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
-    const tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
-    const email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
-    const detail = document.getElementById("detail")?.textContent || "ไม่มีข้อมูล";
-
-    const orderData = {
-      orderNumber,
-      name,
-      lastname,
-      address,
-      province,
-      zipcode,
-      tel,
-      email,
-      detail,
-      cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
-    };
-
-    saveToDatabase(orderData);
-  });
-
- 
-</script>
+                            
                           </div>
                         </form>
                       </div>
@@ -1810,13 +1749,75 @@ function renderSummaryCarts() {
     console.error("❌ Exception เกิดขึ้น:", err);
   }
 }
+      </script>
+         <script>
+  document.getElementById("orderButtons").addEventListener("click", function (event) {
+    event.preventDefault(); // ✅ ป้องกัน refresh
 
+    // ✅ เตรียมข้อมูลจาก input
+    const orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+    const name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+    const lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+    const address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+    const province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+    const zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+    const tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+    const email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+    const detail = document.getElementById("detail")?.textContent || "ไม่มีข้อมูล";
+
+    const orderData = {
+      orderNumber,
+      name,
+      lastname,
+      address,
+      province,
+      zipcode,
+      tel,
+      email,
+      detail,
+      cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
+    };
+
+    saveToDatabase(orderData);
+  });
+
+ 
+</script>
+   <script>
+  document.getElementById("orderButton").addEventListener("click", function (event) {
+    event.preventDefault(); // ✅ ป้องกัน refresh
+
+    // ✅ เตรียมข้อมูลจาก input
+    const orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+    const name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+    const lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+    const address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+    const province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+    const zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+    const tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+    const email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+    const detail = document.getElementById("detail")?.textContent || "ไม่มีข้อมูล";
+
+    const orderData = {
+      orderNumber,
+      name,
+      lastname,
+      address,
+      province,
+      zipcode,
+      tel,
+      email,
+      detail,
+      cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
+    };
+
+    saveToDatabase(orderData);
+  });
 
 
         // เรียกฟังก์ชันเมื่อหน้าเว็บโหลด
         window.onload = fetchPackage;
-
-      </script>
+                                                </script>
       <!-- JavaScript Libraries -->
       <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
