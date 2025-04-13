@@ -1624,7 +1624,25 @@ function renderSummaryCarts() {
                 document.getElementById("zipcode").value = " ";
                 document.getElementById("tel").value = " ";
                 document.getElementById("email").value = " ";
-          //      await submitOrderToBackend();
+          await fetch("http://localhost:3000/save-order", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    orderNumber,
+    name,
+    lastname,
+    address,
+    province,
+    zipcode,
+    tel,
+    email,
+    detail,
+    cart
+  })
+});
+
                 clearCart();
                 openBasket();
                 window.location.href = "index.html";
