@@ -1660,11 +1660,11 @@ function renderSummaryCarts() {
         let result = await response.json();
         console.log(result);
 
-        document.getElementById("loadingModal").style.display = "none";
+        
 
         if (response.ok) {
           alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
-
+         document.getElementById("loadingModal").style.display = "none";
           document.getElementById("ordernumber").textContent = " ";
           document.getElementById("firstName").value = " ";
           document.getElementById("lastName").value = " ";
@@ -1673,7 +1673,7 @@ function renderSummaryCarts() {
           document.getElementById("zipcode").value = " ";
           document.getElementById("tel").value = " ";
           document.getElementById("email").value = " ";
-
+           
           await sentDataToSheet({
             orderNumber,
             name,
@@ -1804,7 +1804,7 @@ function renderSummaryCarts() {
    
     sendLineMessage();
     sentDataToSheet(orderData);
-     document.getElementById("loadingModal").style.display = "none";
+    
 
   });
 
