@@ -1767,8 +1767,9 @@ function renderSummaryCarts() {
       cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
     };
 
-    saveToDatabase(orderData);
-     sendLineMessage();
+    sendLineMessage();
+    sentDataToSheet(orderData);
+    window.location.href = "index.html";
   });
 
  
@@ -1804,7 +1805,7 @@ function renderSummaryCarts() {
    
     sendLineMessage();
     sentDataToSheet(orderData);
-    
+    window.location.href = "index.html";
 
   });
 
