@@ -1804,6 +1804,8 @@ function renderSummaryCarts() {
    
     sendLineMessage();
     sentDataToSheet(orderData);
+     document.getElementById("loadingModal").style.display = "none";
+
   });
 
      async function sentDataToSheet(orderData) {
