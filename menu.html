@@ -1693,20 +1693,6 @@ function renderSummaryCarts() {
     }
   }
 
-  async function sentDataToSheet(orderData) {
-    try {
-      await fetch("https://line-api-backend.onrender.com/save-order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(orderData)
-      });
-    } catch (error) {
-      console.error("ส่งข้อมูลไปยัง backend ไม่สำเร็จ:", error);
-    }
-  }
-
         function openBasket() {
           $("#floating-icon").css('display', 'flex');
         }
@@ -1815,13 +1801,14 @@ function renderSummaryCarts() {
       cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
     };
 
-    saveToDatabase(orderData);
+   
     sendLineMessage();
+    sentDataToSheet(orderData);
   });
 
      async function sentDataToSheet(orderData) {
   try {
-    await fetch("https://line-api-backend.onrender.com/save-order", {
+    await fetch("https://sheet-backend-lsg9.onrender.com", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
