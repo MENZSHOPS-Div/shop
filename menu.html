@@ -1808,7 +1808,7 @@ function renderSummaryCarts() {
 
      async function sentDataToSheet(orderData) {
   try {
-    await fetch("https://sheet-backend-lsg9.onrender.com", {
+    await fetch("https://sheet-backend-lsg9.onrender.com/save-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
