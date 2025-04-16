@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="Dashboard.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+        <img id="newicon" class="logo-img" src="https://img5.pic.in.th/file/secure-sv1/-10029646b3f4ae4fd1.png">
+        <h1 class="logotext ms-1">เม็นส์ ช็อป</h1>
+        <!-- <img src="img/logo.png" alt="Logo"> -->
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0 pe-4">
+                
+
+                <a href="index.html" class="nav-data nav-link fw-bold" style="color: darkorange;">Log Out</a>
+
+    </nav>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-3">
+                <div class="card-left" style="background-color:green;">
+                    <div class="card">
+                        <p class="top-text mt-2">คำสั่งซื้อใหม่</p>
+                        <span id="orderA" class="midtext fw-bold text-center"
+                            style="font-size: 5rem; margin-left: 80px;  color: red;">0</span>
+                        <p class="top-text text-end">คำสั่งซื้อ</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 ms-3">
+                <div class="card-left" style="background-color:darkorange">
+                    <div class="card">
+                        <p class="top-text mt-2">จำนวน</p>
+                        <span id="orderB" class="midtext fw-bold ms-5"
+                            style="font-size: 5rem; justify-content: center; margin-left: 80px;">0</span>
+                        <p class="top-text text-end">คำสั่งซื้อ</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 ms-3">
+                <div class="card-left" style="background-color:deepskyblue">
+                    <div class="card">
+                        <p class="top-text mt-2">ยอดขาย</p>
+                        <span id="orderC" class="midtext fw-bold text-center ms-3"
+                            style="font-size: 3rem; line-height: 1;">0</span>
+                        <p class="top-text text-end">บาท</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-md">
+        <div class="row">
+            <div class="col-4">
+
+                <form class="detailform mt-5 border p-3">
+                    <div style="display: flex;">
+                    <h class="fw-bold fs-4">รายละเอียดคำสั่งซื้อ</h>
+                    <div class="getorder text-center ms-2" onclick="loaddetail()" style="cursor: pointer;">ดูสินค้าที่สั่งซื้อ</div>
+                    </div>
+                    <div class="mt-5" id="orderDetails">
+                        <p>วันที่สั่งซื้อ : <span id="detail_orderDate" style="color:black;" class="ms-5"></span></p>
+                        <p>หมายเลขออเดอร์ : <span id="detail_orderNumber" style="color:black;" class="ms-5"></span></p>
+                        <p>ลูกค้า : <span id="detail_customer" style="color:black;" class="ms-5"></span></p>
+                        <p>ยอดชำระ : <span id="detail_amount" style="color:black;" class="ms-5"></span></p>
+                        <p>ช่องทางติดต่อกลับ : <span id="detail_callBack" style="color:black;" class="ms-5"></span></p>
+                        <p>ข้อมูลติดต่อ : <span id="detail_callBackValue" style="color:black;" class="ms-5"></span></p>
+                        <p class="mt-2 fw-bold">รายละเอียดการจัดส่ง</p>
+                        <p>ที่อยู่ : <span id="detail_address" style="color:black;" class="ms-5"></span></p>
+                        <p>โทร : <span id="detail_tel" style="color:black;" class="ms-5"></span></p>
+                        <p>สถานะ : <span id="detail_status" style="color:black;" class="ms-5"></span></p>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" type="button"
+                                onclick="updateOrderStatus()">ยืนยันการชำระเงิน</button>
+
+                        </div>
+                    </div>
+                </form>
+              
+            </div>
+
+            <div class="col-8">
+                <div class="container-right">
+
+                    <table class="fl-table">
+                        <thead>
+                            <tr style="font-family: sarabun;">
+                                <th>วันที่/เวลา</th>
+                                <th>เลขคำสั่งซื้อ</th>
+                                <th>ชื่อ นามสกุล</th>
+                                <th>ยอดชำระ</th>
+                                <th>ช่องทางติดต่อ</th>
+                                <th>ข้อมูล</th>
+                                <th>สถานะ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results">
+
+                        <tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" id="modalCart" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" style="font-family: sarabun;">สินค้าที่สั่งซื้อ</h5>
+           
+            </div>
+            <div id="mycart" class="modal-body">
+              
+            </div>
+            <div class="modal-footer">
+           
+              <button type="button" class="btn btn-primary" style="min-width: 100%;">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <script>
+        function loadFormSheet() {
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbwxfBjGLgCiW_VsJZ7GhFIw3bO9NQegXRZLM3IPT3vahnRLsqmRhRoWZiY305EKBreS0Q/exec";
+
+            fetch(scriptUrl)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("การเชื่อมต่อผิดพลาด");
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+                    orderData = data;
+                    let html = "";
+                    for (let i = 0; i < orderData.length; i++) {
+                        if (orderData[i].status === "ออเดอร์ใหม่") {
+                            html += `
+                            <tr style="cursor: pointer;" onclick="openProductDetail(${i})" class="trnew">
+                    <td>${formatDate(orderData[i].orderDate)}</td>
+                    <td>${orderData[i].orderNumber}</td>
+                    <td>${orderData[i].customer}</td>
+                    <td>${numberWithCommas(orderData[i].amount)}</td>
+                    <td>${orderData[i].callBack}</td>
+                    <td>${orderData[i].callBackValue}</td>
+                    <td class="neworder fw-bold">New Order</td>
+                    
+                  </tr>`
+                        } else {
+                            html += `<tr style="background-color: lightgray;">
+                    <td>${formatDate(data[i].orderDate)}</td>
+                    <td>${orderData[i].orderNumber}</td>
+                    <td>${orderData[i].customer}</td>
+                    <td>${numberWithCommas(orderData[i].amount)}</td>
+                    <td>${orderData[i].callBack}</td>
+                    <td>${orderData[i].callBackValue}</td>
+                    <td style="color: white;">Complete</td>
+                  </tr>`;
+                        }
+                        $("#results").html(html);
+                    }
+                })
+
+
+        }
+
+
+        var orderindex = 0;
+        function openProductDetail(index) {
+            orderindex = index;
+            console.log(orderindex)
+            $("#detail_orderDate").text(formatDate(orderData[index].orderDate));
+            $("#detail_orderNumber").text(orderData[index].orderNumber);
+            $("#detail_customer").text(orderData[index].customer);
+            $("#detail_amount").text(numberWithCommas(orderData[index].amount) + ' THB');
+            $("#detail_callback").text(orderData[index].callback);
+            $("#detail_callbackValue").text(orderData[index].callbackValue);
+            $("#detail_address").text(orderData[index].address);
+            $("#detail_tel").text('0'+(orderData[index].tel));
+            $("#detail_status").text("รอตรวจสอบ");
+         
+
+        }
+
+        function loaddetail() {
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxkJF-_Swlz8QD3Sb8npLEvckz0MkqlkECXzeEENqsdwMi6Ij6qej86Uqji-1Rc8pfx/exec";
+
+    fetch(scriptUrl)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error("การเชื่อมต่อผิดพลาด");
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            const numberdetail = document.getElementById('detail_orderNumber').textContent.trim();
+            let html = "";
+
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].orderId == numberdetail) {
+                    html += `<p class="fs-6" style="font-family: sarabun;">${data[i].orderDetail}</p>`;
+                    break; // ถ้าพบแล้วหยุดเลย ไม่ต้องวนต่อ
+                }
+            }
+
+            // แสดงผลลัพธ์
+            document.getElementById("mycart").innerHTML = html;
+
+            // แสดง modal
+            document.getElementById("modalCart").style.display = "flex";
+        })
+        .catch(function (error) {
+            console.error("เกิดข้อผิดพลาด:", error);
+            document.getElementById("mycart").innerHTML = "ไม่สามารถโหลดข้อมูลได้";
+        });
+        
+}
+
+
+      
+
+
+        function updateOrderStatus() {
+            const orderNumber = document.getElementById('detail_orderNumber').textContent;
+            fetch("https://update-sheet.onrender.com/update-order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ orderNumber })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("อัปเดตสถานะเรียบร้อยแล้ว");
+                        location.reload();
+                    } else {
+                        alert("ไม่สามารถอัปเดตได้");
+                    }
+                })
+                .catch(err => console.error("Error:", err));
+        }
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0"); // เดือนเริ่มจาก 0
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, "0");
+            const minutes = String(date.getMinutes()).padStart(2, "0");
+
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
+
+        function numberWithCommas(amount) {
+            return Number(amount).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function loadSummaryData() {
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbxHJl74VVFMdcAbf7mTdJFglEhvBK_fI_eBcswWB4U9ztJL4rpp8wsXIpPTtEqyUoXK4Q/exec";
+
+            fetch(scriptUrl)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("การเชื่อมต่อผิดพลาด");
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+
+                    let dataC = data.C;
+                    let completeData = numberWithCommas(dataC);
+                    if (document.getElementById("orderA")) {
+                        document.getElementById("orderA").textContent = data.B;
+                    }
+                    if (document.getElementById("orderB")) {
+                        document.getElementById("orderB").textContent = data.A;
+                    }
+                    if (document.getElementById("orderC")) {
+                        document.getElementById("orderC").textContent = completeData; // แสดงทศนิยม 2 ตำแหน่ง
+                    }
+                })
+                .catch(function (error) {
+                    console.error("เกิดข้อผิดพลาด:", error);
+                });
+        }
+
+
+
+
+        window.onload = function () {
+            loadFormSheet();
+            loadSummaryData();
+        };
+    </script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"
+        integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
