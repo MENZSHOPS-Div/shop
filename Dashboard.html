@@ -141,6 +141,15 @@
           </div>
         </div>
       </div>
+
+                <div id="loadingModal" class="modal" style="display: block;">
+        <div class="modal-content">
+          <div class="modal-body">
+
+                   <p>รอสักครู่......</p>
+          </div>
+        </div>
+      </div>
     <script>
         function loadFormSheet() {
             const scriptUrl = "https://script.google.com/macros/s/AKfycbwxfBjGLgCiW_VsJZ7GhFIw3bO9NQegXRZLM3IPT3vahnRLsqmRhRoWZiY305EKBreS0Q/exec";
@@ -243,6 +252,8 @@
 
 
         function updateOrderStatus() {
+
+             document.getElementById("loadingModal").style.display = "flex";
             const orderNumber = document.getElementById('detail_orderNumber').textContent;
             fetch("https://update-sheet.onrender.com/update-order", {
                 method: "POST",
@@ -261,6 +272,7 @@
                     }
                 })
                 .catch(err => console.error("Error:", err));
+             document.getElementById("loadingModal").style.display = "none";
         }
 
 
