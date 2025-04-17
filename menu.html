@@ -946,7 +946,7 @@
   <button class="btn btn-buy" onclick="openQr()">กดเพื่อชำระเงิน</button>
 
   <!-- ปุ่มยืนยันคำสั่งซื้อ -->
-  <button class="btn btn-buy" onclick="sendLineMessage(event)" id="orderButton" type="button" disabled>
+  <button class="btn btn-buy" onclick="sendAll()" id="orderButton" type="button" disabled>
     ยืนยันคำสั่งซื้อ
   </button>
 </div>
@@ -1168,7 +1168,7 @@
     
     
         
-  <button class="btn btn-buy" onclick="sendLineMessage(event)" id="orderButtons" type="button" disabled>
+  <button class="btn btn-buy" onclick="sendAll()" id="orderButtons" type="button" disabled>
     ยืนยันคำสั่งซื้อ
   </button>
 
@@ -1294,14 +1294,14 @@ function renderSummaryCarts() {
         </div>
       </div>
 
-      <div id="loadingModal" class="modal" style="display: block;">
+      <modal id="loadingModal" class="modal" style="display: block;">
         <div class="modal-content">
           <div class="modal-body">
 
                    <p>รอสักครู่......</p>
           </div>
         </div>
-      </div>
+      </modal>
 
 
       <script>
@@ -1616,12 +1616,10 @@ function renderSummaryCarts() {
     }
   }
 
-async function sendLineMessage(event) {
-  event.preventDefault();  // ป้องกันการส่งฟอร์ม
-  event.stopPropagation(); // ป้องกัน bubble ไปยัง parent
-
+async function sendLineMessage() {
+ 
   if (cart.length > 0) {
-    document.getElementById("loadingModal").style.display = "flex";
+    
 
     let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
     let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
@@ -1660,7 +1658,7 @@ async function sendLineMessage(event) {
       if (response.ok) {
         alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
 
-        document.getElementById("loadingModal").style.display = "none";
+       
         document.getElementById("ordernumber").textContent = " ";
         document.getElementById("firstName").value = " ";
         document.getElementById("lastName").value = " ";
@@ -1735,76 +1733,19 @@ async function sendLineMessage(event) {
     console.error("❌ Exception เกิดขึ้น:", err);
   }
 }
-      </script>
-         <script>
-  document.getElementById("orderButtons").addEventListener("click", function (event) {
-    event.preventDefault(); // ✅ ป้องกัน refresh
+     
+  
 
-    // ✅ เตรียมข้อมูลจาก input
-    const orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
-    const name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
-    const lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
-    const address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
-    const province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
-    const zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
-    const tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
-    const email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
-    const detail = document.getElementById("detail")?.textContent || "ไม่มีข้อมูล";
-
-    const orderData = {
-      orderNumber,
-      name,
-      lastname,
-      address,
-      province,
-      zipcode,
-      tel,
-      email,
-      detail,
-      cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
-    };
-
+   function sendAll(){
+    event.preventDefault();
+    $("#waiting").css('display' , 'flex');
     sendLineMessage();
-    sentDataToSheet(orderData);
-    window.location.href = "index.html";
-  });
-
  
-</script>
-   <script>
-  document.getElementById("orderButton").addEventListener("click", function (event) {
-    event.preventDefault(); // ✅ ป้องกัน refresh
+    $("#waiting").css('display' , 'none');
 
-    // ✅ เตรียมข้อมูลจาก input
-    const orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
-    const name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
-    const lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
-    const address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
-    const province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
-    const zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
-    const tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
-    const email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
-    const detail = document.getElementById("detail")?.textContent || "ไม่มีข้อมูล";
-
-    const orderData = {
-      orderNumber,
-      name,
-      lastname,
-      address,
-      province,
-      zipcode,
-      tel,
-      email,
-      detail,
-      cart // ✅ สมมติว่า cart ถูกประกาศไว้แล้วก่อนหน้า
-    };
-
-   
-    sendLineMessage();
-    sentDataToSheet(orderData);
     window.location.href = "index.html";
 
-  });
+  };
 
      async function sentDataToSheet(orderData) {
   try {
