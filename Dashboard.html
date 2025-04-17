@@ -284,7 +284,7 @@
 
         function updateOrderStatus() {
 
-             $("#loadingModal").css('display' , 'flex');
+             $("#waiting").css('display' , 'flex');
             const orderNumber = document.getElementById('detail_orderNumber').textContent;
             fetch("https://update-sheet.onrender.com/update-order", {
                 method: "POST",
@@ -303,7 +303,7 @@
                     }
                 })
                 .catch(err => console.error("Error:", err));
-             $("#loadingModal").css('display' , 'none');
+             $("#waiting").css('display' , 'none');
         }
 
 
