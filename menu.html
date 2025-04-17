@@ -1616,81 +1616,79 @@ function renderSummaryCarts() {
     }
   }
 
-  async function sendLineMessage(event) {
-    event.preventDefault();
- 
+async function sendLineMessage(event) {
+  event.preventDefault(); // ป้องกันรีเฟรช (แม้จะไม่ใช้ form ก็ควรใส่ไว้ป้องกันไว้ก่อน)
 
-    if (cart.length > 0) {
-      document.getElementById("loadingModal").style.display = "flex";
+  if (cart.length > 0) {
+    document.getElementById("loadingModal").style.display = "flex";
 
-      let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
-      let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
-      let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
-      let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
-      let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
-      let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
-      let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
-      let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
-      let detail = document.getElementById("sentback")?.textContent || "ไม่มีข้อมูล";
+    let orderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+    let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+    let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+    let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+    let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+    let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+    let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+    let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+    let detail = document.getElementById("sentback")?.textContent || "ไม่มีข้อมูล";
 
-      let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
-      let message = `📦 *ออเดอร์ใหม่!* \n\n` +
-        `🛒 *Order Number:* ${orderNumber}\n` +
-        `🏠 *ที่อยู่:* ${fulladdress}\n` +
-        `📞 *เบอร์โทร:* ${tel}\n\n` +
-        `📧 *ติดต่อกลับ:* ${detail} ${email}\n` +
-        `🛍 *รายการสินค้า:*\n`;
+    let fulladdress = `${name} ${lastname} ${address} ${province} ${zipcode}`;
+    let message = `📦 *ออเดอร์ใหม่!* \n\n` +
+      `🛒 *Order Number:* ${orderNumber}\n` +
+      `🏠 *ที่อยู่:* ${fulladdress}\n` +
+      `📞 *เบอร์โทร:* ${tel}\n\n` +
+      `📧 *ติดต่อกลับ:* ${detail} ${email}\n` +
+      `🛍 *รายการสินค้า:*\n`;
 
-      cart.forEach((item, index) => {
-        message += `\n${index + 1}. ${item.name} x ${item.count}`;
+    cart.forEach((item, index) => {
+      message += `\n${index + 1}. ${item.name} x ${item.count}`;
+    });
+
+    message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
+
+    try {
+      let response = await fetch("https://line-api-backend.onrender.com/push", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: message })
       });
 
-      message += `\n\n💰 *ยอดรวมทั้งหมด:* ${cart.reduce((sum, item) => sum + item.price * item.count, 0)}฿`;
+      let result = await response.json();
+      console.log(result);
 
-      try {
-        let response = await fetch("https://line-api-backend.onrender.com/push", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ message: message })
+      if (response.ok) {
+        alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
+        document.getElementById("loadingModal").style.display = "none";
+        document.getElementById("ordernumber").textContent = "";
+        document.getElementById("firstName").value = "";
+        document.getElementById("lastName").value = "";
+        document.getElementById("address").value = "";
+        document.getElementById("province").value = "";
+        document.getElementById("zipcode").value = "";
+        document.getElementById("tel").value = "";
+        document.getElementById("email").value = "";
+
+        await sentDataToSheet({
+          orderNumber,
+          name,
+          lastname,
+          address,
+          province,
+          zipcode,
+          tel,
+          email,
+          detail,
+          cart
         });
-
-        let result = await response.json();
-        console.log(result);
-
-        
-
-        if (response.ok) {
-          alert("✅ ขอบคุณสำหรับคำสั่งซื้อครับ! ติดตามสถานะจัดส่งและใบเสร็จที่อีเมลของท่าน ✅ ติดต่อแอดมิน LINE: @MENZSHOPS");
-         document.getElementById("loadingModal").style.display = "none";
-          document.getElementById("ordernumber").textContent = " ";
-          document.getElementById("firstName").value = " ";
-          document.getElementById("lastName").value = " ";
-          document.getElementById("address").value = " ";
-          document.getElementById("province").value = " ";
-          document.getElementById("zipcode").value = " ";
-          document.getElementById("tel").value = " ";
-          document.getElementById("email").value = " ";
-           
-          await sentDataToSheet({
-            orderNumber,
-            name,
-            lastname,
-            address,
-            province,
-            zipcode,
-            tel,
-            email,
-            detail,
-            cart
-          });
-        }
-      } catch (error) {
-        console.error("เกิดข้อผิดพลาด:", error);
       }
+    } catch (error) {
+      console.error("เกิดข้อผิดพลาด:", error);
     }
   }
+}
+
 
         function openBasket() {
           $("#floating-icon").css('display', 'flex');
