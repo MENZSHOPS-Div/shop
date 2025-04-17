@@ -92,7 +92,7 @@
                         <p>สถานะ : <span id="detail_status" style="color:black;" class="ms-5"></span></p>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary" type="button"
-                                onclick="updateOrderStatus()">ยืนยันการชำระเงิน</button>
+                                onclick="updateOrderState()">ยืนยันการชำระเงิน</button>
 
                         </div>
                     </div>
@@ -268,12 +268,15 @@
 }
 
 
-      
-
+      function  updateOrderState() {
+            $("#waiting").css('display' , 'flex');
+              updateOrderStatus() ;
+              $("#waiting").css('display' , 'none');
+      }
 
         function updateOrderStatus() {
 
-             $("#waiting").css('display' , 'flex');
+           
             const orderNumber = document.getElementById('detail_orderNumber').textContent;
             fetch("https://update-sheet.onrender.com/update-order", {
                 method: "POST",
@@ -292,7 +295,7 @@
                     }
                 })
                 .catch(err => console.error("Error:", err));
-             $("#waiting").css('display' , 'none');
+           
         }
 
 
