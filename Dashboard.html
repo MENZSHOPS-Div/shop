@@ -269,16 +269,15 @@
 
 
       function  updateOrderState() {
-            $("#waiting").css('display' , 'flex');
+           document.getElementById("waiting").style.display = "flex";
           setTimeout (() => {
               updateOrderStatus() ;
               }, 3000);
-              $("#waiting").css('display' , 'none');
+            document.getElementById("modalCart").style.display = "none";
       }
 
         function updateOrderStatus() {
-
-           
+          
             const orderNumber = document.getElementById('detail_orderNumber').textContent;
             fetch("https://update-sheet.onrender.com/update-order", {
                 method: "POST",
