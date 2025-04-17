@@ -948,15 +948,9 @@
 
 
                    
-                        <button class="btn btn-buy" id="orderButton" type="submit"  disabled>ยืนยันคำสั่งซื้อ</button>
+                        <button class="btn btn-buy" onclick="sendLineMessage()" id="orderButton" type="button" disabled>ยืนยันคำสั่งซื้อ</button>
                      
-                   <script>
-                        document.getElementById('orderButton').addEventListener('submit', function (event) {
-                                  event.preventDefault();
-                                sendLineMessage();
-                            });
-                     
-                   </script>
+             
  
 
 
@@ -968,7 +962,7 @@
                     <div class="container-sm">
                     <h4 class="mb-3" style="font-family: sarabun;">ที่อยู่สำหรับจัดส่ง</h4>
                     <hr class="my-4">
-                    <form class="needs-validation" novalidate>
+                    <div class="needs-validation" novalidate>
                       <div class="row">
                         <div class="col-sm-6">
                           <label for="firstName" class="form-label">ชื่อ</label>
@@ -1153,7 +1147,7 @@
                       </div>
 
 
-                    </form>
+                    </div>
 
                     <form id="mobileconfirm" class="card p-2">
 
@@ -1178,16 +1172,11 @@
     
     
                       
-                            <button class="btn btn-buy" id="orderButtons" type="submit"
+                            <button ionclick[]''class="btn btn-buy" id="orderButtons" type="button" onclick = "sendLineMessage()"  
                               disabled>ยืนยันคำสั่งซื้อ
                             </button>
-                         <script>
-                        document.getElementById('orderButtons').addEventListener('submit', function (event) {
-                                  event.preventDefault();
-                                sendLineMessage();
-                            });
-                     
-                   </script>    
+                        
+                        
                           </div>
                         </form>
                       </div>
