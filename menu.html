@@ -948,10 +948,10 @@
 
 
                    
-                        <button class="btn btn-buy" id="orderButton" type="button"  disabled>ยืนยันคำสั่งซื้อ</button>
+                        <button class="btn btn-buy" id="orderButton" type="submit"  disabled>ยืนยันคำสั่งซื้อ</button>
                      
                    <script>
-                        document.getElementById('orderButton').addEventListener('click', function (event) {
+                        document.getElementById('orderButton').addEventListener('submit', function (event) {
                                   event.preventDefault();
                                 sendLineMessage();
                             });
@@ -1178,11 +1178,11 @@
     
     
                       
-                            <button class="btn btn-buy" id="orderButtons" type="button"
+                            <button class="btn btn-buy" id="orderButtons" type="submit"
                               disabled>ยืนยันคำสั่งซื้อ
                             </button>
                          <script>
-                        document.getElementById('orderButtons').addEventListener('click', function (event) {
+                        document.getElementById('orderButtons').addEventListener('submit', function (event) {
                                   event.preventDefault();
                                 sendLineMessage();
                             });
