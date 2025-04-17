@@ -78,6 +78,16 @@
     width: 100%;
     
   }
+
+
+ #waiting {
+   min-width: 100%;
+   max-width: 100%
+  }
+
+ #waitingload{
+    background-color: transparent;
+  }
   
   .trnew{
     border: #131312;
