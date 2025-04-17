@@ -136,11 +136,16 @@
             </div>
             <div class="modal-footer">
            
-              <button type="button" class="btn btn-primary" style="min-width: 100%;">OK</button>
+              <button type="button" class="btn btn-primary" style="min-width: 100%;" onclick="closeProduct()">OK</button>
             </div>
           </div>
         </div>
       </div>
+                <script>
+                    function closeProduct(){
+                        $("#modalCart").css('display' , 'none');
+                    }
+                </script>
 
                 <div id="loadingModal" class="modal" style="display: none;">
         <div class="modal-content">
