@@ -941,20 +941,16 @@
                     </ul>
 
                     <div class="card p-2">
-                      <div class="d-grid gap-2">
-                        <button class="btn btn-buy" onclick="openQr()">กดเพื่อชำระเงิน</button>
-                     
+                     <div class="d-grid gap-2">
+  <!-- ปุ่มชำระเงิน -->
+  <button class="btn btn-buy" onclick="openQr()">กดเพื่อชำระเงิน</button>
 
+  <!-- ปุ่มยืนยันคำสั่งซื้อ -->
+  <button class="btn btn-buy" onclick="sendLineMessage(event)" id="orderButton" type="button" disabled>
+    ยืนยันคำสั่งซื้อ
+  </button>
+</div>
 
-
-                   
-                        <button class="btn btn-buy" onclick="sendLineMessage(event)" id="orderButton" type="button" disabled>ยืนยันคำสั่งซื้อ</button>
-                     
-             
- 
-
-
-                      </div>
                     </div>
                   </div>
 
@@ -1171,10 +1167,12 @@
     
     
     
-                      
-                            <button class="btn btn-buy" id="orderButtons" type="button" onclick = "sendLineMessage(event)"  
-                              disabled>ยืนยันคำสั่งซื้อ
-                            </button>
+        
+  <button class="btn btn-buy" onclick="sendLineMessage(event)" id="orderButtons" type="button" disabled>
+    ยืนยันคำสั่งซื้อ
+  </button>
+
+
                         
                         
                           </div>
