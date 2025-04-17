@@ -166,13 +166,20 @@
                     }
                     return response.json();
                 })
-                .then(function (data) {
-                    orderData = data;
-                    let html = "";
-                    for (let i = 0; i < orderData.length; i++) {
-                        if (orderData[i].status === "ออเดอร์ใหม่") {
-                            html += `
-                            <tr style="cursor: pointer;" onclick="openProductDetail(${i})" class="trnew">
+            .then(function (data) {
+    // เก็บข้อมูลลงตัวแปร
+    orderData = data;
+
+    // เรียงลำดับ orderDate จากใหม่สุด -> เก่าสุด
+    orderData.sort(function (a, b) {
+        return new Date(b.orderDate) - new Date(a.orderDate);
+    });
+
+    let html = "";
+    for (let i = 0; i < orderData.length; i++) {
+        if (orderData[i].status === "ออเดอร์ใหม่") {
+            html += `
+                <tr style="cursor: pointer;" onclick="openProductDetail(${i})" class="trnew">
                     <td>${formatDate(orderData[i].orderDate)}</td>
                     <td>${orderData[i].orderNumber}</td>
                     <td>${orderData[i].customer}</td>
@@ -180,25 +187,25 @@
                     <td>${orderData[i].callBack}</td>
                     <td>${orderData[i].callBackValue}</td>
                     <td class="neworder fw-bold">New Order</td>
-                    
-                  </tr>`
-                        } else {
-                            html += `<tr style="background-color: lightgray;">
-                    <td>${formatDate(data[i].orderDate)}</td>
+                </tr>`;
+        } else {
+            html += `
+                <tr style="background-color: lightgray;">
+                    <td>${formatDate(orderData[i].orderDate)}</td>
                     <td>${orderData[i].orderNumber}</td>
                     <td>${orderData[i].customer}</td>
                     <td>${numberWithCommas(orderData[i].amount)}</td>
                     <td>${orderData[i].callBack}</td>
                     <td>${orderData[i].callBackValue}</td>
                     <td style="color: white;">Complete</td>
-                  </tr>`;
-                        }
-                        $("#results").html(html);
-                    }
-                })
-
-
+                </tr>`;
         }
+    }
+
+    // แสดงผลในตาราง
+    $("#results").html(html);
+})
+
 
 
         var orderindex = 0;
