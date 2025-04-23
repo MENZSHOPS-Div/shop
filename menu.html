@@ -60,6 +60,9 @@
   .logo-text {
     font-family: "sarabun";
   }
+  .modal-scan{
+    top: 50px;
+  }
 
 
   .b-example-divider {
@@ -1279,7 +1282,7 @@ function renderSummaryCarts() {
 
     </script>
 
-    <div id="qrpayment" class="modal" style="display: none; margin-top: 50px;">
+    <div id="qrpayment" class="modal modal-scan" style="display: none; margin-top: 50px;">
       <div id="qrpays" class="modal-dialog">
         <div id="paysqr" class="modal-content">
           <div class="container-lg">
@@ -1293,9 +1296,7 @@ function renderSummaryCarts() {
 
               <img class="img-thumbnail" id="qrImage"  style="width: 100%; object-fit: contain;" >
                 <p class="fs-6" style="font-family: sarabun;"> รหัส Promptpay xxxxxxxxxxxx </p><br>
-                <p>หรือโอนชำระที่</p><br>
-                <p>เลขบัญชี 1111111111 ธ.กสิกรไทย</p><br>
-                <p>okp xxxx   xxxxx</p>
+      
               <div class="input-group mb-3 mt-3">
               
                 <span class="input-group-text fs-6">อัพโหลดสลิป</span>
