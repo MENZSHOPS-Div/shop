@@ -954,16 +954,17 @@
     const response = await fetch('https://kbank-api-proxy.onrender.com/generate-qr', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount }) // ✅ ส่งแค่ amount
+      body: JSON.stringify({ amount })
     });
 
     const data = await response.json();
-    if (data.qrCode) {
-      document.getElementById('qrImage').src = data.qrCode;
+
+    if (data.RespCode === 200 && data.result) {
+      document.getElementById('qrImage').src = data.result;
+      openQr(); // เปิด modal หรือแสดงภาพ QR
     } else {
-      alert('Error: ' + data.error);
+      alert('เกิดข้อผิดพลาด: ' + (data.RespMessage || 'ไม่สามารถสร้าง QR ได้'));
     }
-    openQr();
   }
 </script>
 
