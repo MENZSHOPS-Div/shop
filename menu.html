@@ -173,7 +173,15 @@
     object-fit: cover;
     border-radius: 10px;
   }
-
+    #qrpayment .modal-dialog {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+  }
 
 
   .btn-control {
@@ -1282,7 +1290,7 @@ function renderSummaryCarts() {
 
     </script>
 
-    <div id="qrpayment" class="modal modal-scan" style="display: none; margin-top: 50px;">
+    <div id="qrpayment" class="modal" style="display: none; margin-top: 50px;">
       <div id="qrpays" class="modal-dialog">
         <div id="paysqr" class="modal-content">
           <div class="container-lg">
