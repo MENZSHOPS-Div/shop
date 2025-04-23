@@ -943,7 +943,29 @@
                     <div class="card p-2">
                      <div class="d-grid gap-2">
   <!-- ปุ่มชำระเงิน -->
-  <button class="btn btn-buy" onclick="openQr()">กดเพื่อชำระเงิน</button>
+  <button class="btn btn-buy" onclick="openQrcode()">กดเพื่อชำระเงิน</button>
+
+
+<script>
+  async function openQrcode() {
+    const amount = document.getElementById('amount').textContent;
+
+    const response = await fetch('https://promptpay-backend.onrender.com/generate-qr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount }) // ✅ ส่งแค่ amount
+    });
+
+    const data = await response.json();
+    if (data.qrCode) {
+      document.getElementById('qrImage').src = data.qrCode;
+    } else {
+      alert('Error: ' + data.error);
+    }
+    openQr();
+  }
+</script>
+
 
   <!-- ปุ่มยืนยันคำสั่งซื้อ -->
   <button class="btn btn-buy" onclick="sendAll()" id="orderButton" type="button" disabled>
@@ -1266,8 +1288,7 @@ function renderSummaryCarts() {
             <div class="modal-body">
               <div class="card p-4">
 
-              <img class="img-thumbnail"  style="width: 100%;"
-                src="https://img5.pic.in.th/file/secure-sv1/5-Million.png" alt="5 Million">
+              <img class="img-thumbnail" id="qrImage" style="width: 300px; object-fit: contain;" >
               <div class="input-group mb-3 mt-3">
                 <span class="input-group-text fs-6">อัพโหลดสลิป</span>
                 <input type="file" class="form-control form-control-sm" id="inputGroupFile01">
@@ -1525,7 +1546,7 @@ function renderSummaryCarts() {
             html += `  
             <li class="list-group-item d-flex justify-content-between bg-light">
                 <strong>รวมทั้งหมด</strong>
-                <strong>${numberWithCommas(totalPrice)} THB</strong>
+                <span id="amount">${numberWithCommas(totalPrice)} THB</span>
             </li>
         `;
 
