@@ -939,7 +939,7 @@
 
 
                     </ul>
-                    <span id="qrImage"></span>
+                    <span id="amount"></span>
 
                     <div class="card p-2">
                      <div class="d-grid gap-2">
@@ -1269,7 +1269,7 @@ function renderSummaryCarts() {
    
     $("#summaryCart").html(html);
     $("#summaryCarts").html(html);
-    $("#qrImage").text(numberWithCommas(itemTotal));
+    $("#amount").text(numberWithCommas(itemTotal));
 
   } else {
     $("#summaryCart").html(`<p>ไม่มีสินค้าในตะกร้า</p>`);
@@ -1541,7 +1541,7 @@ function renderSummaryCarts() {
                     </div>
                 </li>
             `;
-               $("#qrImage").text(numberWithCommas(itemTotal));
+               $("#amount").text(numberWithCommas(itemTotal));
             }
 
             // เพิ่มแสดงราคารวมด้านล่างสุด
