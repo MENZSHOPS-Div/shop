@@ -1048,7 +1048,7 @@
                                             src="https://img5.pic.in.th/file/secure-sv1/-7527960f1142c467a.png"></label>
                                 </div>
                             </div>
-                            <button id="block4" onclick="openDetail1()"class="w-100 btn btn-lg" style="background-color:darkorange;"
+                            <button id="block4" onclick="openChoice()"class="w-100 btn btn-lg" style="background-color:darkorange;"
                     type="button">ชำระเงิน</button>
                         </div>
                         <span id="paytype" style="display: none;"></span>
@@ -1167,7 +1167,7 @@
               <img class= "promptpay-img" src="https://img2.pic.in.th/pic/22145.png">
             <img class="img-thumbnail" id="qrImage"  style="width: 100%; object-fit: contain;" >
             </div>
-              <div class="fs-4 fw-bold" style="color: darkblue;" id="total"></div>
+              <div class="fs-4 fw-bold" style="color: darkblue;" id="total1"></div>
     
             <div class="input-group mb-3 mt-3">
             
@@ -1193,7 +1193,7 @@
             <div class="promptpay">
               <img class= "promptpay-img" src="https://img2.pic.in.th/pic/-88aeddcd0704a9a3d.png">
             </div>
-              <div class="fs-4 fw-bold" style="color: darkblue;" id="total"></div>
+              <div class="fs-4 fw-bold" style="color: darkblue;" id="total2"></div>
     
             <div class="input-group mb-3 mt-3">
             
@@ -1219,7 +1219,7 @@
             <div class="promptpay">
               <img class= "promptpay-img" src="https://img5.pic.in.th/file/secure-sv1/-2997569e3e94048631.png">
             </div>
-              <div class="fs-4 fw-bold" style="color: darkblue;" id="total"></div>
+              <div class="fs-4 fw-bold" style="color: darkblue;" id="total3"></div>
     
             <div class="input-group mb-3 mt-3">
             
@@ -1245,7 +1245,7 @@
             <div class="promptpay">
               <img class= "promptpay-img" src="https://img2.pic.in.th/pic/094-154-5422.png">
             </div>
-              <div class="fs-4 fw-bold" style="color: darkblue;" id="total"></div>
+              <div class="fs-4 fw-bold" style="color: darkblue;" id="total4"></div>
     
             <div class="input-group mb-3 mt-3">
             
@@ -1385,7 +1385,10 @@
     `;
 
             document.getElementById("summaryCart").innerHTML = html;
-            $("#total").text('ยอดชำระ             ' + numberWithCommas(totalPrice) + 'บาท' )
+            $("#total1").text('ยอดชำระ             ' + numberWithCommas(totalPrice) + 'บาท' );
+            $("#total2").text('ยอดชำระ             ' + numberWithCommas(totalPrice) + 'บาท' );
+            $("#total3").text('ยอดชำระ             ' + numberWithCommas(totalPrice) + 'บาท' );
+            $("#total4").text('ยอดชำระ             ' + numberWithCommas(totalPrice) + 'บาท' );
         } else {
             document.getElementById("summaryCart").innerHTML = `<p>ไม่มีสินค้าในตะกร้า</p>`;
         }
