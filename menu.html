@@ -864,7 +864,7 @@
           <button onclick="closeModal()" class="btn btn-secondary">
             Cancel
           </button>
-          <button onclick="renderSummaryCart()" class="btn btn-buy">
+          <button onclick="goToCheckout()" class="btn btn-buy">
             Buy
           </button>
         </div>
@@ -1802,7 +1802,11 @@ async function sendLineMessage() {
   }
 }
      
-  
+  function goToCheckout() {
+  localStorage.setItem('cart', JSON.stringify(cart)); // เก็บตะกร้าไว้
+  window.location.href = 'checkout.html'; // ไปยังหน้า checkout
+}
+
 
    function sendAll(){
     event.preventDefault();
