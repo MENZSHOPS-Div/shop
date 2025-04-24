@@ -810,8 +810,11 @@
 
 
                 </ul>
-
-
+              <li class="list-group-item d-flex justify-content-between">
+                        <span>ยอดชำระ(THB)</span>
+                        <span id="amount"></span>
+                    </li>
+ 
             </div>
 
             <div class="col-6">
@@ -1377,15 +1380,8 @@
       `;
             }
 
-            html += `  
-        
-<li class="list-group-item d-flex justify-content-between">
-                        <span>ยอดชำระ(THB)</span>
-                        <span id="count">${numberWithCommas(totalPrice)}</span>
-                    </li>
-    `;
-
             document.getElementById("summaryCart").innerHTML = html;
+            $("#amount").text(numberWithCommas(totalPrice));
             $("#total1").text('ยอดชำระ             ' + numberWithCommas(totalPrice) + 'บาท' );
             $("#total2").text('ยอดชำระ             ' + numberWithCommas(totalPrice) + 'บาท' );
             $("#total3").text('ยอดชำระ             ' + numberWithCommas(totalPrice) + 'บาท' );
