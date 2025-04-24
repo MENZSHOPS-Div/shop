@@ -1094,7 +1094,7 @@
 
                         function function1() {
                             openQrcode();
-                            $("#qrpayment").css('display', 'block');
+                           
                             $("#banktransfer").css('display', 'none');
                             $("#creditqr").css('display', 'none');
                             $("#truemoney").css('display', 'none');
@@ -1171,7 +1171,7 @@
               <img class= "promptpay-img" src="https://img2.pic.in.th/pic/22145.png">
             <img class="img-thumbnail" id="qrImage"  style="width: 100%; object-fit: contain;" >
             </div>
-                <div class="fs-5 text-center" style="display:flex; color: darkgray;">QR Code loading......</div>
+               
                 <div class="rowgroup>
                     <div class="fs-6" style="color: darkblue;">ยอดชำระ</div>
                    <div class="fs-4 fw-bold" style="color: darkblue;" id="total1"></div>
@@ -1526,7 +1526,7 @@ function openChoice(){
     }
 
     async function openQrcode() {
-        $("#waitqr").css('display','flex');
+       
         const amount = document.getElementById('amount').textContent;
         console.log("Amount:", amount);
         const response = await fetch('https://kbank-api-proxy.onrender.com/generate-qr', {
@@ -1543,7 +1543,7 @@ function openChoice(){
         } else {
             alert('เกิดข้อผิดพลาด: ' + (data.RespMessage || 'ไม่สามารถสร้าง QR ได้'));
         }
-        $("#waitqr").css('display','none');
+        $("#qrpayment").css('display', 'block');
     }
 
     window.onload = function () {
