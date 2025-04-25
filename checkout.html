@@ -1494,18 +1494,16 @@ function openChoice(){
         }
     }
 
-    function sendAll() {
-      
-        $("#waiting").css('display', 'flex');
-        sendLineMessage();
+   async function sendAll(event) {
+  event?.preventDefault(); // ป้องกัน form submit ถ้ามี
 
-        $("#waiting").css('display', 'none');
-        localStorage.removeItem('cart');
+  $("#waiting").css('display', 'flex');
+  await sendLineMessage();
+  $("#waiting").css('display', 'none');
+  localStorage.removeItem('cart');
+}
 
-   
-
-    };
-
+     
     async function sentDataToSheet(orderData) {
         try {
             await fetch("https://sheet-backend-lsg9.onrender.com/save-order", {
