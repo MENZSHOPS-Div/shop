@@ -1426,21 +1426,19 @@
     }
 
 
-function openChoice(){
-    var choice = document.getElementById('paytype').textContent;
-    if(choice = "qr"){
+function openChoice() {
+    var choice = document.getElementById('paytype').textContent.trim().toLowerCase();
+    if (choice === "qr") {
         function1();
-    }
-    else if (choice="transfer"){
+    } else if (choice === "transfer") {
         function2();
-    }
-    else if (choice="credit"){
+    } else if (choice === "credit") {
         function3();
-    }
-    else if (choice="truemoney"){
+    } else if (choice === "truemoney") {
         function4();
+    } else {
+        alert('กรุณาเลือกช่องทางการชำระเงินที่ถูกต้อง');
     }
-    else {alert('กรุณาเลือกช่องทางการชำระเงินที่ถูกต้อง');}
 }
 
 
