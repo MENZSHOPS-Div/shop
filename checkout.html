@@ -1219,13 +1219,9 @@
             <img class="img-thumbnail" id="qrImage"  style="width: 100%; object-fit: contain;" >
             </div>
                
-                <div class="rowhead">
-                   <div class="col-6">
-                    <div class="fs-6" style="color: darkblue;">ยอดชำระ</div>
-                </div>
-                <div class="col-6">
-                   <span class="fs-4 fw-bold" style="color: darkblue;" id="total1"></span>
-                </div>
+                <div id="total1" class="fs-3 fw-bold text-center" style="color: darkblue;"> </div>
+                   
+               
             </div>
             <div class="input-group mb-3 mt-3">
             
@@ -1444,11 +1440,11 @@
             }
 
             document.getElementById("summaryCart").innerHTML = html;
-            $("#amount").text(numberWithCommas(totalPrice));
-            $("#total1").text(numberWithCommas(totalPrice) + 'บาท' );
-            $("#total2").text(numberWithCommas(totalPrice) + 'บาท' );
-            $("#total3").text(numberWithCommas(totalPrice) + 'บาท' );
-            $("#total4").text(numberWithCommas(totalPrice) + 'บาท' );
+            $("#amount").text(numberWithCommas(totalPrice).tofixed(2) );
+            $("#total1").text(numberWithCommas(totalPrice).tofixed(2) );
+            $("#total2").text(numberWithCommas(totalPrice).tofixed(2) );
+            $("#total3").text(numberWithCommas(totalPrice).tofixed(2) );
+            $("#total4").text(numberWithCommas(totalPrice).tofixed(2) );
         } else {
             document.getElementById("summaryCart").innerHTML = `<p>ไม่มีสินค้าในตะกร้า</p>`;
         }
