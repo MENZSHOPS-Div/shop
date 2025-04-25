@@ -1547,10 +1547,16 @@ function openChoice(){
         $("#qrpayment").css('display', 'block');
     }
 
+      function generateOrderNumber() {
+          let orderNumber = Math.floor(10000000 + Math.random() * 90000000); // สุ่มเลข 8 หลัก
+          document.getElementById("ordernumber").textContent = orderNumber; // แสดงผลใน HTML
+        }
+
     window.onload = function () {
         orderRender();
         loadProvince();
         openDetail2();
+        generateOrderNumber();
     }
 
 </script>
