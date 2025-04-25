@@ -1139,8 +1139,8 @@
 
 
                         function function1() {
-                            openQrcode();
-                           
+                            
+                           $("#qrpayment").css('display', 'block');
                             $("#banktransfer").css('display', 'none');
                             $("#creditqr").css('display', 'none');
                             $("#truemoney").css('display', 'none');
@@ -1580,7 +1580,7 @@ function openChoice() {
         } else {
             alert('เกิดข้อผิดพลาด: ' + (data.RespMessage || 'ไม่สามารถสร้าง QR ได้'));
         }
-        $("#qrpayment").css('display', 'block');
+       
           $("#waiting").css('display', 'none');
     }
 
@@ -1594,6 +1594,7 @@ function openChoice() {
         loadProvince();
         openDetail2();
         generateOrderNumber();
+        openQrcode();
     }
 
 </script>
