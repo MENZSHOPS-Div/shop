@@ -1438,14 +1438,13 @@
 
       `;
             }
-            let number = numberWithCommas(totalPrice);
-            let totalnumber = number.tofixed(2);
+          
             document.getElementById("summaryCart").innerHTML = html;
-            $("#amount").text(totalnumber);
-            $("#total1").text(totalnumber);
-            $("#total2").text(totalnumber);
-            $("#total3").text(totalnumber);
-            $("#total4").text(totalnumber);
+            $("#amount").text(numberWithCommas(totalPrice));
+            $("#total1").text(numberWithCommas(totalPrice));
+            $("#total2").text(numberWithCommas(totalPrice));
+            $("#total3").text(numberWithCommas(totalPrice));
+            $("#total4").text(numberWithCommas(totalPrice));
         } else {
             document.getElementById("summaryCart").innerHTML = `<p>ไม่มีสินค้าในตะกร้า</p>`;
         }
