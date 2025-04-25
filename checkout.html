@@ -802,7 +802,7 @@
         <div class="row g-5">
             <div class="col-6 order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span id="ordernumber" class="text-primary"></span>
+                    <span id="ordernumber" class="fs-6"></span>
                  
                 </h4>
                 <ul id="summaryCart" class="list-group mb-3">
@@ -1568,7 +1568,7 @@ function openChoice(){
 
       function generateOrderNumber() {
           let orderNumber = Math.floor(10000000 + Math.random() * 90000000); // สุ่มเลข 8 หลัก
-          document.getElementById("ordernumber").textContent = orderNumber; // แสดงผลใน HTML
+          document.getElementById("ordernumber").textContent = "หมายเลขคำสั่งซื้อ " + orderNumber; // แสดงผลใน HTML
         }
 
     window.onload = function () {
