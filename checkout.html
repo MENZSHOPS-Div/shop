@@ -1082,7 +1082,7 @@
                             <button id="block4" onclick="openChoice()"class="w-100 btn btn-lg" style="background-color:darkorange;"
                     type="button">ชำระเงิน</button>
                         </div>
-                        <span id="paytype" style="display: block;"></span>
+                        <span id="paytype" style="display: none;"></span>
                     </div>
 
 
@@ -1144,7 +1144,7 @@
                         }
 
 
-                        function function1() {
+                        function function11() {
                             
                            $("#qrpayment").css('display', 'block');
                             $("#banktransfer").css('display', 'none');
@@ -1153,21 +1153,21 @@
                           
                         }
 
-                        function function2() {
+                        function function12() {
                             $("#qrpayment").css('display', 'none');
                             $("#banktransfer").css('display', 'block');
                             $("#creditqr").css('display', 'none');
                             $("#truemoney").css('display', 'none');
                         }
 
-                        function function3() {
+                        function function13() {
                             $("#qrpayment").css('display', 'none');
                             $("#banktransfer").css('display', 'none');
                             $("#creditqr").css('display', 'block');
                             $("#truemoney").css('display', 'none');
                         }
 
-                        function function4() {
+                        function function14() {
                             $("#qrpayment").css('display', 'none');
                             $("#banktransfer").css('display', 'none');
                             $("#creditqr").css('display', 'none');
@@ -1456,13 +1456,13 @@
 function openChoice() {
     var choice = document.getElementById('paytype').textContent.trim().toLowerCase();
     if (choice === "qr") {
-        function1();
+        function11();
     } else if (choice === "transfer") {
-        function2();
+        function12();
     } else if (choice === "credit") {
-        function3();
+        function13();
     } else if (choice === "truemoney") {
-        function4();
+        function14();
     } else {
         alert('กรุณาเลือกช่องทางการชำระเงินที่ถูกต้อง');
     }
