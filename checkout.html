@@ -1082,7 +1082,7 @@
                             <button id="block4" onclick="openChoice()"class="w-100 btn btn-lg" style="background-color:darkorange;"
                     type="button">ชำระเงิน</button>
                         </div>
-                        <span id="paytype" style="display: none;"></span>
+                        <span id="paytype" style="display: block;"></span>
                     </div>
 
 
@@ -1121,18 +1121,22 @@
                                 switch (selectedCheckbox.id) {
                                     case "checkboxqr":
                                     var sent = document.getElementById("paytype");
+                                    sent.innerText = "";    
                                     sent.innerText = "qr";
                                         break;
                                     case "checkboxTransfer":
                                     var sent = document.getElementById("paytype");
+                                    sent.innerText = "";    
                                     sent.innerText = "transfer";
                                         break;
                                     case "checkboxcredit":
                                     var sent = document.getElementById("paytype");
+                                    sent.innerText = "";    
                                     sent.innerText = "credit";
                                         break;
                                         case "checkboxtruemoney":
                                     var sent = document.getElementById("paytype");
+                                    sent.innerText = "";    
                                     sent.innerText = "truemoney";
                                         break;
                                 }
