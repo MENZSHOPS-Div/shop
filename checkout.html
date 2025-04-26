@@ -1579,7 +1579,7 @@ function openChoice() {
 
         if (data.RespCode === 200 && data.result) {
             document.getElementById('qrImage').src = data.result;
-            $("#qrpayment").css('display', 'block');
+           
         } else {
             alert('เกิดข้อผิดพลาด: ' + (data.RespMessage || 'ไม่สามารถสร้าง QR ได้'));
         }
