@@ -1145,32 +1145,35 @@
 
 
                         function function11() {
-                            
-                           $("#qrpayment").css('display', 'block');
+                          $("#qrpayment").css('display', 'block'); 
+                           $("#qrpay").css('display', 'block');
                             $("#banktransfer").css('display', 'none');
-                            $("#creditqr").css('display', 'none');
+                            $("#qrcredit").css('display', 'none');
                             $("#truemoney").css('display', 'none');
                           
                         }
 
                         function function12() {
-                            $("#qrpayment").css('display', 'none');
+                            $("#qrpayment").css('display', 'block'); 
+                            $("#qrpay").css('display', 'none');
                             $("#banktransfer").css('display', 'block');
-                            $("#creditqr").css('display', 'none');
+                            $("#qrcredit").css('display', 'none');
                             $("#truemoney").css('display', 'none');
                         }
 
                         function function13() {
-                            $("#qrpayment").css('display', 'none');
+                            $("#qrpayment").css('display', 'block'); 
+                            $("#qrpay").css('display', 'none');
                             $("#banktransfer").css('display', 'none');
-                            $("#creditqr").css('display', 'block');
+                            $("#qrcredit").css('display', 'block');
                             $("#truemoney").css('display', 'none');
                         }
 
                         function function14() {
-                            $("#qrpayment").css('display', 'none');
+                           $("#qrpayment").css('display', 'block'); 
+                            $("#qrpay").css('display', 'none');
                             $("#banktransfer").css('display', 'none');
-                            $("#creditqr").css('display', 'none');
+                            $("#qrcredit").css('display', 'none');
                             $("#truemoney").css('display', 'block');
                         }
                     </script>
@@ -1215,12 +1218,27 @@
               onclick="closeQr1()"></button>
           </div>
           <div class="modal-body">
-            <div class="card p-4">
+            <div class="card p-4" id="qrpay" style="display: none;">
             <div class="promptpay">
               <img class= "promptpay-img" src="https://img2.pic.in.th/pic/22145.png"  style="width: 100%; object-fit: contain;">
             <img class="img-thumbnail" id="qrImage"  style="width: 100%; object-fit: contain;" >
             </div>
-               
+            </div>
+            <div class="card p-4" id="banktransfer"  style="display: none;">
+              <div class="promptpay">
+                <img class= "promptpay-img" src="https://img2.pic.in.th/pic/-88aeddcd0704a9a3d.png">
+              </div>
+              </div>
+              <div class="card p-4" id="qrcredit"  style="display: none;">
+                <div class="promptpay">
+                  <img class= "promptpay-img" src="https://img5.pic.in.th/file/secure-sv1/-2997569e3e94048631.png">
+                </div>
+              </div>
+              <div class="card p-4" id="truemoney"  style="display: none;">
+                <div class="promptpay">
+                  <img class= "promptpay-img" src="https://img2.pic.in.th/pic/094-154-5422.png">
+                </div>
+              </div>
                 <div id="total1" class="fs-3 fw-bold text-center" style="color: darkblue;"> </div>
                    
                
@@ -1235,92 +1253,7 @@
            
  </div>
 
- <div id="banktransfer" class="modal" style="display: block; margin-top: 50px;">
-    <div id="qrpays" class="modal-dialog">
-      <div id="paysqr" class="modal-content">
-        <div class="container-lg">
-          
-          <div class="modal-header">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-              onclick="closeQr2()"></button>
-          </div>
-          <div class="modal-body">
-            <div class="card p-4">
-            <div class="promptpay">
-              <img class= "promptpay-img" src="https://img2.pic.in.th/pic/-88aeddcd0704a9a3d.png">
-            </div>
-               <div class="rowhead">
-                    <div class="col-6 fs-6" style="color: darkblue;">ยอดชำระ</div>
-                   <div class="col-6 fs-4 fw-bold" style="color: darkblue;" id="total2"></div>
-            </div>
-    
-            <div class="input-group mb-3 mt-3">
-            
-              <span class="input-group-text fs-6">อัพโหลดสลิป</span>
-              <input type="file" class="form-control form-control-sm" id="inputGroupFile01">
-            </div>
-            <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr21()">ยืนยันการชำระเงิน
-            </button>
-           
- </div>
-
- <div id="creditqr" class="modal" style="display: block; margin-top: 50px;">
-    <div id="qrpays" class="modal-dialog">
-      <div id="paysqr" class="modal-content">
-        <div class="container-lg">
-          
-          <div class="modal-header">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-              onclick="closeQr3()"></button>
-          </div>
-          <div class="modal-body">
-            <div class="card p-4">
-            <div class="promptpay">
-              <img class= "promptpay-img" src="https://img5.pic.in.th/file/secure-sv1/-2997569e3e94048631.png">
-            </div>
-               <div class="rowhead">
-                    <div class="col-6 fs-6" style="color: darkblue;">ยอดชำระ</div>
-                   <div class="col-6 fs-4 fw-bold" style="color: darkblue;" id="total3"></div>
-            </div>
-    
-            <div class="input-group mb-3 mt-3">
-            
-              <span class="input-group-text fs-6">อัพโหลดสลิป</span>
-              <input type="file" class="form-control form-control-sm" id="inputGroupFile01">
-            </div>
-            <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr31()">ยืนยันการชำระเงิน
-            </button>
-           
- </div>
-
- <div id="truemoney" class="modal" style="display: none; margin-top: 50px;">
-    <div id="qrpays" class="modal-dialog">
-      <div id="paysqr" class="modal-content">
-        <div class="container-lg">
-          
-          <div class="modal-header">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-              onclick="closeQr4()"></button>
-          </div>
-          <div class="modal-body">
-            <div class="card p-4">
-            <div class="promptpay">
-              <img class= "promptpay-img" src="https://img2.pic.in.th/pic/094-154-5422.png">
-            </div>
-              <div class="rowhead">
-                    <div class="col-6 fs-6" style="color: darkblue;">ยอดชำระ</div>
-                   <div class="col-6 fs-4 fw-bold" style="color: darkblue;" id="total4"></div>
-            </div>
-    
-            <div class="input-group mb-3 mt-3">
-            
-              <span class="input-group-text fs-6">อัพโหลดสลิป</span>
-              <input type="file" class="form-control form-control-sm" id="inputGroupFile01">
-            </div>
-            <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr41()">ยืนยันการชำระเงิน
-            </button>
-           
- </div>
+ 
  <script>
 
     function openDetail1() {
@@ -1374,7 +1307,7 @@
     }
 
     function closeQr3(){
-        $("#creditqr").css('display', 'none');
+        $("#qrcredit").css('display', 'none');
     }
 
     function closeQr4(){
@@ -1393,7 +1326,7 @@
     }
 
     function closeQr31(){
-        $("#creditqr").css('display', 'none');
+        $("#qrcredit").css('display', 'none');
          $("#completebtn").prop("disabled", false);
     
     }
