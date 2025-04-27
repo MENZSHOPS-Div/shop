@@ -76,12 +76,12 @@
         <div class="row">
             <div class="col-1 mt-3">
                 <div class="card p-2" style="background-color:lightcyan;">
-                    <div onclick="openSales()" class="fs-6 border border-bottom text-center"
-                        style="color:rgb(16, 8, 49); cursor: pointer;">Order</div>
+                    <div onclick="openSales()" class="border border-bottom text-center p-1"
+                        style="font-size: 0.75rem; color:rgb(16, 8, 49); cursor: pointer;">คำสั่งซื้อ</div>
 
 
-                    <div onclick="openLabel()" class="fs-6 border border-bottom text-center mt-2"
-                        style="color:rgb(16, 8, 49); cursor: pointer;">Label</div>
+                    <div onclick="openLabel()" class="border border-bottom text-center mt-2 p-1"
+                        style="font-size: 0.75rem; color:rgb(16, 8, 49); cursor: pointer;">ใบปะหน้า</div>
                 </div>
 
             </div>
@@ -119,58 +119,58 @@
                 <div class="card p-3 bg-body-secondary mt-3 labelform" id="labelsticker"
                     style="display: block; border-radius: 5px;">
                     <div id="addressinput">
-                    <div class="row mb-3 p-3">
-                        <div class="col-3">
-                            <label>ชื่อ </label>
+                        <div class="row mb-3 p-3">
+                            <div class="col-3">
+                                <label>ชื่อ </label>
+                            </div>
+                            <div class="col-9">
+                                <input id="stickername" class="form-control form-control-sm ">
+                            </div>
                         </div>
-                        <div class="col-9">
-                            <input id="stickername" class="form-control form-control-sm ">
+                        <div class="row mb-3 p-3">
+                            <div class="col-3">
+                                <label>ที่อยู่ </label>
+                            </div>
+                            <div class="col-9">
+                                <input id="stickeraddress" class="form-control form-control-sm">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3 p-3">
-                        <div class="col-3">
-                            <label>ที่อยู่ </label>
+                        <div class="row mb-3 p-3">
+                            <div class="col-3">
+                                <label>โทร </label>
+                            </div>
+                            <div class="col-9">
+                                <input id="stickertel" class="form-control form-control-sm">
+                            </div>
                         </div>
-                        <div class="col-9">
-                            <input id="stickeraddress" class="form-control form-control-sm">
-                        </div>
-                    </div>
-                    <div class="row mb-3 p-3">
-                        <div class="col-3">
-                            <label>โทร </label>
-                        </div>
-                        <div class="col-9">
-                            <input id="stickertel" class="form-control form-control-sm">
-                        </div>
-                    </div>
                     </div>
                     <div id="addresspan" style="display: none;">
-                    <div class="row mb-3 p-3">
-                        <div class="col-3">
-                            <label>ชื่อ </label>
+                        <div class="row mb-3 p-3">
+                            <div class="col-3">
+                                <label>ชื่อ </label>
+                            </div>
+                            <div class="col-9">
+                                <span id="namesticker" class="form-control form-control-sm "></span>
+                            </div>
                         </div>
-                        <div class="col-9">
-                            <span id="namesticker" class="form-control form-control-sm "></span>
+                        <div class="row mb-3 p-3">
+                            <div class="col-3">
+                                <label>ที่อยู่ </label>
+                            </div>
+                            <div class="col-9">
+                                <span id="addresssticker" class="form-control form-control-sm"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3 p-3">
+                            <div class="col-3">
+                                <label>โทร </label>
+                            </div>
+                            <div class="col-9">
+                                <span id="telsticker" class="form-control form-control-sm"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="row mb-3 p-3">
-                        <div class="col-3">
-                            <label>ที่อยู่ </label>
-                        </div>
-                        <div class="col-9">
-                            <span id="addresssticker" class="form-control form-control-sm"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3 p-3">
-                        <div class="col-3">
-                            <label>โทร </label>
-                        </div>
-                        <div class="col-9">
-                            <span id="telsticker" class="form-control form-control-sm"></span>
-                        </div>
-                    </div>
-                </div>
-                    <button id="btn01" onclick="printLabel()" class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
+                    <button id="btn01" onclick="handlePrint()" class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
                     <button id="btn02" onclick="printData()" class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
                 </div>
             </div>
@@ -195,23 +195,26 @@
                         <tbody>
                     </table>
                     <div id="addressTable">
-             <div class="col-4">
-                <input class="form-control form-control-sm">
-                
-             </div>
-                    <table class="fl-table" id="tableaddress">
-                        <thead>
-                            <tr style="font-family: sarabun;">
-                                <th>ชื่อ</th>
-                                <th>ที่อยู่</th>
-                                <th>โทร</th>
-                           </tr>
-                        </thead>
-                        <tbody id="resultsaddress">
+                        <div class="col-6">
+                            <div style="display: flex;">
+                                <input id="filter" class="form-control form-control-sm ms-2" oninput="filterRecords()">
+                                <button id="allBtn" class="btn btn-secondary text-light ms-2" type="button"
+                                    onclick="loadFormAddressSheet()">แสดงทั้งหมด</button>
+                            </div>
+                        </div>
+                        <table class="fl-table" id="tableaddress">
+                            <thead>
+                                <tr style="font-family: sarabun;">
+                                    <th class="column-3">ชื่อ</th>
+                                    <th class="column-8">ที่อยู่</th>
+                                    <th>โทร</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsaddress">
 
-                        <tbody>
-                    </table>
-                   </div>
+                            <tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>
@@ -221,20 +224,20 @@
                     <div class="modal-header"></div>
                     <div class="modal-body">
                         <div class="fs-4 fw-bold ms-3 text-start" id="printtel"></div>
-                        <div class="card p-2 mb-3 namebox" >
+                        <div class="card p-2 mb-3 namebox">
                             <div class="card p-2 mb-3 namebox" style="border-color:black;">
-                            <div class="row">
-                                <div class="fs-6 fw-bold">ส่งคุณ</div><br>
-                                <div class="ms-5 mt-2 fs-3 fw-bold" id="printname"></div>
-                            </div>
+                                <div class="row">
+                                    <div class="fs-6 fw-bold">ส่งคุณ</div><br>
+                                    <div class="ms-5 mt-2 fs-3 fw-bold" id="printname"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="card p-2 addressbox">
                             <div class="card p-2 addressbox" style="border-color:black;">
-                            <div class="row">
-                                <div class="fs-6 fw-bold">ที่อยู่</div><br>
-                                <div class="ms-2 fs-6" id="printaddress"></div>
-                            </div>
+                                <div class="row">
+                                    <div class="fs-6 fw-bold">ที่อยู่</div><br>
+                                    <div class="ms-2 fs-6" id="printaddress"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="fw-bold text-center mt-5" style="font-size: 3rem;">LALAMOVE</div>
@@ -325,6 +328,54 @@
 
                     }
 
+                    #allBtn {
+                        max-width: 150px;
+                        min-width: 150px;
+                    }
+
+                    #tableaddress {
+                        min-height: 500px;
+                        max-height: 500px;
+                        overflow: scroll;
+                    }
+
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                        min-height: 500px;
+                        /* เพิ่มความสูงขั้นต่ำให้ตาราง */
+                    }
+
+                    thead th {
+                        position: sticky;
+                        top: 0;
+                        background-color: #ffffff;
+                        z-index: 2;
+                    }
+
+                    th,
+                    td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                    }
+
+                    tbody {
+                        display: block;
+                        height: 300px;
+                        /* ความสูงเลื่อนของ tbody */
+                        min-height: 500px;
+                        /* เพิ่มขั้นต่ำด้วย */
+                        overflow-y: auto;
+                    }
+
+                    thead,
+                    tbody tr {
+                        display: table;
+                        width: 100%;
+                        table-layout: fixed;
+                    }
+
+
 
                     @media print {
                         button {
@@ -408,20 +459,20 @@
                                 // เก็บข้อมูลลงตัวแปร
                                 orderData = data;
 
-                              
+
 
                                 let html = "";
                                 for (let i = 0; i < orderData.length; i++) {
-                                     html += `
+                                    html += `
                 <tr style="cursor: pointer;" onclick="openAddressDetail(${i})" class="trnew">
                     <td>${orderData[i].addressName}</td>
                     <td>${orderData[i].address}</td>
                     <td>${orderData[i].addressTel}</td>
                                  </tr>`;
-                                
+
                                 }
 
-                             
+
                                 $("#resultsaddress").html(html);
                             })
                     }
@@ -455,11 +506,12 @@
                         $("#namesticker").text(orderData[index].addressName);
                         $("#addressSticker").text(orderData[index].address);
                         $("#telsticker").text(orderData[index].addressTel);
-                        $("#addresspan").css('display' , 'block');
-                        $("#addressinput").css('display' , 'none');
-                        $("#btn01").css('display' , 'none');
+                        $("#addresspan").css('display', 'block');
+                        $("#addressinput").css('display', 'none');
+                        $("#btn01").css('display', 'none');
                         $("#addressspan").css('display', 'none');
-                        
+                        $("#btn01").css('display', 'none');
+                        $("#btn02").css('display', 'block');
 
                     }
 
@@ -546,7 +598,7 @@
                         $("#btn01").css('display', 'block');
                         $("#btn02").css('display', 'none');
                         $("#addresspan").css('display', 'none');
-                        
+
                     }
 
 
@@ -610,7 +662,7 @@
                         printResult();
                     }
 
-                    function printData() {
+                   async function printData() {
                         const labelName = document.getElementById('namesticker').textContent;
                         const labelAddress = document.getElementById('addresssticker').textContent;
                         const labelTel = document.getElementById('telsticker').textContent;
@@ -633,6 +685,77 @@
                         window.print();
                         document.body.innerHTML = originalContent;
                     }
+
+                    function filterRecords() {
+                        const searchValue = document.getElementById('filter').value.toLowerCase();
+                        const url = `https://script.google.com/macros/s/AKfycbwHGBOkZzUR7TRBwDeG8ttBFkxR8dv_LpJMfiUiratGAnRjL76Lkt2Y3IfkZmnJdXTkAg/exec`;
+
+
+                        fetch(url)
+                            .then(function (response) {
+                                if (!response.ok) {
+                                    throw new Error("การเชื่อมต่อผิดพลาด");
+                                }
+                                return response.json();
+                            })
+                            .then(function (data) {
+                                // เก็บข้อมูลลงตัวแปร
+                                addressData = data;
+
+
+                                let html = "";
+
+                                for (let i = 0; i < addressData.length; i++) {
+                                    if (addressData[i].aname && addressData[i].aname.toLowerCase().includes(searchValue)) {
+
+                                        html += `
+                            <tr onclick="openAddressDetail(${i})" style="cursor: pointer;">
+                                <th class="column-5 text-center">${addressData[i].aname}</th>
+                                <td class="column-6">${addressData[i].aaddress}</td>
+                                <td class="text-center">${addressData[i].atel}}</td>
+                            </tr>
+                        `;
+                                    }
+                                    $("#resultsaddress").html(html);
+                                }
+
+                            })
+                    }
+
+                    async function updateAddress() {
+                        $("#waiting").css('display' , 'flex');
+                        const bname = document.getElementById('stickername').value;
+                        const baddress = document.getElementById('stickeraddress').value;
+                        const btel = document.getElementById('stickertel').value;
+                        await sentDataToSheet({ bname, baddress, btel });
+                        $("#waiting").css('display' , 'none');
+                    }
+
+                    async function sentDataToSheet(orderData) {
+
+                        try {
+                            await fetch("https://append-8p73.onrender.com/save-order", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(orderData)
+                            });
+                        } catch (error) {
+                            console.error("ส่งข้อมูลไปยัง backend ไม่สำเร็จ:", error);
+                        }
+                    }
+
+                    async function handlePrint() {
+                        if (confirm('ต้องการบันทึกหรือไม่?')) {
+                         await  updateAddress();
+                               await  printLabel();
+
+                        } else {
+                            printData();
+                        }
+                    }
+
 
 
                     window.onload = function () {
