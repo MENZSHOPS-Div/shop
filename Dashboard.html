@@ -14,13 +14,176 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
 
     <link rel="stylesheet" href="Dashboard.css">
 </head>
 
+<style>
+    body {
+        font-family: "sarabun";
+    }
+
+
+
+    .nav-menu {
+        min-width: 155px;
+        max-width: 155px;
+        min-height: 1000px;
+        max-width: 1000px;
+        display: block;
+        box-shadow: 0px 35px 50px rgba(0, 0, 0, 0.2);
+        left: 0;
+        background-color: black;
+        color: aliceblue;
+    }
+
+    .nav-score {
+        display: flex;
+    }
+
+    .menu-list {
+        display: flex;
+        border-bottom: 2px white;
+        min-height: 20px;
+        max-height: 20px;
+    }
+
+    .container {
+        display: flex;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+
+    .iconmenu {
+        width: 10px;
+    }
+
+    .b-example-divider {
+        width: 20px;
+        min-height: 1000x;
+        max-height: 1000px;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .labelform {
+
+        max-height: 500px;
+    }
+
+    .namebox {
+        min-width: 250px;
+        max-width: 250px;
+    }
+
+    .addressbox {
+        min-width: 250px;
+        max-width: 250px;
+        min-height: 200px;
+        max-height: 200px;
+    }
+
+    .modalregister {
+
+        display: block;
+        position: fixed;
+
+        top: 50%;
+
+        left: 50%;
+
+        transform: translate(-50%, -50%);
+
+        min-width: 10cm;
+        max-width: 10cm;
+
+        min-height: 5cm;
+
+        background-color: #E0FFFF;
+        padding: 20px;
+
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+        z-index: 1000;
+        font-size: 0.75rem;
+
+        border-radius: 10px;
+        flex-direction: row;
+        justify-content: space-between;
+
+    }
+
+    #allBtn {
+        max-width: 150px;
+        min-width: 150px;
+    }
+
+    #tableaddress {
+        min-height: 500px;
+        max-height: 500px;
+        overflow: scroll;
+    }
+
+    table {
+        border-collapse: collapse;
+        max-width: 700px;
+        min-width: 700px;
+        min-height: 500px;
+        /* เพิ่มความสูงขั้นต่ำให้ตาราง */
+    }
+
+    thead th {
+        position: sticky;
+        top: 0;
+        background-color: #ffffff;
+        z-index: 2;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    tbody {
+        display: block;
+        height: 300px;
+        /* ความสูงเลื่อนของ tbody */
+        min-height: 500px;
+        /* เพิ่มขั้นต่ำด้วย */
+        overflow-y: auto;
+    }
+
+    thead,
+    tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+
+
+    @media print {
+        button {
+            display: none;
+        }
+
+        body {
+            background: white;
+            color: black;
+            margin: 0;
+            padding: 10px;
+        }
+
+
+    }
+</style>
 
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
         <img id="newicon" class="logo-img" src="https://img5.pic.in.th/file/secure-sv1/-10029646b3f4ae4fd1.png">
         <h1 class="logotext ms-1">เม็นส์ ช็อป</h1>
@@ -31,750 +194,603 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0 pe-4">
-
-
                 <a href="index.html" class="nav-data nav-link fw-bold" style="color: darkorange;">Log Out</a>
 
     </nav>
-
-
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-3">
-                <div class="card-left" style="background-color:green;">
-                    <div class="card">
-                        <p class="top-text mt-2">คำสั่งซื้อใหม่</p>
-                        <span id="orderA" class="midtext fw-bold text-center"
-                            style="font-size: 5rem; margin-left: 80px;  color: red;">0</span>
-                        <p class="top-text text-end">คำสั่งซื้อ</p>
+    <div id="labeldelivery" class="modalregister" style="display: none; width: 90%; justify-content: center;">
+        <div class="modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body">
+                <div class="fs-4 fw-bold ms-3 text-start" id="printtel"></div>
+                <div class="card p-2 mb-3 namebox">
+                    <div class="card p-2 mb-3 namebox" style="border-color:black;">
+                        <div class="row">
+                            <div class="fs-6 fw-bold">ส่งคุณ</div><br>
+                            <div class="ms-5 mt-2 fs-3 fw-bold" id="printname"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-3 ms-3">
-                <div class="card-left" style="background-color:darkorange">
-                    <div class="card">
-                        <p class="top-text mt-2">จำนวน</p>
-                        <span id="orderB" class="midtext fw-bold ms-5"
-                            style="font-size: 5rem; justify-content: center; margin-left: 80px;">0</span>
-                        <p class="top-text text-end">คำสั่งซื้อ</p>
+                <div class="card p-2 addressbox">
+                    <div class="card p-2 addressbox" style="border-color:black;">
+                        <div class="row">
+                            <div class="fs-6 fw-bold">ที่อยู่</div><br>
+                            <div class="ms-2 fs-6" id="printaddress"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-3 ms-3">
-                <div class="card-left" style="background-color:deepskyblue">
-                    <div class="card">
-                        <p class="top-text mt-2">ยอดขาย</p>
-                        <span id="orderC" class="midtext fw-bold text-center ms-3"
-                            style="font-size: 3rem; line-height: 1;">0</span>
-                        <p class="top-text text-end">บาท</p>
-                    </div>
-                </div>
+                <div class="fw-bold text-center mt-5" style="font-size: 3rem;">LALAMOVE</div>
             </div>
         </div>
     </div>
-    <div class="container-md">
-        <div class="row">
-            <div class="col-1 mt-3">
-                <div class="card p-2" style="background-color:lightcyan;">
-                    <div onclick="openSales()" class="border border-bottom text-center p-1"
-                        style="font-size: 0.75rem; color:rgb(16, 8, 49); cursor: pointer;">คำสั่งซื้อ</div>
 
 
-                    <div onclick="openLabel()" class="border border-bottom text-center mt-2 p-1"
-                        style="font-size: 0.75rem; color:rgb(16, 8, 49); cursor: pointer;">ใบปะหน้า</div>
-                </div>
+    <div class="container">
 
+        <div class="nav-menu p-3">
+            <div onclick="openSales()" class="mb-3" style="cursor: pointer;">
+                <i class="fa-solid fa-baht-sign iconmenu"></i> <span class="ms-2">คำสั่งซื้อ</span>
             </div>
-            <div class="col-3">
+            <div onclick="openLabel()" class="mb-3" style="cursor: pointer;">
+                <i class="fa-solid fa-tag iconmenu"></i> <span class="ms-2">ใบปะหน้า</span>
+            </div>
+        </div>
 
-                <form id="sales" class="detailform mt-3 border p-3">
-                    <div style="display: flex;">
-                        <h class="fw-bold fs-6">รายละเอียดคำสั่งซื้อ</h>
-                        <div class="getorder text-center ms-2" onclick="loaddetail()" style="cursor: pointer;">
-                            ดูสินค้าที่สั่งซื้อ</div>
-                    </div>
-                    <div class="mt-5" id="orderDetails">
-                        <div style="font-size: 0.75rem;">
-                            <p>วันที่สั่งซื้อ : <span id="detail_orderDate" style="color:black;" class="ms-5"></span>
-                            </p>
-                            <p>หมายเลขออเดอร์ : <span id="detail_orderNumber" style="color:black;" class="ms-5"></span>
-                            </p>
-                            <p>ลูกค้า : <span id="detail_customer" style="color:black;" class="ms-5"></span></p>
-                            <p>ยอดชำระ : <span id="detail_amount" style="color:black;" class="ms-5"></span></p>
-                            <p>ช่องทางติดต่อกลับ : <span id="detail_callBack" style="color:black;" class="ms-5"></span>
-                            </p>
-                            <p>ข้อมูลติดต่อ : <span id="detail_callBackValue" style="color:black;" class="ms-5"></span>
-                            </p>
-                            <p class="mt-2 fw-bold">รายละเอียดการจัดส่ง</p>
-                            <p>ที่อยู่ : <span id="detail_address" style="color:black;" class="ms-5"></span></p>
-                            <p>โทร : <span id="detail_tel" style="color:black;" class="ms-5"></span></p>
-                            <p>สถานะ : <span id="detail_status" style="color:black;" class="ms-5"></span></p>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-primary" type="button"
-                                    onclick="updateOrderState()">ยืนยันการชำระเงิน</button>
-                            </div>
+
+
+
+        <div class="b-example-divider"></div>
+        <div class="col-8 p-2">
+
+            <div class="nav-score mt-3" id="chaptor1" style="display: flex;">
+                <div class="col-3">
+                    <div class="card-left" style="background-color:green; max-width: 200px; min-width: 200px">
+                        <div class="card">
+                            <p class="top-text mt-2">คำสั่งซื้อใหม่</p>
+                            <span id="orderA" class="midtext fw-bold text-center"
+                                style="font-size: 5rem; margin-left: 80px;  color: red;">0</span>
+                            <p class="top-text text-end">คำสั่งซื้อ</p>
                         </div>
                     </div>
-                </form>
-                <div class="card p-3 bg-body-secondary mt-3 labelform" id="labelsticker"
-                    style="display: block; border-radius: 5px;">
-                    <div id="addressinput">
-                        <div class="row mb-3 p-3">
-                            <div class="col-3">
-                                <label>ชื่อ </label>
-                            </div>
-                            <div class="col-9">
-                                <input id="stickername" class="form-control form-control-sm ">
-                            </div>
-                        </div>
-                        <div class="row mb-3 p-3">
-                            <div class="col-3">
-                                <label>ที่อยู่ </label>
-                            </div>
-                            <div class="col-9">
-                                <input id="stickeraddress" class="form-control form-control-sm">
-                            </div>
-                        </div>
-                        <div class="row mb-3 p-3">
-                            <div class="col-3">
-                                <label>โทร </label>
-                            </div>
-                            <div class="col-9">
-                                <input id="stickertel" class="form-control form-control-sm">
-                            </div>
+                </div>
+                <div class="col-3 ms-3">
+                    <div class="card-left" style="background-color:darkorange;  max-width: 200px; min-width: 200px">
+                        <div class="card">
+                            <p class="top-text mt-2">จำนวน</p>
+                            <span id="orderB" class="midtext fw-bold ms-5"
+                                style="font-size: 5rem; justify-content: center; margin-left: 80px;">0</span>
+                            <p class="top-text text-end">คำสั่งซื้อ</p>
                         </div>
                     </div>
-                    <div id="addresspan" style="display: none;">
-                        <div class="row mb-3 p-3">
-                            <div class="col-3">
-                                <label>ชื่อ </label>
-                            </div>
-                            <div class="col-9">
-                                <span id="namesticker" class="form-control form-control-sm "></span>
-                            </div>
-                        </div>
-                        <div class="row mb-3 p-3">
-                            <div class="col-3">
-                                <label>ที่อยู่ </label>
-                            </div>
-                            <div class="col-9">
-                                <span id="addresssticker" class="form-control form-control-sm"></span>
-                            </div>
-                        </div>
-                        <div class="row mb-3 p-3">
-                            <div class="col-3">
-                                <label>โทร </label>
-                            </div>
-                            <div class="col-9">
-                                <span id="telsticker" class="form-control form-control-sm"></span>
-                            </div>
+                </div>
+                <div class="col-3 ms-3">
+                    <div class="card-left" style="background-color:deepskyblue; max-width: 400px; min-width: 400px">
+                        <div class="card">
+                            <p class="top-text mt-2">ยอดขาย</p>
+                            <span id="orderC" class="midtext fw-bold text-center ms-3" style="font-size: 5rem;">0</span>
+                            <p class="top-text text-end">บาท</p>
                         </div>
                     </div>
-                    <button id="btn01" onclick="handlePrint()" class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
-                    <button id="btn02" onclick="printData()" class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
                 </div>
             </div>
 
-            <div class="col-8">
-                <div class="container-right">
 
-                    <table class="fl-table" id="tableresults">
+            <div class="nav-score mt-4" id="chaptor2" style="display: flex;">
+                <div class="col-4">
+                    <form id="sales" class="detailform border p-3">
+                        <div style="display: flex;">
+                            <h class="fw-bold fs-6">รายละเอียดคำสั่งซื้อ</h>
+                            <div class="getorder text-center ms-2" onclick="loaddetail()" style="cursor: pointer;">
+                                ดูสินค้าที่สั่งซื้อ</div>
+                        </div>
+                        <div class="mt-5" id="orderDetails">
+                            <div style="font-size: 0.75rem;">
+                                <p>วันที่สั่งซื้อ : <span id="detail_orderDate" style="color:black;"
+                                        class="ms-5"></span>
+                                </p>
+                                <p>หมายเลขออเดอร์ : <span id="detail_orderNumber" style="color:black;"
+                                        class="ms-5"></span>
+                                </p>
+                                <p>ลูกค้า : <span id="detail_customer" style="color:black;" class="ms-5"></span></p>
+                                <p>ยอดชำระ : <span id="detail_amount" style="color:black;" class="ms-5"></span></p>
+                                <p>ช่องทางติดต่อกลับ : <span id="detail_callBack" style="color:black;"
+                                        class="ms-5"></span>
+                                </p>
+                                <p>ข้อมูลติดต่อ : <span id="detail_callBackValue" style="color:black;"
+                                        class="ms-5"></span>
+                                </p>
+                                <p class="fw-bold">รายละเอียดการจัดส่ง</p>
+                                <p>ที่อยู่ : <span id="detail_address" style="color:black;" class="ms-5"></span></p>
+                                <p>โทร : <span id="detail_tel" style="color:black;" class="ms-5"></span></p>
+                                <p>สถานะ : <span id="detail_status" style="color:black;" class="ms-5"></span></p>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary" type="button"
+                                        onclick="updateOrderState()">ยืนยันการชำระเงิน</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div cllass="col-8 ms-3">
+                    <table class="fl-table ms-3" id="tableresults">
                         <thead>
                             <tr style="font-family: sarabun;">
-                                <th>วันที่/เวลา</th>
-                                <th>เลขคำสั่งซื้อ</th>
-                                <th>ชื่อ นามสกุล</th>
-                                <th>ยอดชำระ</th>
-                                <th>ช่องทางติดต่อ</th>
-                                <th>ข้อมูล</th>
-                                <th>สถานะ</th>
+                                <th style="width: 150px">วันที่/เวลา</th>
+                                <th style="width: 100px">เลขคำสั่งซื้อ</th>
+                                <th style="width: 180px">ชื่อ นามสกุล</th>
+                                <th style="width: 100px">ยอดชำระ</th>
+                                <th style="width: 100px">ช่องทางติดต่อ</th>
+                                <th style="width: 100px">ข้อมูล</th>
+                                <th style="width: 100px">สถานะ</th>
                             </tr>
                         </thead>
                         <tbody id="results">
 
-                        <tbody>
+                        </tbody>
                     </table>
+                </div>
+            </div>
+
+            <div class="nav-score mt-4" id="chaptor3" style="display: flex;" id="labelsticker">
+                <div class="col-6">
+                    <p>สลากจัดส่ง</p>
+                    <div class="card p-3 bg-body-secondary mt-3 labelform" id="labelsticker"
+                        style="display: block; border-radius: 5px;">
+                        <div id="addressinput">
+
+                            <div class="input-group mb-2">
+                                <span>ชื่อ </span>
+
+                                <input id="stickername" class="form-control form-control-sm ms-2 ">
+                            </div>
+
+                            <div class="input-group mb-2">
+                                <span>ที่อยู่ </span>
+                                <input id="stickeraddress" class="form-control form-control-sm ms-2">
+                            </div>
+
+                            <div class="input-group mb-2">
+                                <span>โทร </span>
+                                <input id="stickertel" class="form-control form-control-sm ms-2">
+                            </div>
+                        </div>
+                        <div id="addresspan" style="display: none;">
+                            <div class="input-group mb-2">
+                               <span>ชื่อ </span>                                                      
+                                    <span id="namesticker" class="form-control form-control-sm  ms-2"></span>
+                                </div>
+                        
+                            <div class="input-group mb-2">
+                                 <span>ที่อยู่ </span>                                                  
+                                    <span id="addresssticker" class="form-control form-control-sm ms-2"></span>
+                                </div>
+                        
+                            <div class="input-group mb-2">
+                               <span>โทร </span>                                                          
+                                    <span id="telsticker" class="form-control form-control-sm ms-2"></span>
+                                </div>
+                
+                        </div>
+                        <button id="btn01" onclick="handlePrint()"
+                            class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
+                        <button id="btn02" onclick="printData()"
+                            class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-8">
                     <div id="addressTable">
-                        <div class="col-6">
+                        <div class="col-8">
+                            <p class="ms-38">ค้นหาที่อยู่</p>
                             <div style="display: flex;">
-                                <input id="filter" class="form-control form-control-sm ms-2" oninput="filterRecords()">
+                                <input id="filter" class="form-control form-control-sm ms-3" oninput="filterRecords()">
                                 <button id="allBtn" class="btn btn-secondary text-light ms-2" type="button"
                                     onclick="loadFormAddressSheet()">แสดงทั้งหมด</button>
                             </div>
                         </div>
-                        <table class="fl-table" id="tableaddress">
+                        <table class="fl-table ms-3" id="tableaddress" style="min-width: 700px; max-width: 700px;">
                             <thead>
                                 <tr style="font-family: sarabun;">
-                                    <th class="column-3">ชื่อ</th>
-                                    <th class="column-8">ที่อยู่</th>
+                                    <th style="width: 200px;">ชื่อ</th>
+                                    <th class="text-start" style="width: 350px;">ที่อยู่</th>
                                     <th>โทร</th>
                                 </tr>
                             </thead>
                             <tbody id="resultsaddress">
 
-                            <tbody>
+
+
+                            </tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
+        </div>
+    </div>
+    <script>
+        function loadFormSheet() {
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbwxfBjGLgCiW_VsJZ7GhFIw3bO9NQegXRZLM3IPT3vahnRLsqmRhRoWZiY305EKBreS0Q/exec";
 
-            <div id="labeldelivery" class="modalregister" style="display: none; width: 90%; justify-content: center;">
-                <div class="modal-content">
-                    <div class="modal-header"></div>
-                    <div class="modal-body">
-                        <div class="fs-4 fw-bold ms-3 text-start" id="printtel"></div>
-                        <div class="card p-2 mb-3 namebox">
-                            <div class="card p-2 mb-3 namebox" style="border-color:black;">
-                                <div class="row">
-                                    <div class="fs-6 fw-bold">ส่งคุณ</div><br>
-                                    <div class="ms-5 mt-2 fs-3 fw-bold" id="printname"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card p-2 addressbox">
-                            <div class="card p-2 addressbox" style="border-color:black;">
-                                <div class="row">
-                                    <div class="fs-6 fw-bold">ที่อยู่</div><br>
-                                    <div class="ms-2 fs-6" id="printaddress"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="fw-bold text-center mt-5" style="font-size: 3rem;">LALAMOVE</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal" id="modalCart" style="display: none;">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" style="font-family: sarabun;">สินค้าที่สั่งซื้อ</h5>
-
-                        </div>
-                        <div id="mycart" class="modal-body">
-
-                        </div>
-                        <div class="modal-footer">
-
-                            <button type="button" class="btn btn-primary" style="min-width: 100%;"
-                                onclick="closeProduct()">OK</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="waiting" class="modal-waiting" style="display: none;">
-                <div class="modal-content"
-                    style="min-width: 400px; max-width: 400px; margin-left: 20px; background-color: rgba(0, 0, 0, 0.1); box-shadow: inset 0em em rgba(0, 0, 0, 0), inset 0 .1em 0em rgba(0, 0, 0, 0); border: none;">
-                    <div class="row">
-                        <div class="col-2">
-                            <script src="https://cdn.lordicon.com/lordicon.js"></script>
-                            <lord-icon src="https://cdn.lordicon.com/kgdqzapd.json" trigger="loop" state="loop-clock"
-                                style="width:40px;height:40px">
-                            </lord-icon>
-                        </div>
-                        <div class="col-10">
-                            <p class="mt-1" style="color:rgb(16, 8, 49)">Request processing....</p>
-                        </div>
-                    </div>
-                </div>
-
-                <style>
-                    .labelform {
-
-                        max-height: 500px;
+            fetch(scriptUrl)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("การเชื่อมต่อผิดพลาด");
                     }
-
-                    .namebox {
-                        min-width: 250px;
-                        max-width: 250px;
-                    }
-
-                    .addressbox {
-                        min-width: 250px;
-                        max-width: 250px;
-                        min-height: 200px;
-                        max-height: 200px;
-                    }
-
-                    .modalregister {
-
-                        display: block;
-                        position: fixed;
-
-                        top: 50%;
-
-                        left: 50%;
-
-                        transform: translate(-50%, -50%);
-
-                        min-width: 10cm;
-                        max-width: 10cm;
-
-                        min-height: 5cm;
-
-                        background-color: #E0FFFF;
-                        padding: 20px;
-
-                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-
-                        z-index: 1000;
-                        font-size: 0.75rem;
-
-                        border-radius: 10px;
-                        flex-direction: row;
-                        justify-content: space-between;
-
-                    }
-
-                    #allBtn {
-                        max-width: 150px;
-                        min-width: 150px;
-                    }
-
-                    #tableaddress {
-                        min-height: 500px;
-                        max-height: 500px;
-                        overflow: scroll;
-                    }
-
-                    table {
-                        border-collapse: collapse;
-                        width: 100%;
-                        min-height: 500px;
-                        /* เพิ่มความสูงขั้นต่ำให้ตาราง */
-                    }
-
-                    thead th {
-                        position: sticky;
-                        top: 0;
-                        background-color: #ffffff;
-                        z-index: 2;
-                    }
-
-                    th,
-                    td {
-                        border: 1px solid #ddd;
-                        padding: 8px;
-                    }
-
-                    tbody {
-                        display: block;
-                        height: 300px;
-                        /* ความสูงเลื่อนของ tbody */
-                        min-height: 500px;
-                        /* เพิ่มขั้นต่ำด้วย */
-                        overflow-y: auto;
-                    }
-
-                    thead,
-                    tbody tr {
-                        display: table;
-                        width: 100%;
-                        table-layout: fixed;
-                    }
-
-
-
-                    @media print {
-                        button {
-                            display: none;
-                        }
-
-                        body {
-                            background: white;
-                            color: black;
-                            margin: 0;
-                            padding: 10px;
-                        }
-
-
-                    }
-                </style>
-                <script>
-                    function loadFormSheet() {
-                        const scriptUrl = "https://script.google.com/macros/s/AKfycbwxfBjGLgCiW_VsJZ7GhFIw3bO9NQegXRZLM3IPT3vahnRLsqmRhRoWZiY305EKBreS0Q/exec";
-
-                        fetch(scriptUrl)
-                            .then(function (response) {
-                                if (!response.ok) {
-                                    throw new Error("การเชื่อมต่อผิดพลาด");
-                                }
-                                return response.json();
-                            })
-                            .then(function (data) {
-                                // เก็บข้อมูลลงตัวแปร
-                                orderData = data;
-
-                                // เรียงลำดับ orderDate จากใหม่สุด -> เก่าสุด
-                                orderData.sort(function (a, b) {
-                                    return new Date(b.orderDate) - new Date(a.orderDate);
-                                });
-
-                                let html = "";
-                                for (let i = 0; i < orderData.length; i++) {
-                                    if (orderData[i].status === "ออเดอร์ใหม่") {
-                                        html += `
-                <tr style="cursor: pointer;" onclick="openProductDetail(${i})" class="trnew">
-                    <td>${formatDate(orderData[i].orderDate)}</td>
-                    <td>${orderData[i].orderNumber}</td>
-                    <td>${orderData[i].customer}</td>
-                    <td>${numberWithCommas(orderData[i].amount)}</td>
-                    <td>${orderData[i].callBack}</td>
-                    <td>${orderData[i].callBackValue}</td>
-                    <td class="neworder fw-bold">New Order</td>
-                </tr>`;
-                                    } else {
-                                        html += `
-                <tr style="background-color: lightgray;">
-                    <td>${formatDate(orderData[i].orderDate)}</td>
-                    <td>${orderData[i].orderNumber}</td>
-                    <td>${orderData[i].customer}</td>
-                    <td>${numberWithCommas(orderData[i].amount)}</td>
-                    <td>${orderData[i].callBack}</td>
-                    <td>${orderData[i].callBackValue}</td>
-                    <td style="color: white;">Complete</td>
-                </tr>`;
-                                    }
-                                }
-
-                                // แสดงผลในตาราง
-                                $("#results").html(html);
-                            })
-                    }
-
-
-                    function loadFormAddressSheet() {
-                        const scriptUrl = "https://script.google.com/macros/s/AKfycbytA_cS0J5jFWuVJ2BNHWPDcOmRtw_Rj-9merdreY175SnjSwdkQpxRLFc68s3chCb2Qg/exec";
-
-                        fetch(scriptUrl)
-                            .then(function (response) {
-                                if (!response.ok) {
-                                    throw new Error("การเชื่อมต่อผิดพลาด");
-                                }
-                                return response.json();
-                            })
-                            .then(function (data) {
-                                // เก็บข้อมูลลงตัวแปร
-                                orderData = data;
-
-
-
-                                let html = "";
-                                for (let i = 0; i < orderData.length; i++) {
-                                    html += `
-                <tr style="cursor: pointer;" onclick="openAddressDetail(${i})" class="trnew">
-                    <td>${orderData[i].addressName}</td>
-                    <td>${orderData[i].address}</td>
-                    <td>${orderData[i].addressTel}</td>
-                                 </tr>`;
-
-                                }
-
-
-                                $("#resultsaddress").html(html);
-                            })
-                    }
-
-
-
-
-
-                    var orderindex = 0;
-                    function openProductDetail(index) {
-                        orderindex = index;
-                        console.log(orderindex)
-                        $("#detail_orderDate").text(formatDate(orderData[index].orderDate));
-                        $("#detail_orderNumber").text(orderData[index].orderNumber);
-                        $("#detail_customer").text(orderData[index].customer);
-                        $("#detail_amount").text(numberWithCommas(orderData[index].amount) + ' THB');
-                        $("#detail_callback").text(orderData[index].callback);
-                        $("#detail_callbackValue").text(orderData[index].callbackValue);
-                        $("#detail_address").text(orderData[index].address);
-                        $("#detail_tel").text('0' + (orderData[index].tel));
-                        $("#detail_status").text("รอตรวจสอบ");
-
-
-                    }
-
-
-                    var orderindex = 0;
-                    function openAddressDetail(index) {
-                        orderindex = index;
-                        console.log(orderindex)
-                        $("#namesticker").text(orderData[index].addressName);
-                        $("#addressSticker").text(orderData[index].address);
-                        $("#telsticker").text(orderData[index].addressTel);
-                        $("#addresspan").css('display', 'block');
-                        $("#addressinput").css('display', 'none');
-                        $("#btn01").css('display', 'none');
-                        $("#addressspan").css('display', 'none');
-                        $("#btn01").css('display', 'none');
-                        $("#btn02").css('display', 'block');
-
-                    }
-
-
-                    function loaddetail() {
-                        const scriptUrl = "https://script.google.com/macros/s/AKfycbxkJF-_Swlz8QD3Sb8npLEvckz0MkqlkECXzeEENqsdwMi6Ij6qej86Uqji-1Rc8pfx/exec";
-
-                        fetch(scriptUrl)
-                            .then(function (response) {
-                                if (!response.ok) {
-                                    throw new Error("การเชื่อมต่อผิดพลาด");
-                                }
-                                return response.json();
-                            })
-                            .then(function (data) {
-                                const numberdetail = document.getElementById('detail_orderNumber').textContent.trim();
-                                let html = "";
-
-                                for (let i = 0; i < data.length; i++) {
-                                    if (data[i].orderId == numberdetail) {
-                                        html += `<p class="fs-6" style="font-family: sarabun;">${data[i].orderDetail}</p>`;
-                                        break; // ถ้าพบแล้วหยุดเลย ไม่ต้องวนต่อ
-                                    }
-                                }
-
-                                // แสดงผลลัพธ์
-                                document.getElementById("mycart").innerHTML = html;
-
-                                // แสดง modal
-                                document.getElementById("modalCart").style.display = "flex";
-                            })
-                            .catch(function (error) {
-                                console.error("เกิดข้อผิดพลาด:", error);
-                                document.getElementById("mycart").innerHTML = "ไม่สามารถโหลดข้อมูลได้";
-                            });
-
-                    }
-
-
-                    function updateOrderState() {
-                        document.getElementById("waiting").style.display = "flex";
-                        setTimeout(() => {
-                            updateOrderStatus();
-                        }, 3000);
-                        document.getElementById("modalCart").style.display = "none";
-                    }
-
-                    function updateOrderStatus() {
-
-                        const orderNumber = document.getElementById('detail_orderNumber').textContent;
-                        fetch("https://update-sheet.onrender.com/update-order", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({ orderNumber })
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.success) {
-                                    alert("อัปเดตสถานะเรียบร้อยแล้ว");
-                                    location.reload();
-                                } else {
-                                    alert("ไม่สามารถอัปเดตได้");
-                                }
-                            })
-                            .catch(err => console.error("Error:", err));
-
-                    }
-
-
-                    function openSales() {
-                        $("#labelsticker").css('display', 'none');
-                        $("#tableresults").css('display', 'block');
-                        $("#sales").css('display', 'block');
-                        $("#addressTable").css('display', 'none');
-                    }
-
-                    function openLabel() {
-                        $("#labelsticker").css('display', 'block');
-                        $("#tableresults").css('display', 'none');
-                        $("#sales").css('display', 'none');
-                        $("#addressTable").css('display', 'block');
-                        $("#btn01").css('display', 'block');
-                        $("#btn02").css('display', 'none');
-                        $("#addresspan").css('display', 'none');
-
-                    }
-
-
-
-                    function formatDate(dateStr) {
-                        const date = new Date(dateStr);
-                        const day = String(date.getDate()).padStart(2, "0");
-                        const month = String(date.getMonth() + 1).padStart(2, "0"); // เดือนเริ่มจาก 0
-                        const year = date.getFullYear();
-                        const hours = String(date.getHours()).padStart(2, "0");
-                        const minutes = String(date.getMinutes()).padStart(2, "0");
-
-                        return `${day}/${month}/${year} ${hours}:${minutes}`;
-                    }
-
-                    function numberWithCommas(amount) {
-                        return Number(amount).toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        });
-                    }
-
-                    function loadSummaryData() {
-                        const scriptUrl = "https://script.google.com/macros/s/AKfycbxHJl74VVFMdcAbf7mTdJFglEhvBK_fI_eBcswWB4U9ztJL4rpp8wsXIpPTtEqyUoXK4Q/exec";
-
-                        fetch(scriptUrl)
-                            .then(function (response) {
-                                if (!response.ok) {
-                                    throw new Error("การเชื่อมต่อผิดพลาด");
-                                }
-                                return response.json();
-                            })
-                            .then(function (data) {
-
-                                let dataC = data.C;
-                                let completeData = numberWithCommas(dataC);
-                                if (document.getElementById("orderA")) {
-                                    document.getElementById("orderA").textContent = data.B;
-                                }
-                                if (document.getElementById("orderB")) {
-                                    document.getElementById("orderB").textContent = data.A;
-                                }
-                                if (document.getElementById("orderC")) {
-                                    document.getElementById("orderC").textContent = completeData; // แสดงทศนิยม 2 ตำแหน่ง
-                                }
-                            })
-                            .catch(function (error) {
-                                console.error("เกิดข้อผิดพลาด:", error);
-                            });
-                    }
-
-                    function printLabel() {
-                        const labelName = document.getElementById('stickername').value;
-                        const labelAddress = document.getElementById('stickeraddress').value;
-                        const labelTel = document.getElementById('stickertel').value;
-
-                        document.getElementById('printname').innerText = labelName;
-                        document.getElementById('printaddress').innerText = labelAddress;
-                        document.getElementById('printtel').innerText = labelTel;
-
-                        printResult();
-                    }
-
-                   async function printData() {
-                        const labelName = document.getElementById('namesticker').textContent;
-                        const labelAddress = document.getElementById('addresssticker').textContent;
-                        const labelTel = document.getElementById('telsticker').textContent;
-
-                        document.getElementById('printname').innerText = labelName;
-                        document.getElementById('printaddress').innerText = labelAddress;
-                        document.getElementById('printtel').innerText = labelTel;
-
-                        printResult();
-                    }
-
-
-
-                    function printResult() {
-                        const modalContent = document.querySelector('#labeldelivery').innerHTML;
-                        const originalContent = document.body.innerHTML;
-
-                        // แสดงเฉพาะเนื้อหาที่ต้องการพิมพ์
-                        document.body.innerHTML = modalContent;
-                        window.print();
-                        document.body.innerHTML = originalContent;
-                    }
-
-                    function filterRecords() {
-                        const searchValue = document.getElementById('filter').value.toLowerCase();
-                        const url = `https://script.google.com/macros/s/AKfycbwHGBOkZzUR7TRBwDeG8ttBFkxR8dv_LpJMfiUiratGAnRjL76Lkt2Y3IfkZmnJdXTkAg/exec`;
-
-
-                        fetch(url)
-                            .then(function (response) {
-                                if (!response.ok) {
-                                    throw new Error("การเชื่อมต่อผิดพลาด");
-                                }
-                                return response.json();
-                            })
-                            .then(function (data) {
-                                // เก็บข้อมูลลงตัวแปร
-                                addressData = data;
-
-
-                                let html = "";
-
-                                for (let i = 0; i < addressData.length; i++) {
-                                    if (addressData[i].aname && addressData[i].aname.toLowerCase().includes(searchValue)) {
-
-                                        html += `
-                            <tr onclick="openAddressDetail(${i})" style="cursor: pointer;">
-                                <th class="column-5 text-center">${addressData[i].aname}</th>
-                                <td class="column-6">${addressData[i].aaddress}</td>
-                                <td class="text-center">${addressData[i].atel}}</td>
-                            </tr>
-                        `;
-                                    }
-                                    $("#resultsaddress").html(html);
-                                }
-
-                            })
-                    }
-
-                    async function updateAddress() {
-                        $("#waiting").css('display' , 'flex');
-                        const bname = document.getElementById('stickername').value;
-                        const baddress = document.getElementById('stickeraddress').value;
-                        const btel = document.getElementById('stickertel').value;
-                        await sentDataToSheet({ bname, baddress, btel });
-                        $("#waiting").css('display' , 'none');
-                    }
-
-                    async function sentDataToSheet(orderData) {
-
-                        try {
-                            await fetch("https://append-8p73.onrender.com/save-order", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify(orderData)
-                            });
-                        } catch (error) {
-                            console.error("ส่งข้อมูลไปยัง backend ไม่สำเร็จ:", error);
-                        }
-                    }
-
-                    async function handlePrint() {
-                        if (confirm('ต้องการบันทึกหรือไม่?')) {
-                         await  updateAddress();
-                               await  printLabel();
-
+                    return response.json();
+                })
+                .then(function (data) {
+                    // เก็บข้อมูลลงตัวแปร
+                    orderData = data;
+
+                    // เรียงลำดับ orderDate จากใหม่สุด -> เก่าสุด
+                    orderData.sort(function (a, b) {
+                        return new Date(b.orderDate) - new Date(a.orderDate);
+                    });
+
+                    let html = "";
+                    for (let i = 0; i < orderData.length; i++) {
+                        if (orderData[i].status === "ออเดอร์ใหม่") {
+                            html += `
+    <tr style="cursor: pointer;" onclick="openProductDetail(${i})" class="trnew">
+        <td style="width: 150px">${formatDate(orderData[i].orderDate)}</td>
+        <td style="width: 100px">${orderData[i].orderNumber}</td>
+        <td style="width: 180px">${orderData[i].customer}</td>
+        <td style="width: 100px">${numberWithCommas(orderData[i].amount)}</td>
+        <td style="width: 100px" >${orderData[i].callBack}</td>
+        <td style="width: 100px">${orderData[i].callBackValue}</td>
+        <td class="neworder fw-bold">New Order</td>
+    </tr>`;
                         } else {
-                            printData();
+                            html += `
+    <tr style="background-color: lightgray;">
+        <td style="width: 150px">${formatDate(orderData[i].orderDate)}</td>
+        <td style="width: 100px">${orderData[i].orderNumber}</td>
+        <td style="width: 180px">${orderData[i].customer}</td>
+        <td style="width: 100px">${numberWithCommas(orderData[i].amount)}</td>
+        <td style="width: 100px">${orderData[i].callBack}</td>
+        <td style="width: 100px">${orderData[i].callBackValue}</td>
+        <td style="color: white;">Complete</td>
+    </tr>`;
                         }
                     }
 
+                    // แสดงผลในตาราง
+                    $("#results").html(html);
+                })
+        }
 
 
-                    window.onload = function () {
-                        loadFormSheet();
-                        loadSummaryData();
-                        loadFormAddressSheet();
-                        openSales();
-                    };
-                </script>
+        function loadFormAddressSheet() {
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbytA_cS0J5jFWuVJ2BNHWPDcOmRtw_Rj-9merdreY175SnjSwdkQpxRLFc68s3chCb2Qg/exec";
+
+            fetch(scriptUrl)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("การเชื่อมต่อผิดพลาด");
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+                    // เก็บข้อมูลลงตัวแปร
+                    orderData = data;
+
+
+
+                    let html = "";
+                    for (let i = 0; i < orderData.length; i++) {
+                        html += `
+    <tr style="cursor: pointer;" onclick="openAddressDetail(${i})" class="trnew">
+        <td style="width: 200px;">${orderData[i].addressName}</td>
+        <td class="text-start" style="width: 350px;">${orderData[i].address}</td>
+        <td>${orderData[i].addressTel}</td>
+                     </tr>`;
+
+                    }
+
+
+                    $("#resultsaddress").html(html);
+                })
+        }
 
 
 
 
-                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-                    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-                    crossorigin="anonymous"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"
-                    integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+"
-                    crossorigin="anonymous"></script>
+
+        var orderindex = 0;
+        function openProductDetail(index) {
+            orderindex = index;
+            console.log(orderindex)
+            $("#detail_orderDate").text(formatDate(orderData[index].orderDate));
+            $("#detail_orderNumber").text(orderData[index].orderNumber);
+            $("#detail_customer").text(orderData[index].customer);
+            $("#detail_amount").text(numberWithCommas(orderData[index].amount) + ' THB');
+            $("#detail_callback").text(orderData[index].callback);
+            $("#detail_callbackValue").text(orderData[index].callbackValue);
+            $("#detail_address").text(orderData[index].address);
+            $("#detail_tel").text('0' + (orderData[index].tel));
+            $("#detail_status").text("รอตรวจสอบ");
+
+
+        }
+
+
+        var orderindex = 0;
+        function openAddressDetail(index) {
+            orderindex = index;
+            console.log(orderindex)
+            $("#namesticker").text(orderData[index].addressName);
+            $("#addresssticker").text(orderData[index].address);
+            $("#telsticker").text(orderData[index].addressTel);
+            $("#addresspan").css('display', 'block');
+            $("#addressinput").css('display', 'none');
+            $("#btn01").css('display', 'none');
+            $("#addressspan").css('display', 'none');
+            $("#btn01").css('display', 'none');
+            $("#btn02").css('display', 'block');
+
+        }
+
+
+
+        function loaddetail() {
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbxkJF-_Swlz8QD3Sb8npLEvckz0MkqlkECXzeEENqsdwMi6Ij6qej86Uqji-1Rc8pfx/exec";
+
+            fetch(scriptUrl)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("การเชื่อมต่อผิดพลาด");
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+                    const numberdetail = document.getElementById('detail_orderNumber').textContent.trim();
+                    let html = "";
+
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].orderId == numberdetail) {
+                            html += `<p class="fs-6" style="font-family: sarabun;">${data[i].orderDetail}</p>`;
+                            break; // ถ้าพบแล้วหยุดเลย ไม่ต้องวนต่อ
+                        }
+                    }
+
+                    // แสดงผลลัพธ์
+                    document.getElementById("mycart").innerHTML = html;
+
+                    // แสดง modal
+                    document.getElementById("modalCart").style.display = "flex";
+                })
+                .catch(function (error) {
+                    console.error("เกิดข้อผิดพลาด:", error);
+                    document.getElementById("mycart").innerHTML = "ไม่สามารถโหลดข้อมูลได้";
+                });
+
+        }
+
+
+        function updateOrderState() {
+            document.getElementById("waiting").style.display = "flex";
+            setTimeout(() => {
+                updateOrderStatus();
+            }, 3000);
+            document.getElementById("modalCart").style.display = "none";
+        }
+
+        function updateOrderStatus() {
+
+            const orderNumber = document.getElementById('detail_orderNumber').textContent;
+            fetch("https://update-sheet.onrender.com/update-order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ orderNumber })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("อัปเดตสถานะเรียบร้อยแล้ว");
+                        location.reload();
+                    } else {
+                        alert("ไม่สามารถอัปเดตได้");
+                    }
+                })
+                .catch(err => console.error("Error:", err));
+
+        }
+
+
+        function openSales() {
+            $("#chaptor1").css('display', 'flex');
+            $("#chaptor2").css('display', 'flex');
+            $("#chaptor3").css('display', 'none');
+
+        }
+
+        function openLabel() {
+            $("#chaptor1").css('display', 'none');
+            $("#chaptor2").css('display', 'none');
+            $("#chaptor3").css('display', 'flex');
+            $("#addresspan").css('display', 'none');
+            $("#btn02").css('display', 'none');
+
+        }
+
+
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0"); // เดือนเริ่มจาก 0
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, "0");
+            const minutes = String(date.getMinutes()).padStart(2, "0");
+
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
+
+        function numberWithCommas(amount) {
+            return Number(amount).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function loadSummaryData() {
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbxHJl74VVFMdcAbf7mTdJFglEhvBK_fI_eBcswWB4U9ztJL4rpp8wsXIpPTtEqyUoXK4Q/exec";
+
+            fetch(scriptUrl)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("การเชื่อมต่อผิดพลาด");
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+
+                    let dataC = data.C;
+                    let completeData = numberWithCommas(dataC);
+                    if (document.getElementById("orderA")) {
+                        document.getElementById("orderA").textContent = data.B;
+                    }
+                    if (document.getElementById("orderB")) {
+                        document.getElementById("orderB").textContent = data.A;
+                    }
+                    if (document.getElementById("orderC")) {
+                        document.getElementById("orderC").textContent = completeData; // แสดงทศนิยม 2 ตำแหน่ง
+                    }
+                })
+                .catch(function (error) {
+                    console.error("เกิดข้อผิดพลาด:", error);
+                });
+        }
+
+        function printLabel() {
+            const labelName = document.getElementById('stickername').value;
+            const labelAddress = document.getElementById('stickeraddress').value;
+            const labelTel = document.getElementById('stickertel').value;
+
+            document.getElementById('printname').innerText = labelName;
+            document.getElementById('printaddress').innerText = labelAddress;
+            document.getElementById('printtel').innerText = labelTel;
+
+            printResult();
+        }
+
+        async function printData() {
+            const labelName = document.getElementById('namesticker').textContent;
+            const labelAddress = document.getElementById('addresssticker').textContent;
+            const labelTel = document.getElementById('telsticker').textContent;
+
+            document.getElementById('printname').innerText = labelName;
+            document.getElementById('printaddress').innerText = labelAddress;
+            document.getElementById('printtel').innerText = labelTel;
+
+            printResult();
+        }
+
+
+
+        function printResult() {
+            const modalContent = document.querySelector('#labeldelivery').innerHTML;
+            const originalContent = document.body.innerHTML;
+
+            // แสดงเฉพาะเนื้อหาที่ต้องการพิมพ์
+            document.body.innerHTML = modalContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+        }
+
+        function filterRecords() {
+            const searchValue = document.getElementById('filter').value.toLowerCase();
+            const url = `https://script.google.com/macros/s/AKfycbwHGBOkZzUR7TRBwDeG8ttBFkxR8dv_LpJMfiUiratGAnRjL76Lkt2Y3IfkZmnJdXTkAg/exec`;
+
+
+            fetch(url)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("การเชื่อมต่อผิดพลาด");
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+                    // เก็บข้อมูลลงตัวแปร
+                    addressData = data;
+
+
+                    let html = "";
+
+                    for (let i = 0; i < addressData.length; i++) {
+                        if (addressData[i].aname && addressData[i].aname.toLowerCase().includes(searchValue)) {
+
+                            html += `
+                <tr onclick="openAddressDetail(${i})" style="cursor: pointer;">
+                    <th class="column-5 text-center">${addressData[i].aname}</th>
+                    <td class="column-6">${addressData[i].aaddress}</td>
+                    <td class="text-center">${addressData[i].atel}}</td>
+                </tr>
+            `;
+                        }
+                        $("#resultsaddress").html(html);
+                    }
+
+                })
+        }
+
+        async function updateAddress() {
+            $("#waiting").css('display', 'flex');
+            const bname = document.getElementById('stickername').value;
+            const baddress = document.getElementById('stickeraddress').value;
+            const btel = document.getElementById('stickertel').value;
+            await sentDataToSheet({ bname, baddress, btel });
+            $("#waiting").css('display', 'none');
+        }
+
+        async function sentDataToSheet(orderData) {
+
+            try {
+                await fetch("https://append-8p73.onrender.com/save-order", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(orderData)
+                });
+            } catch (error) {
+                console.error("ส่งข้อมูลไปยัง backend ไม่สำเร็จ:", error);
+            }
+        }
+
+        async function handlePrint() {
+            if (confirm('ต้องการบันทึกหรือไม่?')) {
+                await updateAddress();
+                await printLabel();
+
+            } else {
+                printData();
+            }
+        }
+
+
+
+        window.onload = function () {
+            loadFormSheet();
+            loadSummaryData();
+            loadFormAddressSheet();
+            openSales();
+
+        };
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"
+        integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+"
+        crossorigin="anonymous"></script>
 
 </body>
 
