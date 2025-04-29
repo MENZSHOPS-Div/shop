@@ -123,7 +123,8 @@
       padding: 20px;
       border: 2px solid #333;
       margin: 20px 0;
-      width: 300px;
+      min-width: 189px;
+      max-width: 378px;
       background-color: #f9f9f9;
     }
 
@@ -161,7 +162,7 @@
 
     tbody {
         display: block;
-        height: 300px;
+        height: 378px;
         /* ความสูงเลื่อนของ tbody */
         min-height: 500px;
         /* เพิ่มขั้นต่ำด้วย */
@@ -210,7 +211,7 @@
     <div id="labeldelivery" class="modalregister" style="display: none; width: 90%; justify-content: center;">
         <div class="modal-content">
             <div class="modal-header"></div>
-            <div class="modal-body" id="capture-area">
+            <div class="modal-body" id="">
               
             </div>
         </div>
@@ -368,6 +369,9 @@
                             class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
                         <button id="btn02" onclick="printData()"
                             class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
+                        <div id="capture-area">
+
+                        </div>
                     </div>
                 </div>
 
@@ -701,6 +705,7 @@
                
            $("#capture-area").html(html);
               downloadPDF();
+      printarea.innerText=" ";
         }
 
 
@@ -786,7 +791,7 @@
         }
 
      function downloadPDF() {
-  $("#labeldelivery").css('display', 'block');
+  
 
   setTimeout(() => {
     const element = document.getElementById('capture-area');
@@ -806,8 +811,7 @@
       .from(element)
       .save()
       .then(() => {
-        // ซ่อนกลับถ้าอยากให้ modal หายไปหลังดาวน์โหลด
-        $("#labeldelivery").css('display', 'none');
+      
       });
 
   }, 3000); // รอ 200 ms ค่อยทำงาน
