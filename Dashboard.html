@@ -690,13 +690,13 @@
         }
 
          function printData() {
-            const labelName = document.getElementById('namesticker').textContent;
-            const labelAddress = document.getElementById('addresssticker').textContent;
-            const labelTel = document.getElementById('telsticker').textContent;
+            let labelName = document.getElementById('namesticker').textContent;
+            let labelAddress = document.getElementById('addresssticker').textContent;
+            let labelTel = document.getElementById('telsticker').textContent;
             console.log(labelName, labelAddress, labelTel);
-            $("#printname").Text(lebelName);
-            $("#printaddress").Text(lebelAddress);
-            $("#printtel").Text(lebelTel);
+            $("#printname").Text(labelName);
+            $("#printaddress").Text(labelAddress);
+            $("#printtel").Text(labelTel);
             downloadPDF();
         }
 
