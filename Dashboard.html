@@ -785,21 +785,33 @@
             }
         }
 
-        function downloadPDF() {
-  $("#labeldelivery").css('display' , 'block');
-  const element = document.getElementById('capture-area');
-  html2pdf()
-    .set({
-      margin: 10,
-      filename: 'Label.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    })
-    .from(element)
-    .save();
-}
+     function downloadPDF() {
+  $("#labeldelivery").css('display', 'block');
 
+  setTimeout(() => {
+    const element = document.getElementById('capture-area');
+    if (!element) {
+      alert('ไม่พบ capture-area');
+      return;
+    }
+
+    html2pdf()
+      .set({
+        margin: 10,
+        filename: 'Label.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(element)
+      .save()
+      .then(() => {
+        // ซ่อนกลับถ้าอยากให้ modal หายไปหลังดาวน์โหลด
+        $("#labeldelivery").css('display', 'none');
+      });
+
+  }, 200); // รอ 200 ms ค่อยทำงาน
+}
 
 
         window.onload = function () {
