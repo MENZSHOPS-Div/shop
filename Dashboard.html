@@ -693,11 +693,12 @@
             let labelName = document.getElementById('namesticker').textContent;
             let labelAddress = document.getElementById('addresssticker').textContent;
             let labelTel = document.getElementById('telsticker').textContent;
-            console.log(labelName, labelAddress, labelTel);
-            $("#printname").Text(labelName);
-            $("#printaddress").Text(labelAddress);
-            $("#printtel").Text(labelTel);
-            downloadPDF();
+                console.log(labelName, labelAddress, labelTel);
+              document.getElementById('printname').innerText = labelName;
+              document.getElementById('printaddress').innerText = labelAddress; 
+              document.getElementById('printtel').innerText = labelTel;
+                      downloadPDF();
+             
         }
 
 
