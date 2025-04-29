@@ -22,6 +22,8 @@
    <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="Dashboard.css">
 </head>
 
@@ -703,33 +705,24 @@
     }, 200);
 }
 
-function downloadPDF() {
-  $("#labeldelivery").css('display', 'block');
-
-  setTimeout(() => {
+ function downloadPDF() {
     const element = document.getElementById('capture-area');
-    if (!element) {
-      alert('ไม่พบ capture-area');
-      return;
-    }
 
-    html2pdf()
-      .set({
-        margin: 10,
-        filename: 'Label.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      })
-      .from(element)
-      .save()
-      .then(() => {
-        $("#labeldelivery").css('display', 'none');
-      });
+    html2canvas(element, {
+      scale: 2,
+      useCORS: true
+    }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
 
-  }, 200);
-}
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('sticker.pdf');
+    });
+  }
 
         function printResult() {
             const modalContent = document.querySelector('#labeldelivery').innerHTML;
