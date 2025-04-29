@@ -413,11 +413,12 @@
                     <div id="addressTable">
                         <div class="col-10">
                             <p class="ms-38">ค้นหาที่อยู่</p>
-                            <div style="display: flex;">
-                                <input id="filter" class="form-control form-control-sm ms-3">
+                            <div class="input-group mb-3">
+                                 <button class="btn btn-outline-secondary" type="button" id="button-addon1" onclick="addRecords()">+</button>
+                                 <input id="filter" class="form-control form-control-sm ms-3">
                                 <button class="btn btn-primary ms-2" onclick="filterRecords()" type="button">ค้นหา</button>
                                 <button id="allBtn" class="btn btn-secondary text-light ms-2" type="button"  onclick="loadFormAddressSheet()">แสดงทั้งหมด</button>
-                                <button class="btn btn-success ms-2" onclick="addRecords()" type="button">เพิ่มที่อยู่</button>
+                           
                             </div>
                         </div>
                         <script>
