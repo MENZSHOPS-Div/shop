@@ -18,6 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.min.js"
         integrity="sha512-w3u9q/DeneCSwUDjhiMNibTRh/1i/gScBVp2imNVAMCt6cUHIw6xzhzcPFIaL3Q1EbI2l+nu17q2aLJJLo4ZYg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <link rel="stylesheet" href="Dashboard.css">
 </head>
@@ -668,36 +669,55 @@
             downloadPDF();
         }
 
-         function printData() {
+     function printData() {
     const labelName = document.getElementById('namesticker').textContent.trim();
     const labelAddress = document.getElementById('addresssticker').textContent.trim();
     const labelTel = document.getElementById('telsticker').textContent.trim();
 
     const html = `
         <div class="fs-4 fw-bold ms-3 text-start" id="printtel">${labelTel}</div>
-        <div class="card p-2 mb-3 me-3 namebox" style="border-color:black;">
+        <div class="card p-2 mb-3 namebox" style="border-color:black;">
             <div class="row">
                 <div class="fs-6 fw-bold">ส่งคุณ</div>
                 <div class="ms-5 mt-2 fs-3 fw-bold" id="printname">${labelName}</div>
             </div>
         </div>
-        <div class="card p-2 me-3 addressbox" style="border-color:black;">
+        <div class="card p-2 addressbox" style="border-color:black;">
             <div class="row">
                 <div class="fs-6 fw-bold">ที่อยู่</div>
                 <div class="ms-2 fs-6" id="printaddress">${labelAddress}</div>
             </div>
         </div>
-        <div class="fw-bold text-center mt-5" style="font-size: 2rem;">LALAMOVE</div>
+        <div class="fw-bold text-center mt-5" style="font-size: 3rem;">LALAMOVE</div>
     `;
 
-    document.getElementById('capture-area').innerHTML = html;
+    const printArea = document.getElementById('capture-area');
+    printArea.innerHTML = html;
 
-    if (typeof downloadPDF === "function") {
+    // ✅ รอให้ DOM render เสร็จก่อนเรียก downloadPDF
+    setTimeout(() => {
         downloadPDF();
-    } else {
-        console.warn("downloadPDF() not found.");
-    }
+    }, 200);
 }
+
+function downloadPDF() {
+    const element = document.getElementById('capture-area');
+    if (!element) {
+        console.error("Element with ID 'capture-area' not found.");
+        return;
+    }
+
+    const opt = {
+        margin:       0.5,
+        filename:     'sticker.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+}
+
 
 
 
@@ -784,23 +804,7 @@
 
   
 
-function downloadPDF() {
-    const element = document.getElementById('capture-area');
-    if (!element) {
-        console.error("Element with ID 'capture-area' not found.");
-        return;
-    }
 
-    const opt = {
-        margin:       0.5,
-        filename:     'sticker.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(element).save();
-}
 
 
 
