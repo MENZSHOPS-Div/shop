@@ -693,11 +693,9 @@
             const labelName = document.getElementById('namesticker').textContent;
             const labelAddress = document.getElementById('addresssticker').textContent;
             const labelTel = document.getElementById('telsticker').textContent;
-
-            document.getElementById('printname').innerText = labelName;
-            document.getElementById('printaddress').innerText = labelAddress;
-            document.getElementById('printtel').innerText = labelTel;
-
+            $("#printname").Text(lebelName);
+            $("#printaddress").Text(lebelName);
+            $("#printtel").Text(lebelName);
             downloadPDF();
         }
 
