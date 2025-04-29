@@ -669,36 +669,35 @@
         }
 
          function printData() {
-            const labelName = document.getElementById('namesticker').textContent;
-            const labelAddress = document.getElementById('addresssticker').textContent;
-            const labelTel = document.getElementById('telsticker').textContent;
-            const printarea =  document.getElementById('capture-area');
-             printarea.innerText=" ";
-             let html=" ";
-             html+=`
-               <div class="fs-4 fw-bold ms-3 text-start" id="printtel">${labelTel}</div>
-                <div class="card p-2 mb-3 namebox">
-                    <div class="card p-2 mb-3 namebox" style="border-color:black;">
-                        <div class="row">
-                            <div class="fs-6 fw-bold">ส่งคุณ</div><br>
-                            <div class="ms-5 mt-2 fs-3 fw-bold" id="printname">${labelName}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card p-2 addressbox">
-                    <div class="card p-2 addressbox" style="border-color:black;">
-                        <div class="row">
-                            <div class="fs-6 fw-bold">ที่อยู่</div><br>
-                            <div class="ms-2 fs-6" id="printaddress">${labelAddress}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="fw-bold text-center mt-5" style="font-size: 3rem;">LALAMOVE</div>`;
-               
-           $("#capture-area").html(html);
-              downloadPDF();
-      printarea.innerText=" ";
-        }
+    const labelName = document.getElementById('namesticker').textContent.trim();
+    const labelAddress = document.getElementById('addresssticker').textContent.trim();
+    const labelTel = document.getElementById('telsticker').textContent.trim();
+
+    const html = `
+        <div class="fs-4 fw-bold ms-3 text-start" id="printtel">${labelTel}</div>
+        <div class="card p-2 mb-3 namebox" style="border-color:black;">
+            <div class="row">
+                <div class="fs-6 fw-bold">ส่งคุณ</div>
+                <div class="ms-5 mt-2 fs-3 fw-bold" id="printname">${labelName}</div>
+            </div>
+        </div>
+        <div class="card p-2 addressbox" style="border-color:black;">
+            <div class="row">
+                <div class="fs-6 fw-bold">ที่อยู่</div>
+                <div class="ms-2 fs-6" id="printaddress">${labelAddress}</div>
+            </div>
+        </div>
+        <div class="fw-bold text-center mt-5" style="font-size: 3rem;">LALAMOVE</div>
+    `;
+
+    document.getElementById('capture-area').innerHTML = html;
+
+    if (typeof downloadPDF === "function") {
+        downloadPDF();
+    } else {
+        console.warn("downloadPDF() not found.");
+    }
+}
 
 
 
