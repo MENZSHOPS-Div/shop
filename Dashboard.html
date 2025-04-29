@@ -32,7 +32,19 @@
         font-family: "sarabun";
     }
 
-
+    .modal-waiting {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-left: 20px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0); /* พื้นหลังดำโปร่งใส */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000; /* ให้ลอยอยู่บนสุด */
+}
 
     .nav-menu {
         min-width: 155px;
@@ -93,6 +105,11 @@
         min-height: 150px;
         max-height: 150px;
     }
+
+    #waiting {
+   min-width: 100%;
+   max-width: 100%
+  }
 
     .modalregister {
 
@@ -201,6 +218,18 @@
 </style>
 
 <body>
+    <div id="waiting" class="modal-waiting" style="display: none;">
+       <div class="modal-content" style="min-width: 400px; max-width: 400px; margin-left: 20px; background-color: rgba(0, 0, 0, 0.1); box-shadow: inset 0em em rgba(0, 0, 0, 0), inset 0 .1em 0em rgba(0, 0, 0, 0); border: none;">
+      <div class="row">
+    <div class="col-2">
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+<lord-icon
+    src="https://cdn.lordicon.com/kgdqzapd.json"
+    trigger="loop"
+    state="loop-clock"
+    style="width:40px;height:40px">
+</lord-icon>
+</div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0 mb-1" style="min-height: 80px; max-height: 80px;">
         <img id="newicon" class="logo-img" src="https://img5.pic.in.th/file/secure-sv1/-10029646b3f4ae4fd1.png">
         <h1 class="logotext ms-1">เม็นส์ ช็อป</h1>
@@ -817,11 +846,12 @@
 
         async function handlePrint() {
             if (confirm('ต้องการบันทึกหรือไม่?')) {
+                document.getElementById('waiting').css('display' , 'flex');
                 await updateAddress();
                 await printLabel();
-
+                 document.getElementById('waiting').css('display' , 'none');
             } else {
-                printData();
+                printLabel();
             }
         }
 
