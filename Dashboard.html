@@ -149,6 +149,7 @@
       padding: 30px;
        background-color: #f9f9f9;
       font-family: "Noto Sans Thai", sans-serif;
+         color: black;
     }
 
     #allBtn {
@@ -415,10 +416,16 @@
                             <div style="display: flex;">
                                 <input id="filter" class="form-control form-control-sm ms-3">
                                 <button class="btn btn-primary ms-2" onclick="filterRecords()" type="button">ค้นหา</button>
-                                <button id="allBtn" class="btn btn-secondary text-light ms-2" type="button"
-                                    onclick="loadFormAddressSheet()">แสดงทั้งหมด</button>
+                                <button id="allBtn" class="btn btn-secondary text-light ms-2" type="button"  onclick="loadFormAddressSheet()">แสดงทั้งหมด</button>
+                                <button class="btn btn-success ms-2" onclick="addRecords()" type="button">เพิ่มที่อยู่</button>
                             </div>
                         </div>
+                        <script>
+                            function addRecords(){
+                                document.getElementById('addressspan').css('display' , 'block');
+                                 document.getElementById('addressinput').css('display' , 'none');
+                            }
+                        </script>
                         <table class="fl-table ms-3" id="tableaddress" style="min-width: 700px; max-width: 700px;">
                             <thead>
                                 <tr style="font-family: sarabun;">
@@ -643,6 +650,7 @@
             $("#chaptor3").css('display', 'flex');
             $("#addresspan").css('display', 'none');
             $("#btn02").css('display', 'none');
+            $("#addrerssinput").css('display', 'none');
 
         }
 
