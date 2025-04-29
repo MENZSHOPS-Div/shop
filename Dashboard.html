@@ -779,16 +779,17 @@
                 await printLabel();
 
             } else {
-                downloadPDF();
+                printData();
             }
         }
 
         function downloadPDF() {
+  $("#labeldelivery").css('display' , 'block');
   const element = document.getElementById('capture-area');
   html2pdf()
     .set({
       margin: 10,
-      filename: 'ข้อมูลที่เลือก.pdf',
+      filename: 'Label.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
