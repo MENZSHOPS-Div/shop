@@ -866,10 +866,10 @@ function downloadPDF() {
 
         async function handlePrint() {
             if (confirm('ต้องการบันทึกหรือไม่?')) {
-                document.getElementById('waiting').css('display' , 'flex');
+               $("#waiting").css('display' , 'flex');
                 await updateAddress();
                 await printLabel();
-                 document.getElementById('waiting').css('display' , 'none');
+                 $("#waiting").css('display' , 'noned');
             } else {
                 printLabel();
             }
