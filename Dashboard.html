@@ -769,7 +769,7 @@
          
 }
 
- function downloadPDF() {
+function downloadPDF() {
     const element = document.getElementById('capture-area');
 
     html2canvas(element, {
@@ -784,9 +784,12 @@
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('sticker.pdf');
+
+      // เปิดไฟล์ในแท็บใหม่
+      const pdfBlobUrl = pdf.output('bloburl');
+      window.open(pdfBlobUrl, '_blank');
     });
-  }
+}
 
         function printResult() {
             const modalContent = document.querySelector('#labeldelivery').innerHTML;
