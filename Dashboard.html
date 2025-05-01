@@ -868,7 +868,7 @@ function downloadPDF() {
             if (confirm('ต้องการบันทึกหรือไม่?')) {
                $("#waiting").css('display' , 'flex');
                 await updateAddress();
-                 $("#waiting").css('display' , 'noned');
+                 $("#waiting").css('display' , 'none');
                 await printLabel();
                 
             } else {
