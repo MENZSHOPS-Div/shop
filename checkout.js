@@ -234,6 +234,7 @@ function orderRender() {
         cart = JSON.parse(storedCart);
         renderSummaryCart();
         renderRecieve(); 
+        getRecieveAmount();
     } else {
         document.getElementById("summaryCart").innerHTML = `<p>ไม่มีสินค้าในตะกร้า</p>`;
     }
@@ -292,7 +293,7 @@ function renderRecieve() {
   `;
 
   document.getElementById("bodyrecieve").innerHTML = html;
-        }
+        }  
   $("#recieveAmount").Text('ยอดชำระสุทธิ ' + numberWithCommas(totalPrice));
     }
 
@@ -301,6 +302,18 @@ function renderRecieve() {
     }
 }
 
+function getRecieveAmount(){
+    if (cart.length > 0) {
+        let html = '';
+        let totalPrice = 0;
+
+        for (let i = 0; i < cart.length; i++) {
+            let itemTotal = cart[i].price * cart[i].count;
+            totalPrice += itemTotal;
+       
+        document.getElementById('recieveAmount').innerHTML = totalPrice ;
+}}
+}
 
 function openChoice() {
     var choice = document.getElementById('paytype').textContent.trim().toLowerCase();
