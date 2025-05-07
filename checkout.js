@@ -410,7 +410,7 @@ async function sendAll(event) {
     $("#waiting").css('display', 'none');
     
     setTimeout(() => {
-        printlabel();
+        printLabel();
         }, 200);
 }
 
