@@ -510,8 +510,7 @@ const html = `
 const printArea = document.getElementById('headrecieve');
 printArea.innerHTML = html;
 renderRecieve();
-const data = document.getElementById('print-area').textContent;
-    console.log(data);
+
 setTimeout(() => {
 downloadPDF();
 }, 200);
