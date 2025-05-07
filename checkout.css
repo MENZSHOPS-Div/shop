@@ -10,6 +10,39 @@ body {
     user-select: none;
 }
 
+ .container-recieve{
+        min-width: 500px;
+        max-width: 500px;
+       
+        font-family: "sarabun";
+    }
+
+    .recieve-header{
+        display: flex;
+        justify-content: space-between;
+       
+    }
+
+    #bodyrecieve{
+     min-height: 100px;
+     max-height: 100px;
+    }
+
+    .atype{
+        min-width: 200px;
+        max-width: 200px; 
+    }
+    
+    .btype{
+        min-width: 100px;
+        max-width: 100px;
+
+    }
+
+    .ctype{
+        justify-content: end;
+    }
+
 .paymentlogo {
     width: 60px;
 }
