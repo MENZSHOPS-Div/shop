@@ -294,7 +294,7 @@ function renderRecieve() {
 
   document.getElementById("bodyrecieve").innerHTML = html;
         }  
-  $("#recieveAmount").Text('ยอดชำระสุทธิ ' + numberWithCommas(totalPrice));
+ 
     }
 
     else {
