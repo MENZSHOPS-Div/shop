@@ -232,7 +232,8 @@ function orderRender() {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
         cart = JSON.parse(storedCart);
-        renderSummaryCart(); // ใช้ฟังก์ชันเดิม
+        renderSummaryCart();
+        renderRecieve(); 
     } else {
         document.getElementById("summaryCart").innerHTML = `<p>ไม่มีสินค้าในตะกร้า</p>`;
     }
@@ -271,6 +272,32 @@ function renderSummaryCart() {
         $("#total4").text(numberWithCommas(totalPrice));
     } else {
         document.getElementById("summaryCart").innerHTML = `<p>ไม่มีสินค้าในตะกร้า</p>`;
+    }
+}
+
+function renderRecieve() {
+    if (cart.length > 0) {
+        let html = '';
+        let totalPrice = 0;
+
+        for (let i = 0; i < cart.length; i++) {
+            let itemTotal = cart[i].price * cart[i].count;
+            totalPrice += itemTotal;
+
+            html += `  <tr>
+                      <td class="col atype">${cart[i].name}</td>
+                      <td class="col btype">${cart[i].count}</td>
+                      <td class="col btype text-end">${itemTotal}</td>
+          </tr>
+  `;
+
+  document.getElementById("bodyrecieve").innerHTML = html;
+        }
+  $("#recieveAmount").Text('ยอดชำระสุทธิ ' + numberWithCommas(totalPrice));
+    }
+
+    else {
+        document.getElementById("bodyrecieve").innerHTML = `<p>ไม่มีสินค้าในตะกร้า</p>`;
     }
 }
 
@@ -368,8 +395,10 @@ async function sendAll(event) {
     $("#waiting").css('display', 'flex');
     await sendLineMessage();
     $("#waiting").css('display', 'none');
-    localStorage.removeItem('cart');
-    window.location.href = 'index.html';
+    
+    setTimeout(() => {
+        printlabel();
+        }, 200);
 }
 
 
@@ -417,6 +446,99 @@ function generateOrderNumber() {
     let orderNumber = Math.floor(10000000 + Math.random() * 90000000); // สุ่มเลข 8 หลัก
     document.getElementById("ordernumber").textContent = orderNumber; // แสดงผลใน HTML
 }
+
+
+function printLabel() {
+    let recievorderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
+    let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
+    let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
+    let recieveFullName = `${name} ${lastname}`;
+    let address = document.getElementById("address")?.value || "ไม่มีข้อมูล";
+    let province = document.getElementById("province")?.value || "ไม่มีข้อมูล";
+    let zipcode = document.getElementById("zipcode")?.value || "ไม่มีข้อมูล";
+    let tel = document.getElementById("tel")?.value || "ไม่มีข้อมูล";
+    let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
+    let detail = document.getElementById("sentback")?.textContent || "ไม่มีข้อมูล";
+    let fulladdress = `${address} ${province} ${zipcode}`;
+const html = `
+     <div class="container-recieve">
+              <div class="container p-4">
+                  <div class="recieve-header">
+                      <div class="fs-6" style="line-height: 1;">
+                          <p style="font-size: 0.70rem;" >MENZSHOPS<br>
+                             Lumpini Park<br>
+                             Nonthaburi 11000</p>
+                      </div>
+                      <div class="fs-2">
+                          <p>ใบเสร็จรับเงิน</p>
+                      </div>
+                  </div>
+          
+                  <div class="recieve-header mt-3">
+                   <div class="fs-6">
+                      <p id="recievehead" style="font-size: 0.70rem;">เลขคำสั่งซื้อ :</p>
+                   </div> 
+                   <div class="fs-6">
+                      <p style="font-size: 0.70rem;">12/01/2568</p>
+                   </div> 
+                 </div>
+                 <div style="font-size: 0.70rem;">
+                  <p id="recieveaddress">ได้รับเงินจาก : ${recieveFullName}<br>
+                  ที่อยู่สำหรับจัดส่ง : ${fulladdress} <br>
+                  โทร : ${tel}</p>
+                 </div>
+                 <table class="table-secondary ms-3">
+                  <thead class="border-top border-bottom border-dark p-2" style="font-size: 0.70rem;">
+                      <th class="col atype">สินค้า</th>
+                      <th class="col btype">จำนวน</th>
+                      <th class="col btype text-end">ราคา</th>
+                  </thead>
+                  <tbody id="bodyrecieve">
+          
+          
+          
+                  </tbody>
+                  
+                 </table>
+                 
+                 <hr class="ms-3 me-4 p-2" style="border-top: 2px solid #333;">
+           
+              <div id="recieveAmount" class="fs-6 fw-bold ms-3 me-4 ctype text-end"></div>
+              </div>
+           </div>
+`;
+
+const printArea = document.getElementById('capture-area');
+printArea.innerHTML = html;
+renderRecieve();
+// ✅ รอให้ DOM render เสร็จก่อนเรียก downloadPDF
+setTimeout(() => {
+downloadPDF();
+}, 200);
+}
+
+function downloadPDF() {
+    const element = document.getElementById('capture-area');
+
+    html2canvas(element, {
+      scale: 2,
+      useCORS: true
+    }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a5');
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+      // เปิดไฟล์ในแท็บใหม่
+      const pdfBlobUrl = pdf.output('bloburl');
+      window.open(pdfBlobUrl, '_blank');
+    });
+}
+
 
 window.onload = function () {
     orderRender();
