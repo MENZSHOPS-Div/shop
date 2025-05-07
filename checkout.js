@@ -517,7 +517,7 @@ downloadPDF();
 }
 
 function downloadPDF() {
-    const element = document.getElementById('capture-area');
+    const element = document.getElementById('print-area');
 
     html2canvas(element, {
       scale: 2,
