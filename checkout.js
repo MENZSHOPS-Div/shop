@@ -487,28 +487,11 @@ const html = `
                   ที่อยู่สำหรับจัดส่ง : ${fulladdress} <br>
                   โทร : ${tel}</p>
                  </div>
-                 <table class="table-secondary ms-3">
-                  <thead class="border-top border-bottom border-dark p-2" style="font-size: 0.70rem;">
-                      <th class="col atype">สินค้า</th>
-                      <th class="col btype">จำนวน</th>
-                      <th class="col btype text-end">ราคา</th>
-                  </thead>
-                  <tbody id="bodyrecieve">
-          
-          
-          
-                  </tbody>
-                  
-                 </table>
                  
-                 <hr class="ms-3 me-4 p-2" style="border-top: 2px solid #333;">
-           
-              <div id="recieveAmount" class="fs-6 fw-bold ms-3 me-4 ctype text-end"></div>
-              </div>
-           </div>
+          
 `;
 
-const printArea = document.getElementById('capture-area');
+const printArea = document.getElementById('headrecieve');
 printArea.innerHTML = html;
 renderRecieve();
 // ✅ รอให้ DOM render เสร็จก่อนเรียก downloadPDF
