@@ -1,3 +1,6 @@
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+
 function handleCheckboxChange(selectedCheckbox) {
     // ดึง checkbox ทั้งหมด
     const checkboxes = document.querySelectorAll('.form-check-input');
