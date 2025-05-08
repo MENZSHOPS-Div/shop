@@ -465,6 +465,11 @@ function generateOrderNumber() {
 
 
 function printLabel() {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    const formattedDate = `${dd}/${mm}/${yyyy}`;
     let recievorderNumber = document.getElementById("ordernumber")?.textContent || "ไม่มีข้อมูล";
     let name = document.getElementById("firstName")?.value || "ไม่มีข้อมูล";
     let lastname = document.getElementById("lastName")?.value || "ไม่มีข้อมูล";
@@ -476,69 +481,68 @@ function printLabel() {
     let email = document.getElementById("email")?.value || "ไม่มีข้อมูล";
     let detail = document.getElementById("sentback")?.textContent || "ไม่มีข้อมูล";
     let fulladdress = `${address} ${province} ${zipcode}`;
-const html = `
-     <div class="container-recieve">
-              <div class="container p-4">
-                  <div class="recieve-header">
-                      <div class="fs-6" style="line-height: 1;">
-                          <p style="font-size: 0.70rem;" >MENZSHOPS<br>
-                             Lumpini Park<br>
-                             Nonthaburi 11000</p>
-                      </div>
-                      <div class="fs-2">
-                          <p>ใบเสร็จรับเงิน</p>
-                      </div>
-                  </div>
-          
-                  <div class="recieve-header mt-3">
-                   <div class="fs-6">
-                      <p id="recievehead" style="font-size: 0.70rem;">เลขคำสั่งซื้อ :</p>
-                   </div> 
-                   <div class="fs-6">
-                      <p style="font-size: 0.70rem;">12/01/2568</p>
-                   </div> 
-                 </div>
-                 <div style="font-size: 0.70rem;">
-                  <p id="recieveaddress">ได้รับเงินจาก : ${recieveFullName}<br>
-                  ที่อยู่สำหรับจัดส่ง : ${fulladdress} <br>
-                  โทร : ${tel}</p>
-                 </div>
-                 
-          
-`;
-
-const printArea = document.getElementById('headrecieve');
-printArea.innerHTML = html;
-renderRecieve();
-
-setTimeout(() => {
-downloadPDF();
-}, 200);
-}
-
-function downloadPDF() {
-    const element = document.getElementById('print-area');
-
-    html2canvas(element, {
-      scale: 2,
-      useCORS: true
-    }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p', 'mm', 'a5');
-
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-      // เปิดไฟล์ในแท็บใหม่
-      const pdfBlobUrl = pdf.output('bloburl');
-      window.open(pdfBlobUrl, '_blank');
+  
+    const html = `
+      <div class="container-recieve">
+        <div class="container p-4">
+          <div class="recieve-header">
+            <div class="fs-6" style="line-height: 1;">
+              <p style="font-size: 0.70rem;">MENZSHOPS<br>
+              Lumpini Park<br>
+              Nonthaburi 11000</p>
+            </div>
+            <div class="fs-2">
+              <p>ใบเสร็จรับเงิน</p>
+            </div>
+          </div>
+  
+          <div class="recieve-header mt-3">
+            <div class="fs-6">
+              <p id="recievehead" style="font-size: 0.70rem;">เลขคำสั่งซื้อ :${recievorderNumber}</p>
+            </div> 
+            <div class="fs-6">
+              <p style="font-size: 0.70rem;">${formattedDate}</p>
+            </div> 
+          </div>
+          <div style="font-size: 0.70rem;">
+            <p id="recieveaddress">ได้รับเงินจาก : ${recieveFullName}<br>
+            ที่อยู่สำหรับจัดส่ง : ${fulladdress} <br>
+            โทร : ${tel}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  
+    document.getElementById('headrecieve').innerHTML = html;
+    renderRecieve();
+  
+    // รอ DOM วาดเสร็จ
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        downloadPDF(); // เรียกหลังจาก DOM render จริง
+      });
     });
-}
-
-
+  }
+  
+  
+  function downloadPDF() {
+    const element = document.getElementById('print-area');
+    html2pdf()
+      .set({
+        margin: 0,
+        filename: 'receipt.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a5', orientation: 'portrait' }
+      })
+      .from(element)
+      .save()
+      .catch(err => {
+        console.error("PDF generation failed:", err);
+        alert("ไม่สามารถสร้าง PDF ได้: " + err.message);
+      });
+  }
+  
 window.onload = function () {
     orderRender();
     loadProvince();
