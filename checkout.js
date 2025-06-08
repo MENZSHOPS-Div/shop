@@ -319,6 +319,10 @@ function getRecieveAmount(){
 }
 
 function openChoice() {
+    $("#box2").css('display', 'none');
+    $("#box3").css('display', 'none');
+    $("#detail2").css('display', 'none');
+    $("#detail3").css('display', 'none');
     var choice = document.getElementById('paytype').textContent.trim().toLowerCase();
     if (choice === "qr") {
         function11();
