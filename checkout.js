@@ -935,6 +935,9 @@ async function sendAll(event) {
         clearCart();
 
         resetForm();
+       setTimeout(() => {
+    window.location.href = "index.html";
+}, 1000);
 
     }
     catch(error){
