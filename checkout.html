@@ -1,394 +1,731 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="th">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Check Out</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Checkout</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<link rel="stylesheet" href="checkout.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
- <link rel="stylesheet" href="checkout.css">
-   <script src="checkout.js"></script>
 </head>
-
-<style>
-  
-  .container-recieve{
-        min-width: 500px;
-        max-width: 500px;
-      
-        font-family: "sarabun";
-    }
-
-    .recieve-header{
-        display: flex;
-        justify-content: space-between;
-      
-    }
-
-    #bodyrecieve{
-     min-height: 100px;
-     max-height: 100px;
-    }
-
-    .atype{
-        min-width: 200px;
-        max-width: 200px; 
-    }
-    
-    .btype{
-        min-width: 100px;
-        max-width: 100px;
-
-    }
-
-    .ctype{
-        justify-content: end;
-    }
-
-    #                                                                                                                                                                                                             
-   
-</style>
 
 <body>
 
-<div class="container-bill">
-    <main>
-        <div class="py-5 text-center">
-            <img class="paymentlogo mb-2" src="https://img5.pic.in.th/file/secure-sv1/-92c9e3a8fedb9f6f5.png" alt=""
-                width="72" height="57">
-            <h1 class="h2">แบบฟอร์มคำสั่งซื้อ</h1>
-            <p class="lead">กรุณาชำระเงินก่อนกดสั่งซื้อ<br>ไม่มีบริการเก็บค่าสินค้าปลายทาง</p>
-           
-        </div>
+<div class="checkout-wrapper">
 
-        <div class="row g-5">
-            <div class="col-6 slim order-md-last">
-               
-                    <div class="headrow mb-4">
-                     
-                            <span class="fs-6">เลขคำสั่งซื้อ</span>
-                       
-                       
-                    <span id="ordernumber" class="fs-6 ms-2"></span>
-                      
-                    </div>
-                
-                <ul id="summaryCart" class="list-group mb-3">
+<div class="container py-4">
 
+<div class="checkout-header">
 
+<img src="img/logo.png" class="checkout-logo">
 
+<h1>แบบฟอร์มคำสั่งซื้อ</h1>
 
-                </ul>
-                <div class="card p-2">
-              <li class="list-group-item d-flex justify-content-between">
-                        <span>ยอดชำระ(THB)</span>
-                        <span id="amount"></span>
-                    </li>
-                </div>
-            </div>
+<p>
+กรุณาชำระเงินก่อนกดยืนยันคำสั่งซื้อ
+<br>
+ไม่มีบริการเก็บเงินปลายทาง
+</p>
 
-            <div class="col-6 slim">
-                <div class="container">
-                    <h4 class="mb-3">ข้อมูลการจัดส่ง</h4>
-
-
-                    <div id="box1" class="ิcard p-3 text-center border border-body bg-body-secondary">
-                        ข้อมูลผู้รับ
-                    </div>
-                    <div id="addresscheck" class="needs-validation card p-2" novalidate style="display: none;">
-                        <div class="row mt-2">
-                            <div class="col-sm-6">
-                                <label for="firstName" class="form-label">ชื่อ</label>
-                                <input type="text" class="form-control form-control-sm" id="firstName" placeholder=""
-                                    value="" required>
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="lastName" class="form-label">นามสกุล</label>
-                                <input type="text" class="form-control form-control-sm" id="lastName" placeholder=""
-                                    value="" required>
-                                <div class="invalid-feedback">
-                                    Valid last name is required.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container mt-2">
-                            <p class="mb-4">ช่องทางที่สะดวกให้ติดต่อกลับที่สุด</p>
-
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" value="" id="checkboxLine"
-                                    onchange="handleCheckboxChange(this)">
-                                <label class="form-check-label" for="checkboxLine">LINE</label>
-                            </div>
-
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" value="" id="checkboxPhone"
-                                    onchange="handleCheckboxChange(this)">
-                                <label class="form-check-label" for="checkboxPhone">หมายเลขโทรศัพท์</label>
-                            </div>
-
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" value="" id="checkboxEmail"
-                                    onchange="handleCheckboxChange(this)">
-                                <label class="form-check-label" for="checkboxEmail">อีเมลล์</label>
-                            </div>
-                        </div>
-
-                        
-
-
-
-
-                        <div class="col-12 mt-2">
-                            <div class="row">
-                                <label id="line" style="display: none;">กรุณาใส่ LINE Id</label>
-                                <label id="mobile" style="display: none;">กรุณาใส่เบอร์โทรที่สะดวกให้ติดต่อกลับ</label>
-                                <label id="mail" style="display: none;">กรุณาใส่อีเมลล์ที่ใช้งานปัจจุบัน</label>
-                                <span id="sentback"></span>
-                            </div>
-
-                            <div class="col-6">
-                                <input type="email" class="form-control form-control-sm" id="email">
-                                <div class="invalid-feedback">
-                                    Valid contact is required.
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="col-12 mt-2">
-                            <label for="address" class="form-label">ที่อยู่</label>
-                            <input type="text" class="form-control form-control-sm" id="address" required>
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
-                        </div>
-                        <div class="row  mt-2 mb-3">
-
-                            <div class="col-4">
-                                <label for="province" class="form-label">จังหวัด</label>
-                                <select type="text" class="form-control form-control-sm" id="province">
-                                    <option selected disabled>Loading provinces...</option>
-                                </select>
-                            </div>
-
-
-
-                        
-                            <div class="col-4">
-                                <label for="zipcode" class="form-label">รหัสไปรษณีย์</label>
-                                <input type="text" class="form-control form-control-sm" id="zipcode" required>
-                                <div class="invalid-feedback">
-                                    Please enter your zipcode.
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <label for="tel" class="form-label">โทร</label>
-                                <input type="text" class="form-control form-control-sm" id="tel" required>
-                                <div class="invalid-feedback">
-                                    Please enter your mobile phone number.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="box3" class="ิcard p-2 text-center border border-body bg-body-secondary">
-                        เลือกขนส่ง
-                    </div>
-                    <div id="detail3" class="form-check mx-2 my-2 card p-1" id="checkdata">
-                        <input class="form-check-input" type="checkbox" value="" id="check" onchange=" ">
-                        <label class="form-check-label" style="font-size: 0.75rem;" for="checkboxLine">Flash Express
-                            <br>
-                            - กทม และ ปริมณฑล 1-2 วัน<br> - ต่างจังหวัด 2-3 วัน<br>
-                            - พื้นที่ห่างไกล 3-5 วัน<br>
-                            - ฟรีค่าจัดส่ง **ยกเว้นพื้นที่ห่างไกลและพื้นที่พิเศษ ค่าส่ง 50 บาท** </label>
-                    </div>
-                    <div id="box2" class="ิcard p-2 text-center border border-body bg-body-secondary">
-                        ชำระเงิน
-                    </div>
-                    <div id="detail2" class="container mt-2 card">
-                        <div class="row mt-3">
-                            <div class="col-6">
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="checkboxqr"
-                                        onchange="handleCheckboxChange(this)">
-                                    <label class="form-check-label" for="checkboxLine"><img class="paymenticon"
-                                            src="https://img5.pic.in.th/file/secure-sv1/Screenshot-2025-04-24-142359.png"></label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="checkboxtransfer"
-                                        onchange="handleCheckboxChange(this)">
-                                    <label class="form-check-label" for="checkboxPhone"><img class="paymenticon"
-                                            src="https://img2.pic.in.th/pic/-59e2f43e93da22009.png"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-6">
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="checkboxcredit"
-                                        onchange="handleCheckboxChange(this)">
-                                    <label class="form-check-label" for="checkboxEmail"><img class="paymenticon"
-                                            src="https://img2.pic.in.th/pic/-6a854e6662e3fc964.png"></label>
-                                </div>
-                            </div>
-
-                            <div class="col-6">
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="checkboxtruemoney"
-                                        onchange="handleCheckboxChange(this)">
-                                    <label class="form-check-label" for="checkboxEmail"><img class="paymenticon"
-                                            src="https://img5.pic.in.th/file/secure-sv1/-7527960f1142c467a.png"></label>
-                                </div>
-                            </div>
-                            <button id="block4" onclick="openChoice()"class="w-100 btn btn-lg mt-2" style="background-color:darkorange;"
-                    type="button">ชำระเงิน</button>
-                        </div>
-                        <span id="paytype" style="display: none;"></span>
-                    </div>
-
-
-           <div id="waiting" class="modal-waiting" style="display: none;">
-         <div class="modal-content" style="min-width: 400px; max-width: 400px; margin-left: 20px; background-color: rgba(0, 0, 0, 0.1); box-shadow: inset 0em em rgba(0, 0, 0, 0), inset 0 .1em 0em rgba(0, 0, 0, 0); border: none;">
-       <div class="row">
-    <div class="col-2">
-    <script src="https://cdn.lordicon.com/lordicon.js"></script>
-<lord-icon
-    src="https://cdn.lordicon.com/kgdqzapd.json"
-    trigger="loop"
-    state="loop-clock"
-    style="width:40px;height:40px">
-</lord-icon>
 </div>
-<div class="col-10">
-      <p class="mt-1" style="color:rgb(16, 8, 49)">Request processing....</p>
-    </div>
-    </div>
-    </div>
-    </div>
-                  
-                </div>
-                <div class="p-3">
-                <button id="block1" onclick="openDetail1()" class="w-100 btn btn-lg btn-secondary mt-2"  type="button">ทำรายการต่อ</button>
-                </div>
-                <div id="block2" class="rowgroup">
-                    <button onclick="openDetail2()" class="btn btn-secondary ms-1" type="button">ย้อนกลับ</button>
-                    <button onclick="openDetail3()" class="btn btn-secondary me-1" type="button">ทำต่อไป</button>
-                </div>
-                <div id="block3" class="rowgroups">
-                    <button onclick="openDetail1()" class="btn btn-secondary ms-1" type="button">ย้อนกลับ</button>
-                    <button class="btn btn-secondary" type="button" style="display: none;">ทำต่อไป</button>
-                </div>
-            </div>
 
-        </div>
+<div class="row g-4">
 
-        <hr class="my-4">
+<!-- SUMMARY -->
 
-        <button id="completebtn" onclick="sendAll()" class="w-100 btn btn-lg" style="background-color:darkorange;" type="button" disabled>ยืนยันคำสั่งซื้อ</button>
+<div class="col-lg-4">
+
+<div class="card checkout-card sticky-summary">
+
+<div class="card-header">
+
+<h5 class="mb-0">
+<i class="bi bi-cart3"></i>
+สรุปรายการสินค้า
+</h5>
+
+</div>
+
+<div class="card-body">
+
+<div class="mb-3">
+
+<span class="text-muted">
+เลขคำสั่งซื้อ
+</span>
+
+<div id="ordernumber" class="fw-bold fs-5"></div>
+
+</div>
+
+<ul id="summaryCart" class="list-group list-group-flush">
+
+</ul>
+
+<hr>
+
+<div class="d-flex justify-content-between">
+
+<span>ยอดชำระทั้งหมด</span>
+
+<strong id="amount">0.00</strong>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="col-lg-8">
+
+<div class="card checkout-card">
+
+<div class="card-body">
+
+<!-- STEP 1 -->
+
+<div id="box1" class="section-title">
+
+<i class="bi bi-person-fill"></i>
+ข้อมูลผู้รับ
+
+</div>
+
+<div id="addresscheck">
+
+<div class="row g-3">
+
+<div class="col-md-6">
+<label class="form-label">ชื่อ</label>
+<input type="text" id="firstName" class="form-control">
+</div>
+
+<div class="col-md-6">
+<label class="form-label">นามสกุล</label>
+<input type="text" id="lastName" class="form-control">
+</div>
+
+<div class="col-12">
+
+<label class="form-label">
+ช่องทางที่สะดวกให้ติดต่อกลับ
+</label>
+
+<div class="contact-methods">
+
+<div class="form-check">
+<input class="form-check-input"
+type="checkbox"
+id="checkboxLine"
+onchange="handleCheckboxChange(this)">
+<label class="form-check-label">
+LINE
+</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input"
+type="checkbox"
+id="checkboxPhone"
+onchange="handleCheckboxChange(this)">
+<label class="form-check-label">
+โทรศัพท์
+</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input"
+type="checkbox"
+id="checkboxEmail"
+onchange="handleCheckboxChange(this)">
+<label class="form-check-label">
+Email
+</label>
+</div>
+
+</div>
+
+</div>
+<!-- CONTACT INPUT -->
+
+<div class="col-12">
+
+<label id="line" class="form-label d-none">
+กรุณาใส่ LINE ID
+</label>
+
+<label id="mobile" class="form-label d-none">
+กรุณาใส่เบอร์โทรที่สะดวกติดต่อกลับ
+</label>
+
+<label id="mail" class="form-label d-none">
+กรุณาใส่อีเมลที่ใช้งานปัจจุบัน
+</label>
+
+<span id="sentback" class="d-none"></span>
+
+<input
+type="text"
+id="email"
+class="form-control">
+
+</div>
+
+<div class="col-12">
+
+<label class="form-label">
+ที่อยู่
+</label>
+
+<input
+type="text"
+id="address"
+class="form-control">
+
+</div>
+
+<div class="col-md-4">
+
+<label class="form-label">
+จังหวัด
+</label>
+
+<select
+id="province"
+class="form-select">
+
+<option>
+กำลังโหลด...
+</option>
+
+</select>
+
+</div>
+
+<div class="col-md-4">
+
+<label class="form-label">
+รหัสไปรษณีย์
+</label>
+
+<input
+type="text"
+id="zipcode"
+class="form-control">
+
+</div>
+
+<div class="col-md-4">
+
+<label class="form-label">
+โทรศัพท์
+</label>
+
+<input
+type="text"
+id="tel"
+class="form-control">
+
+</div>
+
+</div>
+
+<div class="mt-4">
+
+<button
+id="block1"
+onclick="openDetail1()"
+class="btn btn-theme w-100">
+
+ทำรายการต่อ
+
+</button>
+
+</div>
+
+</div>
+
+<!-- SHIPPING -->
+
+<div id="box3"
+class="section-title mt-5">
+
+<i class="bi bi-truck"></i>
+เลือกขนส่ง
+
+</div>
+
+<div id="detail3">
+
+<div class="shipping-card">
+
+<div class="form-check">
+
+<input
+class="form-check-input"
+type="checkbox"
+id="check">
+
+<label class="form-check-label">
+
+<strong>
+Flash Express
+</strong>
+
+<div class="shipping-detail">
+
+กรุงเทพฯ และปริมณฑล 1-2 วัน<br>
+ต่างจังหวัด 2-3 วัน<br>
+พื้นที่ห่างไกล 3-5 วัน<br>
+ฟรีค่าจัดส่ง (บางพื้นที่อาจมีค่าบริการเพิ่ม)
+
+</div>
+
+</label>
+
+</div>
+
+</div>
+
+<div id="block2"
+class="action-row">
+
+<button
+onclick="openDetail2()"
+class="btn btn-outline-secondary">
+
+ย้อนกลับ
+
+</button>
+
+<button
+onclick="openDetail3()"
+class="btn btn-theme">
+
+ดำเนินการต่อ
+
+</button>
+
+</div>
+
+</div>
+
+<!-- PAYMENT -->
+
+<div id="box2"
+class="section-title mt-5">
+
+<i class="bi bi-credit-card-fill"></i>
+ชำระเงิน
+
+</div>
+
+<div id="detail2">
+
+<div class="row g-3">
+
+<div class="col-md-6">
+
+<div class="payment-card">
+
+<input
+class="form-check-input"
+type="checkbox"
+id="checkboxqr"
+onchange="handleCheckboxChange(this)">
+
+<img
+class="payment-logo"
+src="img/promptpay.png">
+
+<span>PromptPay QR</span>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="payment-card">
+
+<input
+class="form-check-input"
+type="checkbox"
+id="checkboxtransfer"
+onchange="handleCheckboxChange(this)">
+
+<img
+class="payment-logo"
+src="img/banktransfer.png">
+
+<span>โอนผ่านธนาคาร</span>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="payment-card">
+
+<input
+class="form-check-input"
+type="checkbox"
+id="checkboxcredit"
+onchange="handleCheckboxChange(this)">
+
+<img
+class="payment-logo"
+src="img/qrcredit.png">
+
+<span>Credit Card</span>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="payment-card">
+
+<input
+class="form-check-input"
+type="checkbox"
+id="checkboxtruemoney"
+onchange="handleCheckboxChange(this)">
+
+<img
+class="payment-logo"
+src="img/tmn.png">
+
+<span>TrueMoney Wallet</span>
+
+</div>
+
+</div>
+
+</div>
+
+<span
+id="paytype"
+class="d-none">
+</span>
+
+<div class="mt-4">
+
+<button
+id="block4"
+onclick="openChoice()"
+class="btn btn-theme btn-lg w-100">
+
+ชำระเงิน
+
+</button>
+
+</div>
+
+<div id="block3"
+class="action-row mt-4">
+
+<button
+onclick="openDetail1()"
+class="btn btn-outline-secondary">
+
+ย้อนกลับ
+
+</button>
+
+<button
+class="btn btn-secondary"
+disabled>
+
+ถัดไป
+
+</button>
+
+</div>
+
+</div>
+
+<hr class="my-5">
+
+<button
+id="completebtn"
+onclick="sendAll(event)"
+class="btn btn-success btn-lg w-100"
+disabled>
+
+ยืนยันคำสั่งซื้อ
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
-</div>
-</main>
+<!-- QR PAYMENT MODAL -->
 
-<footer class="my-5 pt-5 text-body-secondary text-center text-small">
-    <p class="mb-1">&copy; MENZSHOPS</p>
-   
+<div id="qrpayment"
+class="modal fade show"
+style="display:none;">
+
+<div class="modal-dialog modal-dialog-centered">
+
+<div class="modal-content payment-modal">
+
+<div class="modal-header">
+
+<h5 class="modal-title">
+
+ชำระเงิน
+
+</h5>
+
+<button
+type="button"
+class="btn-close"
+onclick="closeQr1()">
+</button>
+
+</div>
+
+<div class="modal-body">
+
+<!-- PromptPay -->
+
+<div id="qrpay"
+style="display:none;">
+
+<div class="text-center">
+
+<img
+src="https://img2.pic.in.th/pic/22145.png"
+class="payment-banner">
+
+</div>
+
+<div class="text-center mt-3">
+
+<img
+id="qrImage"
+class="img-fluid rounded shadow-sm">
+
+</div>
+
+</div>
+
+<!-- Transfer -->
+
+<div id="banktransfer"
+style="display:none;">
+
+<div class="text-center">
+
+<img
+src="img/bkt.png"
+class="payment-banner">
+
+</div>
+
+</div>
+
+<!-- Credit -->
+
+<div id="qrcredit"
+style="display:none;">
+
+<div class="text-center">
+
+<img
+src="img/qr.jpg"
+class="payment-banner">
+
+</div>
+
+</div>
+
+<!-- TrueMoney -->
+
+<div id="truemoney"
+style="display:none;">
+
+<div class="text-center">
+
+<img
+src="https://img2.pic.in.th/pic/094-154-5422.png"
+class="payment-banner">
+
+</div>
+
+</div>
+
+<div
+id="total1"
+class="payment-total">
+
+0.00
+
+</div>
+
+<div class="input-group mt-4">
+
+<span class="input-group-text">
+
+แนบสลิป
+
+</span>
+
+<input
+type="file"
+class="form-control"
+id="inputGroupFile01">
+
+</div>
+
+<button
+class="btn btn-success btn-lg w-100 mt-4"
+id="orderButton"
+onclick="closeQr11()">
+
+ยืนยันการชำระเงิน
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PDF AREA -->
+
+<div id="print-area"
+class="receipt-area">
+
+<div id="headrecieve"></div>
+
+<table
+id="tablerevieve"
+class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th class="atype">
+สินค้า
+</th>
+
+<th class="btype">
+จำนวน
+</th>
+
+<th class="btype text-end">
+ราคา
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="bodyrecieve">
+
+</tbody>
+
+</table>
+
+<div class="receipt-total">
+
+<span>
+ยอดรวม
+</span>
+
+<span id="recieveAmount">
+0.00
+</span>
+
+</div>
+
+</div>
+
+<!-- WAITING -->
+
+<div
+id="waiting"
+class="modal-waiting"
+style="display:none;">
+
+<div class="spinner-box">
+
+<div
+class="spinner-border text-warning"
+role="status">
+
+</div>
+
+<div class="mt-3">
+
+กำลังดำเนินการ...
+
+</div>
+
+</div>
+
+</div>
+
+<footer class="footer-area">
+
+<div class="container">
+
+<div class="footer-brand">
+
+MENZSHOPS
+
+</div>
+
+<div class="footer-copy">
+
+© 2026 MENZSHOPS
+
+</div>
+
+</div>
+
 </footer>
-</div>
 
-<div id="qrpayment" class="modal" style="display: none; margin-top: 50px;">
-    <div id="qrpays" class="modal-dialog">
-      <div id="paysqr" class="modal-content">
-        <div class="container-lg">
-          
-          <div class="modal-header">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-              onclick="closeQr1()"></button>
-          </div>
-          <div class="modal-body">
-            <div class="card p-4" id="qrpay" style="display: none;">
-            <div class="promptpay">
-              <img class= "promptpay-img" src="https://img2.pic.in.th/pic/22145.png"  style="width: 100%; object-fit: contain;">
-            <img class="img-thumbnail" id="qrImage"  style="width: 100%; object-fit: contain;" >
-            </div>
-            </div>
-            <div class="card p-4" id="banktransfer"  style="display: none;">
-              <div class="promptpay">
-                <img class= "promptpay-img" src="https://img2.pic.in.th/pic/-88aeddcd0704a9a3d.png">
-              </div>
-              </div>
-              <div class="card p-4" id="qrcredit"  style="display: none;">
-                <div class="promptpay">
-                  <img class= "promptpay-img" src="https://img5.pic.in.th/file/secure-sv1/-2997569e3e94048631.png">
-                </div>
-              </div>
-              <div class="card p-4" id="truemoney"  style="display: none;">
-                <div class="promptpay">
-                  <img class= "promptpay-img" src="https://img2.pic.in.th/pic/094-154-5422.png">
-                </div>
-              </div>
-                <div id="total1" class="fs-3 fw-bold text-center" style="color: darkblue;"> </div>
-                   
-               
-            </div>
-            <div class="input-group mb-3 mt-3">
-            
-              <span class="input-group-text fs-6">อัพโหลดสลิป</span>
-              <input type="file" class="form-control form-control-sm" id="inputGroupFile01">
-            </div>
-            <button class="w-100 btn btn-primary btn-lg" id="orderButton" onclick="closeQr11()">ยืนยันการชำระเงิน
-            </button>
-         </div>
-            </div>  
-          <div id="print-area">
-           
-            <div id="headrecieve">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 
-            </div>
-        
-            <table id="tablerevieve" class="table-secondary ms-5">
-              <thead class="border-top border-bottom border-dark p-2" style="font-size: 0.70rem;">
-                  <th class="atype ms-3">สินค้า</th>
-                  <th class="btype">จำนวน</th>
-                  <th class="btype text-end">ราคา</th>
-              </thead>
-              <tbody id="bodyrecieve">
-      
-      
-      
-              </tbody>
-              
-             </table>
-       
-             <hr class="ms-3 me-4 p-2" style="border-top: 2px solid #333;">
-           
-             <span id="recieveAmount" class="fs-6 fw-bold ms-3 me-4 ctype text-end"></span>
-   
-          </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 
-   
+<script src="checkout.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"
-    integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+"
-    crossorigin="anonymous"></script>
-   </body>
+</body>
 </html>
