@@ -1,36 +1,459 @@
-.container-login{
-  display: flex;
-margin-top:150px;
-margin-left: 500px;
-min-width: 600px;
-max-width: 600px;
-max-height: 600px;
-min-height: 600px;
-background-color:aqua;
-box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+/* =========================
+   GLOBAL
+========================= */
+
+:root{
+    --primary:#ff7a00;
+    --primary-dark:#e56d00;
+    --success:#198754;
+    --border:#e9ecef;
+    --text:#212529;
+    --muted:#6c757d;
+    --bg:#f6f8fb;
+    --card:#ffffff;
 }
 
-.container-left{
-min-width: 300px;
-max-width: 300px;
-max-height: 100%;
-min-height: 100%;
+*{
+    box-sizing:border-box;
+}
 
+body{
+    margin:0;
+    padding:0;
+    font-family:'Sarabun',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
 
-background-color:rgb(219, 236, 236);
+/* =========================
+   LAYOUT
+========================= */
+
+.checkout-wrapper{
+    min-height:100vh;
+}
+
+.checkout-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.checkout-logo{
+    width:90px;
+    height:auto;
+    margin-bottom:15px;
+}
+
+.checkout-header h1{
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.checkout-header p{
+    color:var(--muted);
+}
+
+/* =========================
+   CARD
+========================= */
+
+.checkout-card{
+    border:none;
+    border-radius:18px;
+    background:var(--card);
+    box-shadow:
+    0 4px 20px rgba(0,0,0,.06);
+}
+
+.card-header{
+    background:white;
+    border-bottom:1px solid var(--border);
+    border-radius:18px 18px 0 0 !important;
+    padding:18px;
+}
+
+.card-header h5{
+    margin:0;
+    font-weight:600;
+}
+
+/* =========================
+   STICKY SUMMARY
+========================= */
+
+.sticky-summary{
+    position:sticky;
+    top:20px;
+}
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.section-title{
+    background:
+    linear-gradient(
+        135deg,
+        var(--primary),
+        #ff9f43
+    );
+
+    color:white;
+    padding:14px 18px;
+    border-radius:12px;
+    font-size:1rem;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.section-title i{
+    margin-right:8px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-label{
+    font-weight:500;
+}
+
+.form-control,
+.form-select{
+    min-height:48px;
+    border-radius:12px;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:none;
+    border-color:var(--primary);
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-methods{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.form-check-input{
+    cursor:pointer;
+}
+
+.form-check-label{
+    cursor:pointer;
+}
+
+/* =========================
+   SHIPPING
+========================= */
+
+.shipping-card{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+    background:white;
+}
+
+.shipping-detail{
+    margin-top:10px;
+    color:var(--muted);
+    font-size:.92rem;
+    line-height:1.6;
+}
+
+/* =========================
+   PAYMENT
+========================= */
+
+.payment-card{
+    height:100%;
+    min-height:140px;
+
+    border:1px solid var(--border);
+    border-radius:16px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+    gap:10px;
+
+    cursor:pointer;
+    transition:.3s;
+}
+
+.payment-card:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.08);
+}
+
+.payment-logo{
+    max-width:120px;
+    max-height:55px;
+    object-fit:contain;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn-theme{
+    background:var(--primary);
+    color:white;
+    border:none;
+}
+
+.btn-theme:hover{
+    background:var(--primary-dark);
+    color:white;
+}
+
+.btn{
+    min-height:50px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.action-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+/* =========================
+   TOTAL
+========================= */
+
+#amount{
+    color:var(--primary);
+    font-size:1.2rem;
+    font-weight:700;
+}
+
+.payment-total{
+    margin-top:20px;
+    text-align:center;
+    font-size:2rem;
+    font-weight:700;
+    color:var(--primary);
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.payment-modal{
+    border:none;
+    border-radius:20px;
+   background-color:lightblue;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.12);
+}
+
+.payment-banner{
+    width:100%;
+    max-width:350px;
+    object-fit:contain;
+
+    border-radius:12px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.12);
+}
+#qrImage{
+    max-width:350px;
+    width:100%;
+}
+
+.modal-content{
+    border-radius:20px;
+}
+
+/* =========================
+   RECEIPT
+========================= */
+
+.receipt-area{
+    display:none;
+}
+
+.container-recieve{
+    width:100%;
+    font-family:'Sarabun';
+}
+
+.recieve-header{
+    display:flex;
+    justify-content:space-between;
+}
+
+.atype{
+    width:60%;
+}
+
+.btype{
+    width:20%;
+}
+
+.receipt-total{
+    display:flex;
+    justify-content:flex-end;
+    gap:20px;
+
+    font-size:1.2rem;
+    font-weight:700;
+
+    margin-top:20px;
+}
+
+.payment-card.selected{
+    border:2px solid #ff7a00;
+}
+/* =========================
+   WAITING
+========================= */
+
+.modal-waiting{
+    position:fixed;
+    inset:0;
+
+    background:
+    rgba(0,0,0,.45);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+}
+
+.spinner-box{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    text-align:center;
+    min-width:220px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer-area{
+    margin-top:50px;
+    padding:25px 0;
+    text-align:center;
+}
+
+.footer-brand{
+    font-size:1.1rem;
+    font-weight:700;
+}
+
+.footer-copy{
+    color:var(--muted);
+}
+
+/* =========================
+   CART
+========================= */
+
+.list-group-item{
+    border-left:none;
+    border-right:none;
+}
+
+.list-group-item:first-child{
+    border-top:none;
+}
+
+.list-group-item:last-child{
+    border-bottom:none;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:991px){
+
+    .sticky-summary{
+        position:relative;
+        top:auto;
+    }
+
+    .checkout-header h1{
+        font-size:1.7rem;
+    }
+
+    .action-row{
+        flex-direction:column;
+    }
+
+    .payment-card{
+        min-height:120px;
+    }
 
 }
 
-.container-right{
-  min-width: 200px;
-  max-width: 200px;
-  max-height: 100%;
-  min-height: 100%;
- 
-  background-color:rgb(255, 0, 98);
-  
-  }
-  .form-control{
-    min-height: 100px;
-    max-height: 100px;
-  }
+@media(max-width:768px){
+
+    .checkout-logo{
+        width:70px;
+    }
+
+    .section-title{
+        text-align:center;
+    }
+
+    .contact-methods{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .payment-logo{
+        max-width:100px;
+    }
+
+    .payment-total{
+        font-size:1.5rem;
+    }
+
+    .receipt-total{
+        flex-direction:column;
+        align-items:flex-end;
+        gap:5px;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .container{
+        padding-left:12px;
+        padding-right:12px;
+    }
+
+    .checkout-card{
+        border-radius:14px;
+    }
+
+    .section-title{
+        font-size:.95rem;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+}
