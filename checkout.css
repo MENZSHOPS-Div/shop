@@ -94,8 +94,8 @@ body{
     background:
     linear-gradient(
         135deg,
-        var(--primary),
-        #ff9f43
+        var(--muted),
+        #f5f5f5
     );
 
     color:white;
