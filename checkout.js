@@ -1193,18 +1193,19 @@ function generatePromptPayPayload(target, amount) {
         ppField("00", "A000000677010111") +              // AID PromptPay
         ppField(targetType, ppFormatTarget(target));
 
-    // ลำดับ tag ตามมาตรฐาน EMVCo (เรียงจากน้อยไปมาก) เพื่อให้แอปธนาคารทุกตัวอ่านได้
+    // ลำดับ tag แบบเดียวกับ promptpay.io / dtinth: 58 (ประเทศ) -> 53 (สกุลเงิน) -> 54 (จำนวนเงิน)
+    // เป็นรูปแบบที่แอปธนาคารไทยทุกตัวยอมรับ (บางแอปตรวจลำดับ field เข้มงวด)
     let payload =
         ppField("00", "01") +                            // payload format
         ppField("01", amount ? "12" : "11") +            // 12 = dynamic (มีจำนวนเงิน)
         ppField("29", merchantInfo) +                    // ข้อมูล PromptPay
-        ppField("53", "764");                            // currency = THB
+        ppField("58", "TH");                             // country
+
+    payload += ppField("53", "764");                     // currency = THB
 
     if (amount) {
         payload += ppField("54", Number(amount).toFixed(2)); // จำนวนเงิน
     }
-
-    payload += ppField("58", "TH");                       // country
 
     payload += "6304";                                   // CRC tag + length
     payload += ppCrc16(payload);
@@ -1213,8 +1214,12 @@ function generatePromptPayPayload(target, amount) {
 
 }
 
-/* สร้างรูป QR จาก payload โดยใช้ตัวสร้างที่ฝังในไฟล์นี้ (ไม่ต้องต่อเน็ต/CDN)
-   วาดลง canvas แล้วแปลงเป็น data URL ใส่ใน <img id="qrImage"> */
+/* URL ของ API สร้าง QR ฝั่งเซิร์ฟเวอร์ (ใช้ promptpay-qr = รูปแบบเดียวกับ promptpay.io)
+   - รันในเครื่อง: http://localhost:3000/generate-qr
+   - ถ้า deploy แล้ว เปลี่ยนเป็น URL จริง เช่น https://your-api.onrender.com/generate-qr */
+const QR_API_URL = "http://kbank-api-proxy.vercel.app/generate-qr";
+
+/* สร้าง QR ในเครื่องแบบ offline (สำรอง) จาก payload ที่ฝังในไฟล์นี้ */
 function renderQRtoDataURL(text, opts) {
 
     opts = opts || {};
@@ -1251,7 +1256,8 @@ function renderQRtoDataURL(text, opts) {
 
 }
 
-function openQrcode() {
+/* สร้าง QR แบบในเครื่อง (ใช้เป็นตัวสำรองเมื่อเรียก API ไม่ได้) */
+function generateQrLocal(amount) {
 
     const ppId = CONFIG.promptPayId;
 
@@ -1260,6 +1266,15 @@ function openQrcode() {
         return;
     }
 
+    const payload = generatePromptPayPayload(ppId, amount);
+
+    document.getElementById("qrImage").src =
+        renderQRtoDataURL(payload, { width: 300, margin: 4, ec: "M" });
+
+}
+
+function openQrcode() {
+
     const amount = getCartTotal();
 
     if (!amount) {
@@ -1267,20 +1282,35 @@ function openQrcode() {
         return;
     }
 
-    try {
+    // เรียก API ให้สร้าง QR ตามยอดในตะกร้าอัตโนมัติ
+    fetch(QR_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount })
+    })
+    .then(r => r.json())
+    .then(data => {
 
-        const payload = generatePromptPayPayload(ppId, amount);
+        if (data && data.RespCode === 200 && data.result) {
+            document.getElementById("qrImage").src = data.result;
+        } else {
+            throw new Error(data && data.RespMessage ? data.RespMessage : "API error");
+        }
 
-        document.getElementById("qrImage").src =
-            renderQRtoDataURL(payload, { width: 300, margin: 4, ec: "M" });
+    })
+    .catch(err => {
 
-    } catch (error) {
+        // เรียก API ไม่ได้ -> ใช้ตัวสร้างในเครื่องสำรอง (offline)
+        console.warn("QR API ใช้ไม่ได้ ใช้ตัวสำรองในเครื่องแทน:", err);
 
-        console.error("QR error:", error);
+        try {
+            generateQrLocal(amount);
+        } catch (e) {
+            console.error("QR error:", e);
+            alert("สร้าง QR ไม่สำเร็จ: " + (e && e.message ? e.message : e));
+        }
 
-        alert("สร้าง QR ไม่สำเร็จ: " + (error && error.message ? error.message : error));
-
-    }
+    });
 
 }
 
