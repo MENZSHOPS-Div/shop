@@ -8,14 +8,18 @@ const CONFIG = {
     provinceApi:
     "https://script.google.com/macros/s/AKfycbwHU1aqw9TATKgHVNcTFSBomSWAdzortx8dgaKAdjfQstl30yb34jtziUk-XTjcHi134g/exec",
 
-    qrApi:
-    "https://kbank-api-proxy.onrender.com/generate-qr",
-
     lineApi:
     "https://line-api-backend.onrender.com/push",
 
     sheetApi:
-    "https://sheet-backend-lsg9.onrender.com/save-order"
+    "https://sheet-backend-lsg9.onrender.com/save-order",
+
+    /* ★★★ ตั้งค่าหมายเลข PromptPay ของร้านตรงนี้ ★★★
+       รองรับ: เบอร์มือถือ (เช่น 0812345678),
+               เลขบัตรประชาชน / Tax ID (13 หลัก),
+               เลข e-Wallet (15 หลัก)
+       QR จะถูกสร้างฝั่งหน้าเว็บทันที ไม่ต้องรอ API ภายนอก */
+    promptPayId: "0654982592"
 };
 
 /* ==========================================
@@ -72,7 +76,7 @@ async function loadProvince() {
             document.getElementById("province");
 
         select.innerHTML =
-            `<option selected disabled>
+            `<option value="" selected disabled>
                 เลือกจังหวัด
              </option>`;
 
@@ -94,7 +98,7 @@ async function loadProvince() {
         console.error(error);
 
         $("#province").html(
-            `<option>
+            `<option value="">
                 โหลดข้อมูลไม่สำเร็จ
              </option>`
         );
@@ -296,40 +300,94 @@ function getCartTotal() {
 }
 
 /* ==========================================
-   FORM VALIDATION
+   FORM VALIDATION  (บังคับกรอกทุกช่อง)
 ========================================== */
 
 function validateCustomerForm() {
 
-    const requiredFields = [
-
-        "firstName",
-        "lastName",
-        "address",
-        "province",
-        "zipcode",
-        "tel"
-
+    const fields = [
+        { id: "firstName" },
+        { id: "lastName"  },
+        { id: "email"     },
+        { id: "address"   },
+        { id: "province"  },
+        { id: "zipcode"   },
+        { id: "tel"       }
     ];
 
-    for (const field of requiredFields) {
+    let firstInvalid = null;
 
-        const value =
-            document
-            .getElementById(field)
-            ?.value
-            ?.trim();
+    // ล้างสถานะ error เดิม
+    fields.forEach(f => {
+        $("#" + f.id).removeClass("is-invalid");
+    });
 
-        if (!value) {
+    fields.forEach(f => {
 
-            alert(
-                "กรุณากรอกข้อมูลให้ครบถ้วน"
-            );
+        const el = document.getElementById(f.id);
+        const value = (el?.value || "").trim();
 
-            return false;
+        let invalid = !value;
 
+        // จังหวัด: ต้องไม่ใช่ค่า placeholder
+        if (
+            f.id === "province" &&
+            (
+                value === "" ||
+                value === "เลือกจังหวัด" ||
+                value === "กำลังโหลด..."
+            )
+        ) {
+            invalid = true;
         }
 
+        // อีเมล: ต้องเป็นรูปแบบที่ถูกต้อง
+        if (
+            f.id === "email" &&
+            value &&
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+        ) {
+            invalid = true;
+        }
+
+        // รหัสไปรษณีย์: ตัวเลข 5 หลัก
+        if (
+            f.id === "zipcode" &&
+            value &&
+            !/^\d{5}$/.test(value)
+        ) {
+            invalid = true;
+        }
+
+        // เบอร์โทร: ตัวเลข 9-10 หลัก
+        if (
+            f.id === "tel" &&
+            value &&
+            !/^\d{9,10}$/.test(value)
+        ) {
+            invalid = true;
+        }
+
+        if (invalid) {
+
+            $("#" + f.id).addClass("is-invalid");
+
+            if (!firstInvalid) {
+                firstInvalid = f.id;
+            }
+        }
+
+    });
+
+    if (firstInvalid) {
+
+        alert("กรุณากรอกข้อมูลให้ถูกต้องและครบทุกช่อง");
+
+        document
+            .getElementById(firstInvalid)
+            ?.focus();
+
+        return false;
     }
 
     return true;
@@ -365,115 +423,57 @@ window.addEventListener(
         $("#block3").hide();
 
         $("#completebtn").hide(); // ซ่อนปุ่มยืนยัน
+
+        // ลบสถานะ error ทันทีที่ผู้ใช้เริ่มแก้ไขช่องนั้น ๆ
+        $("#firstName, #lastName, #email, #address, #zipcode, #tel")
+            .on("input", function () {
+                $(this).removeClass("is-invalid");
+            });
+
+        $("#province").on("change", function () {
+            $(this).removeClass("is-invalid");
+        });
     }
 );
+
 /* ==========================================
-   CONTACT METHOD
+   PAYMENT METHOD (เลือกช่องทางชำระเงินอย่างเดียว)
+   * ส่วน "ช่องทางติดต่อกลับ" ถูกตัดออกแล้ว *
 ========================================== */
 
 function handleCheckboxChange(selectedCheckbox) {
 
     const id = selectedCheckbox.id;
 
-    /* --------------------------
-       CONTACT
-    -------------------------- */
-
-    if (
-        id === "checkboxLine" ||
-        id === "checkboxPhone" ||
-        id === "checkboxEmail"
-    ) {
-
-        const contactBoxes = [
-
-            "checkboxLine",
-            "checkboxPhone",
-            "checkboxEmail"
-
-        ];
-
-        contactBoxes.forEach(item => {
-
-            if (item !== id) {
-
-                document.getElementById(item)
-                    .checked = false;
-
-            }
-
-        });
-
-        $("#line").addClass("d-none");
-        $("#mobile").addClass("d-none");
-        $("#mail").addClass("d-none");
-
-        if (id === "checkboxLine") {
-
-            $("#line").removeClass("d-none");
-
-            $("#sentback").text("LINE");
-
-        }
-
-        if (id === "checkboxPhone") {
-
-            $("#mobile").removeClass("d-none");
-
-            $("#sentback").text("Tel");
-
-        }
-
-        if (id === "checkboxEmail") {
-
-            $("#mail").removeClass("d-none");
-
-            $("#sentback").text("Email");
-
-        }
-
-        return;
-
-    }
-
-    /* --------------------------
-       PAYMENT
-    -------------------------- */
-
     const paymentBoxes = [
-
         "checkboxqr",
         "checkboxtransfer",
         "checkboxcredit",
         "checkboxtruemoney"
-
     ];
 
     if (paymentBoxes.includes(id)) {
 
+        // เลือกได้ทีละช่องทาง
         paymentBoxes.forEach(item => {
 
             if (item !== id) {
 
-                document.getElementById(item)
-                    .checked = false;
+                const box = document.getElementById(item);
+                if (box) box.checked = false;
 
             }
 
         });
 
         const payMap = {
-
             checkboxqr: "qr",
             checkboxtransfer: "transfer",
             checkboxcredit: "credit",
             checkboxtruemoney: "truemoney"
-
         };
 
-        $("#paytype").text(
-            payMap[id]
-        );
+        $("#paytype").text(payMap[id] || "");
 
     }
 
@@ -555,6 +555,21 @@ function closeQr1() {
 
 function closeQr11() {
 
+    // บังคับแนบสลิปก่อนยืนยันการชำระเงิน
+    const fileInput =
+        document.getElementById("inputGroupFile01");
+
+    if (
+        !fileInput ||
+        !fileInput.files ||
+        fileInput.files.length === 0
+    ) {
+
+        alert("กรุณาแนบสลิปการชำระเงินก่อน");
+
+        return;
+    }
+
     $("#qrpayment").hide();
 
     $("#completebtn")
@@ -562,6 +577,7 @@ function closeQr11() {
         .show();
 
 }
+
 /* ==========================================
    PAYMENT VIEW
 ========================================== */
@@ -681,76 +697,138 @@ function openChoice() {
 }
 
 /* ==========================================
-   QR PAYMENT
+   PROMPTPAY QR  (สร้างฝั่ง client — ขึ้นทันที)
+   มาตรฐาน EMVCo / BOT PromptPay
+   ฝังจำนวนเงินอัตโนมัติจากยอดในตะกร้า
 ========================================== */
 
-async function openQrcode() {
+function ppSanitize(id) {
 
-    try {
+    return (id || "").replace(/[^0-9]/g, "");
 
-        showLoading();
+}
 
-        const amount =
-            getCartTotal();
+function ppFormatTarget(id) {
 
-        const response =
-            await fetch(
-                CONFIG.qrApi,
-                {
-                    method: "POST",
+    const numbers = ppSanitize(id);
 
-                    headers: {
-                        "Content-Type":
-                        "application/json"
-                    },
+    // 13 หลักขึ้นไป = เลขบัตรประชาชน / Tax ID / e-Wallet
+    if (numbers.length >= 13) {
+        return numbers;
+    }
 
-                    body:
-                    JSON.stringify({
+    // เบอร์มือถือ -> 0066xxxxxxxxx (13 หลัก)
+    return ("0000000000000" + numbers.replace(/^0/, "66")).slice(-13);
 
-                        amount
+}
 
-                    })
+function ppField(id, value) {
 
-                }
-            );
+    const len = ("00" + value.length).slice(-2);
 
-        const data =
-            await response.json();
+    return id + len + value;
 
-        if (
-            data.RespCode === 200 &&
-            data.result
-        ) {
+}
 
-            document
-            .getElementById("qrImage")
-            .src = data.result;
+// CRC-16/CCITT-FALSE (poly 0x1021, init 0xFFFF)
+function ppCrc16(data) {
 
-        }
-        else {
+    let crc = 0xFFFF;
 
-            throw new Error(
-                data.RespMessage ||
-                "QR Error"
-            );
+    for (let i = 0; i < data.length; i++) {
+
+        crc ^= data.charCodeAt(i) << 8;
+
+        for (let j = 0; j < 8; j++) {
+
+            crc = (crc & 0x8000)
+                ? ((crc << 1) ^ 0x1021)
+                : (crc << 1);
+
+            crc &= 0xFFFF;
 
         }
 
     }
-    catch (error) {
+
+    return ("0000" + crc.toString(16).toUpperCase()).slice(-4);
+
+}
+
+function generatePromptPayPayload(target, amount) {
+
+    const sanitized = ppSanitize(target);
+
+    const targetType =
+        sanitized.length >= 15 ? "03" :   // e-Wallet
+        sanitized.length >= 13 ? "02" :   // Tax ID / บัตรประชาชน
+        "01";                             // เบอร์มือถือ
+
+    const merchantInfo =
+        ppField("00", "A000000677010111") +              // AID PromptPay
+        ppField(targetType, ppFormatTarget(target));
+
+    let payload =
+        ppField("00", "01") +                            // payload format
+        ppField("01", amount ? "12" : "11") +            // 12 = dynamic (มีจำนวนเงิน)
+        ppField("29", merchantInfo) +                    // ข้อมูล PromptPay
+        ppField("58", "TH") +                            // country
+        ppField("53", "764");                            // currency = THB
+
+    if (amount) {
+        payload += ppField("54", Number(amount).toFixed(2)); // จำนวนเงิน
+    }
+
+    payload += "6304";                                   // CRC tag + length
+    payload += ppCrc16(payload);
+
+    return payload;
+
+}
+
+function openQrcode() {
+
+    const ppId = CONFIG.promptPayId;
+
+    if (!ppId) {
+        alert("ยังไม่ได้ตั้งค่าหมายเลข PromptPay ของร้าน");
+        return;
+    }
+
+    const amount = getCartTotal();
+
+    if (!amount) {
+        alert("ไม่มีสินค้าในตะกร้า");
+        return;
+    }
+
+    if (typeof QRCode === "undefined") {
+        alert("ไม่สามารถโหลดตัวสร้าง QR ได้ กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่");
+        return;
+    }
+
+    const payload = generatePromptPayPayload(ppId, amount);
+
+    QRCode.toDataURL(
+        payload,
+        {
+            width: 300,
+            margin: 1,
+            errorCorrectionLevel: "M"
+        }
+    )
+    .then(url => {
+
+        document.getElementById("qrImage").src = url;
+
+    })
+    .catch(error => {
 
         console.error(error);
 
-        alert(
-            "ไม่สามารถสร้าง QR Code ได้"
-        );
+        alert("ไม่สามารถสร้าง QR Code ได้");
 
-    }
-    finally {
-
-        hideLoading();
-
-    }
+    });
 
 }
 
@@ -817,7 +895,7 @@ async function sendLineMessage() {
         `โทร : ${data.tel}\n`;
 
     message +=
-        `ติดต่อกลับ : ${data.detail} ${data.email}\n`;
+        `อีเมล : ${data.email}\n`;
 
     message +=
         `ที่อยู่ : ${data.address} ${data.province} ${data.zipcode}\n\n`;
@@ -1000,13 +1078,15 @@ function resetForm() {
 
     $("#paytype").text("");
 
-    $("#sentback").text("");
+    $("#sentback").text("Email");
 
     $(".form-check-input")
         .prop(
             "checked",
             false
         );
+
+    $(".is-invalid").removeClass("is-invalid");
 
     $("#completebtn")
         .prop(
