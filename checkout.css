@@ -239,12 +239,26 @@ body{
     font-weight:700;
 }
 
-.payment-total{
+/* แถวยอดชำระ: คำว่า "ยอดชำระ" ชิดซ้าย / ตัวเลขชิดขวา */
+.payment-total-row{
     margin-top:20px;
-    text-align:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+}
+
+.payment-total-label{
+    font-size:1.1rem;
+    font-weight:600;
+    color:#0d2a5e;            /* น้ำเงินเข้ม */
+}
+
+.payment-total{
+    text-align:right;
     font-size:2rem;
     font-weight:700;
-    color:var(--primary);
+    color:#0d2a5e;            /* น้ำเงินเข้ม (เดิมเป็นสีส้ม) */
 }
 
 /* =========================
@@ -254,7 +268,7 @@ body{
 .payment-modal{
     border:none;
     border-radius:20px;
-   background-color:lightblue;
+   background-color:#ffffff;
 
     box-shadow:
         0 10px 30px rgba(0,0,0,.12);
