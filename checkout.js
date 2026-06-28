@@ -1217,7 +1217,7 @@ function generatePromptPayPayload(target, amount) {
 /* URL ของ API สร้าง QR ฝั่งเซิร์ฟเวอร์ (ใช้ promptpay-qr = รูปแบบเดียวกับ promptpay.io)
    - รันในเครื่อง: http://localhost:3000/generate-qr
    - ถ้า deploy แล้ว เปลี่ยนเป็น URL จริง เช่น https://your-api.onrender.com/generate-qr */
-const QR_API_URL = "http://kbank-api-proxy.vercel.app/generate-qr";
+const QR_API_URL = "https://kbank-api-proxy.vercel.app/generate-qr";
 
 /* สร้าง QR ในเครื่องแบบ offline (สำรอง) จาก payload ที่ฝังในไฟล์นี้ */
 function renderQRtoDataURL(text, opts) {
