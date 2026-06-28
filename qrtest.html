@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PromptPay QR Generator</title>
+<!-- qrcode.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --primary: #1a73e8;
+  --green:   #34a853;
+  --red:     #ea4335;
+  --bg:      #f8faff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', 'TH Sarabun New', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+}
+.container {
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.header .icon {
+  font-size: 40px;
+  margin-bottom: 6px;
+}
+.header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+.header p {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* Card */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 16px rgba(26,115,232,.1);
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* Form */
+.fg { margin-bottom: 14px; }
+.fg label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 5px;
+}
+.fg input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  transition: border .2s, box-shadow .2s;
+  color: #222;
+}
+.fg input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(26,115,232,.12);
+}
+.fg input.error { border-color: var(--red); }
+
+/* Type selector */
+.type-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.type-btn {
+  padding: 9px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  background: white;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+  transition: all .2s;
+  color: #555;
+}
+.type-btn.active {
+  border-color: var(--primary);
+  background: #e8f0fe;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Amount input with presets */
+.amount-wrap { position: relative; }
+.amount-wrap input {
+  padding-left: 44px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+.amount-currency {
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+  pointer-events: none;
+}
+.presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.preset-btn {
+  padding: 4px 12px;
+  background: #f0f4ff;
+  color: var(--primary);
+  border: 1px solid #c5d8f7;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.preset-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Generate Button */
+.btn-generate {
+  width: 100%;
+  padding: 13px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .3px;
+}
+.btn-generate:hover { background: #1558c0; transform: translateY(-1px); }
+.btn-generate:active { transform: translateY(0); }
+
+/* QR Display */
+.qr-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 16px rgba(26,115,232,.1);
+  text-align: center;
+  display: none;
+}
+.qr-card.show { display: block; }
+
+.qr-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.qr-header img {
+  height: 24px;
+}
+.promptpay-logo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+#qrcode {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+#qrcode canvas, #qrcode img {
+  border-radius: 8px;
+  border: 6px solid white;
+  box-shadow: 0 4px 20px rgba(0,0,0,.12);
+}
+
+.qr-amount {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 4px;
+}
+.qr-to {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 4px;
+}
+.qr-no-amount {
+  font-size: 13px;
+  color: #f9a825;
+  background: #fffde7;
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+.qr-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.qr-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 16px;
+}
+.btn-action {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.btn-action:hover { opacity: .85; }
+.btn-dl   { background: var(--green);   color: white; }
+.btn-copy { background: #f0f4ff; color: var(--primary); }
+
+/* Error / Info */
+.msg {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-top: 10px;
+  display: none;
+}
+.msg.show { display: block; }
+.msg.err  { background: #fce8e6; color: var(--red); }
+.msg.ok   { background: #e6f4ea; color: #137333; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 12px;
+  padding-bottom: 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="icon">📱</div>
+    <h1>PromptPay QR Generator</h1>
+    <p>สร้าง QR ระบุจำนวนเงิน ลูกค้าสแกนจ่ายได้เลย</p>
+  </div>
+
+  <!-- Input Card -->
+  <div class="card">
+    <div class="card-title">ข้อมูลผู้รับเงิน</div>
+
+    <!-- ประเภท -->
+    <div class="type-row">
+      <button class="type-btn active" id="typePhone">
+        📞 เบอร์โทรศัพท์
+      </button>
+      <button class="type-btn" id="typeNatId">
+        🪪 เลขบัตรประชาชน
+      </button>
+    </div>
+
+    <!-- เบอร์ / เลขบัตร -->
+    <div class="fg">
+      <label id="inputLabel">เบอร์โทรศัพท์ (PromptPay)</label>
+      <input type="text" id="promptpayId"
+             placeholder="0812345678"
+             maxlength="13"
+             inputmode="numeric">
+      <div class="msg" id="idMsg"></div>
+    </div>
+
+    <!-- ชื่อ (แสดงบน QR) -->
+    <div class="fg">
+      <label>ชื่อ (แสดงใต้ QR — ไม่บังคับ)</label>
+      <input type="text" id="displayName"
+             placeholder="ร้านค้า / ชื่อบุคคล">
+    </div>
+  </div>
+
+  <!-- Amount Card -->
+  <div class="card">
+    <div class="card-title">จำนวนเงิน</div>
+
+    <div class="fg">
+      <label>จำนวนเงิน (ไม่ใส่ = ให้ลูกค้ากรอกเอง)</label>
+      <div class="amount-wrap">
+        <span class="amount-currency">฿</span>
+        <input type="number" id="amount"
+               placeholder="0.00"
+               min="0" step="0.01"
+               inputmode="decimal">
+      </div>
+
+      <!-- Preset -->
+      <div class="presets" id="presets">
+        <button class="preset-btn">฿20</button>
+        <button class="preset-btn">฿50</button>
+        <button class="preset-btn">฿100</button>
+        <button class="preset-btn">฿200</button>
+        <button class="preset-btn">฿500</button>
+        <button class="preset-btn">฿1,000</button>
+        <button class="preset-btn">ล้าง</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generate Button -->
+  <button class="btn-generate">
+    🔲 สร้าง QR Code
+  </button>
+
+  <!-- QR Result -->
+  <div class="qr-card" id="qrCard">
+    <div class="qr-header">
+      <span style="font-size:20px;">🇹🇭</span>
+      <span class="promptpay-logo">PromptPay</span>
+    </div>
+
+    <div id="qrcode"></div>
+
+    <div id="qrAmount"></div>
+    <div class="qr-to" id="qrTo"></div>
+    <div class="qr-name" id="qrName"></div>
+
+    <div class="qr-actions">
+      <button class="btn-action btn-dl">
+        ⬇️ ดาวน์โหลด PNG
+      </button>
+      <button class="btn-action btn-copy">
+        📋 คัดลอก Payload
+      </button>
+    </div>
+  </div>
+
+  <div class="footer">
+    คำนวณตามมาตรฐาน EMV QR Code / PromptPay Thailand<br>
+    ไม่มีการส่งข้อมูลไปยัง Server ใดๆ ทั้งสิ้น
+  </div>
+
+</div>
+
+<script>
+// ==========================================
+// State
+// ==========================================
+let idType   = 'phone'; // 'phone' | 'natid'
+let lastPayload = '';
+
+// ==========================================
+// UI helpers
+// ==========================================
+function setType(type) {
+  idType = type;
+  document.getElementById('typePhone')
+    .classList.toggle('active', type === 'phone');
+  document.getElementById('typeNatId')
+    .classList.toggle('active', type === 'natid');
+  document.getElementById('inputLabel').textContent =
+    type === 'phone' ? 'เบอร์โทรศัพท์ (PromptPay)'
+                     : 'เลขบัตรประชาชน 13 หลัก';
+  document.getElementById('promptpayId').placeholder =
+    type === 'phone' ? '0812345678' : '1234567890123';
+  document.getElementById('promptpayId').maxLength =
+    type === 'phone' ? 10 : 13;
+  document.getElementById('promptpayId').value = '';
+  hideMsg('idMsg');
+}
+
+function setAmount(val) {
+  document.getElementById('amount').value = val.toFixed(2);
+}
+
+function clearAmount() {
+  document.getElementById('amount').value = '';
+}
+
+function onIdInput() {
+  hideMsg('idMsg');
+  // กรองเฉพาะตัวเลข
+  const el  = document.getElementById('promptpayId');
+  el.value  = el.value.replace(/\D/g,'');
+}
+
+function showMsg(id, text, type) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className   = `msg show ${type}`;
+}
+
+function hideMsg(id) {
+  document.getElementById(id).className = 'msg';
+}
+
+// ==========================================
+// PromptPay Payload Generator
+// ==========================================
+
+function formatEMV(tag, value) {
+  const len = value.length.toString().padStart(2, '0');
+  return tag + len + value;
+}
+
+function buildPromptPayTarget(raw, type) {
+  if (type === 'phone') {
+    // 08X-XXXX-XXXX → 0066XXXXXXXX
+    const digits = raw.replace(/\D/g,'');
+    if (digits.length !== 10 || !digits.startsWith('0'))
+      return null;
+    return '0066' + digits.substring(1);
+  } else {
+    // National ID 13 หลัก
+    const digits = raw.replace(/\D/g,'');
+    if (digits.length !== 13) return null;
+    return digits;
+  }
+}
+
+function generatePayload(target, amount) {
+  // Merchant Account Info (tag 29)
+  const merchantInfo =
+    formatEMV('00', 'A000000677010111') +
+    formatEMV('01', target);
+
+  let payload = '';
+  payload += formatEMV('00', '01');        // Payload Format
+  payload += formatEMV('01', '12');        // Dynamic QR
+  payload += formatEMV('29', merchantInfo);// PromptPay info
+  payload += formatEMV('53', '764');       // THB
+
+  if (amount && amount > 0) {
+    payload += formatEMV('54', amount.toFixed(2));
+  }
+
+  payload += formatEMV('58', 'TH');        // Country
+  payload += '6304';                        // CRC placeholder
+
+  const crc = calcCRC16(payload);
+  return payload + crc;
+}
+
+// ==========================================
+// CRC-16/CCITT-FALSE
+// ==========================================
+function calcCRC16(str) {
+  let crc = 0xFFFF;
+  for (let i = 0; i < str.length; i++) {
+    crc ^= str.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      crc = (crc & 0x8000)
+        ? ((crc << 1) ^ 0x1021) & 0xFFFF
+        : (crc << 1) & 0xFFFF;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4, '0');
+}
+
+// ==========================================
+// Generate QR
+// ==========================================
+function generate() {
+  const rawId  = document.getElementById('promptpayId').value.trim();
+  const amount = parseFloat(document.getElementById('amount').value) || 0;
+  const name   = document.getElementById('displayName').value.trim();
+
+  // Validate
+  if (!rawId) {
+    showMsg('idMsg',
+      idType === 'phone'
+        ? '⚠️ กรุณากรอกเบอร์โทรศัพท์'
+        : '⚠️ กรุณากรอกเลขบัตรประชาชน',
+      'err');
+    return;
+  }
+
+  const target = buildPromptPayTarget(rawId, idType);
+  if (!target) {
+    showMsg('idMsg',
+      idType === 'phone'
+        ? '⚠️ เบอร์โทรต้องเป็น 10 หลัก เช่น 0812345678'
+        : '⚠️ เลขบัตรประชาชนต้องเป็น 13 หลัก',
+      'err');
+    return;
+  }
+
+  if (amount < 0) {
+    showMsg('idMsg', '⚠️ จำนวนเงินต้องไม่ติดลบ', 'err');
+    return;
+  }
+
+  // สร้าง Payload
+  lastPayload = generatePayload(target, amount);
+
+  // render QR
+  const qrDiv = document.getElementById('qrcode');
+  qrDiv.innerHTML = '';
+  new QRCode(qrDiv, {
+    text:          lastPayload,
+    width:         220,
+    height:        220,
+    colorDark:     '#000000',
+    colorLight:    '#ffffff',
+    correctLevel:  QRCode.CorrectLevel.M
+  });
+
+  // แสดงข้อมูล
+  const amountEl = document.getElementById('qrAmount');
+  if (amount > 0) {
+    amountEl.innerHTML =
+      `<div class="qr-amount">
+         ฿${amount.toLocaleString('th-TH',
+             { minimumFractionDigits:2, maximumFractionDigits:2 })}
+       </div>`;
+  } else {
+    amountEl.innerHTML =
+      `<div class="qr-no-amount">
+         ⚠️ ไม่ระบุจำนวนเงิน (ลูกค้ากรอกเอง)
+       </div>`;
+  }
+
+  const displayId = idType === 'phone'
+    ? rawId.replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3')
+    : rawId.replace(/(\d{1})(\d{4})(\d{5})(\d{2})(\d{1})/,
+                    '$1-$2-$3-$4-$5');
+
+  document.getElementById('qrTo').textContent =
+    `${idType === 'phone' ? '📞' : '🪪'} ${displayId}`;
+  document.getElementById('qrName').textContent = name || '';
+
+  document.getElementById('qrCard').classList.add('show');
+  document.getElementById('qrCard')
+    .scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ==========================================
+// Download QR
+// ==========================================
+function downloadQR() {
+  const canvas = document.querySelector('#qrcode canvas');
+  if (!canvas) return;
+
+  // สร้าง canvas ใหม่พร้อมข้อมูลด้านล่าง
+  const padding = 24;
+  const extra   = 60;
+  const newCanvas = document.createElement('canvas');
+  newCanvas.width  = canvas.width  + padding * 2;
+  newCanvas.height = canvas.height + padding * 2 + extra;
+
+  const ctx = newCanvas.getContext('2d');
+
+  // พื้นหลังขาว
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
+
+  // วาด QR
+  ctx.drawImage(canvas, padding, padding);
+
+  // ข้อความด้านล่าง
+  const amount = parseFloat(
+    document.getElementById('amount').value
+  ) || 0;
+  const name   = document.getElementById('displayName').value.trim();
+
+  ctx.fillStyle = '#1a1a2e';
+  ctx.font      = 'bold 18px sans-serif';
+  ctx.textAlign = 'center';
+  const cx      = newCanvas.width / 2;
+  let   ty      = canvas.height + padding + 22;
+
+  if (amount > 0) {
+    ctx.fillStyle = '#34a853';
+    ctx.fillText(
+      `฿${amount.toLocaleString('th-TH',
+          { minimumFractionDigits:2 })}`,
+      cx, ty
+    );
+    ty += 22;
+  }
+
+  if (name) {
+    ctx.fillStyle = '#444';
+    ctx.font      = '14px sans-serif';
+    ctx.fillText(name, cx, ty);
+  }
+
+  ctx.fillStyle = '#999';
+  ctx.font      = '11px sans-serif';
+  ctx.fillText('PromptPay Thailand', cx, newCanvas.height - 8);
+
+  // Download
+  const link    = document.createElement('a');
+  link.download = `promptpay_${amount || 'noamount'}.png`;
+  link.href     = newCanvas.toDataURL('image/png');
+  link.click();
+}
+
+// ==========================================
+// Copy Payload
+// ==========================================
+function copyPayload() {
+  if (!lastPayload) return;
+  navigator.clipboard?.writeText(lastPayload)
+    .then(() => {
+      const btn = event.target;
+      btn.textContent = '✅ คัดลอกแล้ว';
+      setTimeout(() => btn.textContent = '📋 คัดลอก Payload', 2000);
+    })
+    .catch(() => prompt('คัดลอก Payload:', lastPayload));
+}
+
+// ==========================================
+// Real-time update เมื่อเปลี่ยน amount
+// ==========================================
+document.getElementById('amount')
+  .addEventListener('input', function() {
+    // ถ้ามี QR อยู่แล้ว generate ใหม่อัตโนมัติ
+    if (document.getElementById('qrCard').classList.contains('show')) {
+      clearTimeout(this._t);
+      this._t = setTimeout(generate, 400);
+    }
+  });
+</script>
+</body>
+</html>
