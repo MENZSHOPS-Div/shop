@@ -374,12 +374,13 @@
     const ORDERS_URL = "https://script.google.com/macros/s/AKfycbwxfBjGLgCiW_VsJZ7GhFIw3bO9NQegXRZLM3IPT3vahnRLsqmRhRoWZiY305EKBreS0Q/exec";
     const DETAIL_URL = "https://script.google.com/macros/s/AKfycbz3DpFCead7DQZzbwMLpgj6H3dDadXZE7I8JdT8fl5ESn35_tVu_yewviWdq-sjjnBX/exec";
     // Apps Script สำหรับอัปเดตสถานะ (updateStatus.gs) — วาง URL /exec หลัง deploy
-    const UPDATE_URL = "https://script.google.com/macros/s/AKfycbwmrDeUDbFtoS95VRPwbRlzB2Tu4wOQgm9oNzzZZaCzpWs-ZOAZyXUcvphzBqmRzYPYUA/exec";
+    const UPDATE_URL = "https://script.google.com/macros/s/PASTE_UPDATE_STATUS_DEPLOY_ID/exec";
 
     const NEW_STATUS = "ออเดอร์ใหม่";   // ค่า status ที่ถือว่าเป็นคำสั่งซื้อใหม่
 
     let orderData = [];      // รายการคำสั่งซื้อทั้งหมด
     let detailMap = {};      // orderId -> orderDetail (สินค้า+จำนวน)
+    let detailLoadFailed = false; // โหลด detail endpoint ไม่สำเร็จหรือไม่
     let sortDesc = true;     // เรียงวันที่ใหม่->เก่า
     let currentOrder = null; // คำสั่งซื้อที่เปิดอยู่ใน modal
 
@@ -443,15 +444,22 @@
         .then(data => { orderData = Array.isArray(data) ? data : []; });
 
       // โหลดรายละเอียดสินค้าทั้งหมดมาเก็บเป็น map ไว้ล่วงหน้า (เพื่อแสดงใน modal ทันที)
+      detailLoadFailed = false;
       const pDetail = fetch(DETAIL_URL)
-        .then(r => r.ok ? r.json() : [])
+        .then(r => r.json())
         .then(list => {
           detailMap = {};
           (Array.isArray(list) ? list : []).forEach(it => {
             if (it && it.orderId != null) detailMap[String(it.orderId).trim()] = it.orderDetail;
           });
+          console.log("โหลดรายการสินค้า:", Object.keys(detailMap).length, "ออเดอร์");
+          console.log("ตัวอย่าง orderId ที่มี detail:", Object.keys(detailMap).slice(0, 10));
         })
-        .catch(() => { detailMap = {}; });
+        .catch(err => {
+          detailLoadFailed = true;
+          detailMap = {};
+          console.error("ดึง DETAIL_URL ไม่สำเร็จ:", err);
+        });
 
       Promise.all([pOrders, pDetail])
         .then(() => { computeStats(); renderTable(); })
@@ -557,10 +565,20 @@
       document.getElementById("m_tel").textContent     = o.tel ? ("โทร: 0" + o.tel) : "";
 
       // สินค้า + จำนวน (จาก detailMap ที่ key = orderId == orderNumber)
-      const detail = detailMap[String(o.orderNumber).trim()];
-      document.getElementById("m_products").innerHTML = detail
-        ? detail
-        : `<span class="text-muted">ไม่มีรายการสินค้าสำหรับคำสั่งซื้อนี้</span>`;
+      const key = String(o.orderNumber).trim();
+      const detail = detailMap[key];
+      console.log("เปิดออเดอร์:", key, "| พบ detail:", detail != null);
+
+      const productsEl = document.getElementById("m_products");
+      if (detail != null && String(detail).trim() !== "") {
+        productsEl.innerHTML = detail;
+      } else if (detailLoadFailed) {
+        productsEl.innerHTML =
+          `<span class="text-danger">โหลดข้อมูลรายการสินค้าไม่ได้ — ตรวจ DETAIL_URL / การ deploy ของ Apps Script</span>`;
+      } else {
+        productsEl.innerHTML =
+          `<span class="text-muted">ไม่มีแถวในชีต detail ที่ orderId = ${escapeHtml(key)}</span>`;
+      }
 
       // ปุ่มตามสถานะ: ออเดอร์ใหม่ -> ยืนยัน+จัดส่ง / รอจัดส่ง -> จัดส่ง / สำเร็จ -> ซ่อนทั้งคู่
       const s = (o.status == null ? "" : String(o.status)).trim();
