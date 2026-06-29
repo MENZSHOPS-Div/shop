@@ -176,7 +176,13 @@
       font-weight: 600;
     }
     .badge-new  { background: var(--new-bg);  color: var(--new-tx);  }
+    .badge-wait { background: #f3e8ff;         color: #7e22ce;        }
     .badge-done { background: var(--all-bg);  color: var(--all-tx);  }
+
+    .btn-confirm { background:#7e22ce; color:#fff; border:none; }
+    .btn-confirm:hover { background:#6b21a8; color:#fff; }
+    .btn-ship { background:#15803d; color:#fff; border:none; }
+    .btn-ship:hover { background:#136a34; color:#fff; }
 
     .items-btn {
       border: 1px solid var(--border);
@@ -342,8 +348,11 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-          <button class="btn btn-primary" id="m_confirmBtn" onclick="confirmPayment()">
-            <i class="fa-solid fa-check me-1"></i> ยืนยันการชำระเงิน
+          <button class="btn btn-confirm" id="btnConfirm" onclick="changeStatus('รอจัดส่ง')">
+            <i class="fa-solid fa-check me-1"></i> ยืนยัน
+          </button>
+          <button class="btn btn-ship" id="btnShip" onclick="changeStatus('สำเร็จ')">
+            <i class="fa-solid fa-truck me-1"></i> จัดส่ง
           </button>
         </div>
       </div>
@@ -363,8 +372,9 @@
        ENDPOINTS  (เดิมจาก Dashboard.html — แก้ตรงนี้ที่เดียวถ้าเปลี่ยน)
     ============================================================ */
     const ORDERS_URL = "https://script.google.com/macros/s/AKfycbwxfBjGLgCiW_VsJZ7GhFIw3bO9NQegXRZLM3IPT3vahnRLsqmRhRoWZiY305EKBreS0Q/exec";
-    const DETAIL_URL = "https://script.google.com/macros/s/AKfycbxkJF-_Swlz8QD3Sb8npLEvckz0MkqlkECXzeEENqsdwMi6Ij6qej86Uqji-1Rc8pfx/exec";
-    const UPDATE_URL = "https://update-sheet.onrender.com/update-order";
+    const DETAIL_URL = "https://script.google.com/macros/s/AKfycbz3DpFCead7DQZzbwMLpgj6H3dDadXZE7I8JdT8fl5ESn35_tVu_yewviWdq-sjjnBX/exec";
+    // Apps Script สำหรับอัปเดตสถานะ (updateStatus.gs) — วาง URL /exec หลัง deploy
+    const UPDATE_URL = "https://script.google.com/macros/s/AKfycbwmrDeUDbFtoS95VRPwbRlzB2Tu4wOQgm9oNzzZZaCzpWs-ZOAZyXUcvphzBqmRzYPYUA/exec";
 
     const NEW_STATUS = "ออเดอร์ใหม่";   // ค่า status ที่ถือว่าเป็นคำสั่งซื้อใหม่
 
@@ -403,7 +413,21 @@
           && d.getDate() === now.getDate();
     }
 
-    function isNew(o) { return (o.status || "").trim() === NEW_STATUS; }
+    // "คำสั่งซื้อใหม่" = status ว่าง หรือ "ออเดอร์ใหม่"
+    function isNewStatus(status) {
+      const s = (status == null ? "" : String(status)).trim();
+      return s === "" || s === "ออเดอร์ใหม่";
+    }
+
+    function isNew(o) { return isNewStatus(o.status); }
+
+    // badge 3 สถานะ: ออเดอร์ใหม่=แดงจาง / รอจัดส่ง=ม่วงจาง / สำเร็จ=เขียวจาง
+    function statusBadge(status) {
+      const s = (status == null ? "" : String(status)).trim();
+      if (s === "สำเร็จ")   return `<span class="badge-status badge-done">สำเร็จ</span>`;
+      if (s === "รอจัดส่ง") return `<span class="badge-status badge-wait">รอจัดส่ง</span>`;
+      return `<span class="badge-status badge-new">${escapeHtml(s || "ออเดอร์ใหม่")}</span>`;
+    }
 
     function escapeHtml(s) {
       return String(s == null ? "" : s)
@@ -494,9 +518,7 @@
 
       let html = "";
       rows.forEach(({ o, i }) => {
-        const badge = isNew(o)
-          ? `<span class="badge-status badge-new">ยังไม่ดำเนินการ</span>`
-          : `<span class="badge-status badge-done">ดำเนินการสำเร็จแล้ว</span>`;
+        const badge = statusBadge(o.status);
 
         html += `
           <tr class="clickable" onclick="openOrder(${i})">
@@ -528,9 +550,7 @@
       document.getElementById("m_orderNumber").textContent = "#" + (o.orderNumber || "-");
       document.getElementById("m_customer").textContent    = o.customer || "-";
       document.getElementById("m_amount").textContent      = "฿" + money(o.amount);
-      document.getElementById("m_status").innerHTML        = isNew(o)
-        ? `<span class="badge-status badge-new">ยังไม่ดำเนินการ</span>`
-        : `<span class="badge-status badge-done">ดำเนินการสำเร็จแล้ว</span>`;
+      document.getElementById("m_status").innerHTML        = statusBadge(o.status);
 
       // ที่อยู่ + เบอร์โทร
       document.getElementById("m_address").textContent = o.address || "-";
@@ -542,37 +562,38 @@
         ? detail
         : `<span class="text-muted">ไม่มีรายการสินค้าสำหรับคำสั่งซื้อนี้</span>`;
 
-      // ปุ่มยืนยัน: ปิดถ้าทำรายการแล้ว
-      document.getElementById("m_confirmBtn").style.display = isNew(o) ? "inline-block" : "none";
+      // ปุ่มตามสถานะ: ออเดอร์ใหม่ -> ยืนยัน+จัดส่ง / รอจัดส่ง -> จัดส่ง / สำเร็จ -> ซ่อนทั้งคู่
+      const s = (o.status == null ? "" : String(o.status)).trim();
+      document.getElementById("btnConfirm").style.display =
+        (s === "" || s === "ออเดอร์ใหม่") ? "inline-block" : "none";
+      document.getElementById("btnShip").style.display =
+        (s !== "สำเร็จ") ? "inline-block" : "none";
 
       new bootstrap.Modal(document.getElementById("orderModal")).show();
     }
 
     /* ---------- UPDATE STATUS ---------- */
-    function confirmPayment() {
+    function changeStatus(newStatus) {
       if (!currentOrder) return;
-      if (!confirm("ยืนยันการชำระเงินของคำสั่งซื้อ #" + currentOrder.orderNumber + " ?")) return;
 
       showLoading(true);
-      fetch(UPDATE_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderNumber: currentOrder.orderNumber })
-      })
+
+      const sep = UPDATE_URL.includes("?") ? "&" : "?";
+      const url = UPDATE_URL + sep
+        + "orderNumber=" + encodeURIComponent(currentOrder.orderNumber)
+        + "&status=" + encodeURIComponent(newStatus)
+        + "&t=" + Date.now();   // กัน cache
+
+      fetch(url)
         .then(res => res.json())
-        .then(data => {
+        .catch(() => null)   // เผื่ออ่าน response ไม่ได้ ก็ไปต่อ (refresh จะเช็กผลจริงเอง)
+        .finally(() => {
           showLoading(false);
-          if (data && data.success) {
-            alert("อัปเดตสถานะเรียบร้อยแล้ว");
-            location.reload();
-          } else {
-            alert("ไม่สามารถอัปเดตได้");
-          }
-        })
-        .catch(err => {
-          showLoading(false);
-          console.error("Update error:", err);
-          alert("เกิดข้อผิดพลาดในการอัปเดต");
+          // ปิด modal
+          const inst = bootstrap.Modal.getInstance(document.getElementById("orderModal"));
+          if (inst) inst.hide();
+          // refresh table (ดึงข้อมูลใหม่ จะเห็นสถานะที่อัปเดตแล้ว)
+          loadAll();
         });
     }
 
