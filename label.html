@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dashboard | MENZSHOPS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- library สำหรับสร้าง PDF จาก DOM -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --sidebar: #0f1115;
+      --sidebar-text: #c9ced6;
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --border: #e9edf3;
+      --muted: #7a828e;
+      --text: #1f2430;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Sarabun', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* ---------- LAYOUT ---------- */
+    .layout { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: 230px;
+      flex-shrink: 0;
+      background: var(--sidebar);
+      color: var(--sidebar-text);
+      padding: 26px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar .brand {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: .5px;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar a { text-decoration: none; }
+
+    .sidebar .nav-link {
+      color: var(--sidebar-text);
+      border-radius: 10px;
+      padding: 11px 14px;
+      margin-bottom: 6px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: .15s;
+    }
+    .sidebar .nav-link:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .sidebar .nav-link.active { background: #2563eb; color: #fff; }
+
+    .main { flex: 1; padding: 26px 30px; min-width: 0; }
+
+    .nav-score { display: flex; }
+
+    .labelform { max-height: 500px; }
+
+    .namebox { min-width: 100%; max-width: 100%; }
+
+    .addressbox {
+        min-width: 100%;
+        max-width: 100%;
+        min-height: 150px;
+        max-height: 150px;
+    }
+
+    #waiting { min-width: 100%; max-width: 100%; }
+
+    .modal-waiting {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0, 0, 0, .25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100000;
+    }
+
+    /* กรอบฉลากจัดส่ง: สัดส่วน 3:4 ให้ตรงกับฉลาก 75x100 มม. */
+    #capture-area {
+      width: 300px;          /* ~75mm */
+      min-height: 400px;     /* ~100mm คงสัดส่วน 3:4 */
+      margin: 20px auto;
+      padding: 20px;
+      border: 2px solid #333;
+      background-color: #f9f9f9;
+      font-family: "Noto Sans Thai", sans-serif;
+      color: black;
+    }
+
+    #allBtn { max-width: 150px; min-width: 150px; }
+
+    #tableaddress {
+        min-height: 500px;
+        max-height: 500px;
+        overflow: scroll;
+    }
+
+    /* ===== ตารางที่อยู่ — โมเดิร์น + แถวสีสลับ ===== */
+    .fl-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        min-width: 700px;
+        max-width: 900px;
+        border-radius: 8px;          /* โค้งนิดหน่อย */
+        overflow: hidden;
+        box-shadow: 0 8px 28px rgba(0,0,0,.10);
+        font-family: 'Sarabun', sans-serif;
+        background: #fff;
+        min-height: 100%;
+    }
+
+    .fl-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: #607d8b;          /* เทาอมฟ้า */
+        color: #fff;
+        font-weight: 600;
+        font-size: .92rem;
+        letter-spacing: .3px;
+        text-align: center;
+        padding: 15px 14px;
+        border: none;
+    }
+
+    .fl-table th,
+    .fl-table td {
+        border: none;
+        border-bottom: 1px solid #eef1f5;
+        padding: 13px 16px;
+        font-weight: 500;
+        color: #2a2f3a;
+        vertical-align: middle;
+    }
+
+    .fl-table tbody {
+        display: block;
+        min-height: 700px;
+        max-height: 700px;
+        overflow-y: auto;
+    }
+
+    .fl-table thead,
+    .fl-table tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    /* แถวสีสลับ (zebra) */
+    .fl-table tbody tr:nth-child(odd)  { background: #ffffff; }
+    .fl-table tbody tr:nth-child(even) { background: #f5f8fc; }
+
+    /* ไฮไลต์เมื่อชี้เมาส์ */
+    .fl-table tbody tr {
+        cursor: pointer;
+        transition: background .12s;
+    }
+    .fl-table tbody tr:hover { background: #e8f0fe; }
+
+    /* แถวสุดท้ายไม่ต้องมีเส้นใต้ */
+    .fl-table tbody tr:last-child td { border-bottom: none; }
+
+    @media print {
+        button { display: none; }
+        body { background: white; color: black; margin: 0; padding: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <a href="index.html"><div class="brand"><i class="fa-solid fa-store"></i> MENZSHOPS</div></a>
+      <a href="Dashboard.html"><div class="nav-link"><i class="fa-solid fa-bag-shopping"></i> คำสั่งซื้อ</div></a>
+      <div class="nav-link active"><i class="fa-solid fa-tag"></i> Label</div>
+    </aside>
+
+    <main class="main">
+
+      <div class="nav-score mt-4" id="chaptor3" style="display: flex;">
+        <div class="col-4">
+
+          <p class="fs-2">สลากจัดส่ง</p>
+          <div class="card p-3 bg-body-secondary mt-3 labelform" id="labelsticker"
+               style="display: block; border-radius: 5px; min-height: 700px;">
+            <div id="addressinput">
+
+              <div class="input-group mb-2">
+                <span>ชื่อ </span>
+                <input id="stickername" class="form-control form-control-sm ms-2 ">
+              </div>
+
+              <div class="input-group mb-2">
+                <span>ที่อยู่ </span>
+                <input id="stickeraddress" class="form-control form-control-sm ms-2">
+              </div>
+
+              <div class="input-group mb-2">
+                <span>โทร </span>
+                <input id="stickertel" class="form-control form-control-sm ms-2">
+              </div>
+              <button id="btn01" onclick="handlePrint()"
+                      class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
+            </div>
+
+            <div id="addresspan" style="display: none;">
+              <div class="input-group mb-2">
+                <span>ชื่อ </span>
+                <span id="namesticker" class="form-control form-control-sm  ms-2"></span>
+              </div>
+
+              <div class="input-group mb-2">
+                <span>ที่อยู่ </span>
+                <span id="addresssticker" class="form-control form-control-sm ms-2"></span>
+              </div>
+
+              <div class="input-group mb-2">
+                <span>โทร </span>
+                <span id="telsticker" class="form-control form-control-sm ms-2"></span>
+              </div>
+              <button id="btn02" onclick="printData()"
+                      class="w-100 btn btn-lg btn-secondary mt-2">Print</button>
+            </div>
+
+            <div id="capture-area"></div>
+          </div>
+        </div>
+
+        <div class="col-8">
+          <div id="addressTable">
+            <div class="col-7">
+              <p class="ms-3">ค้นหาที่อยู่</p>
+              <div class="input-group mb-3 ms-3">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon1" onclick="addRecords()">+</button>
+                <input id="filter" class="form-control form-control-sm">
+                <button class="btn btn-primary ms-2" onclick="filterRecords()" type="button">ค้นหา</button>
+                <button id="allBtn" class="btn btn-secondary text-light ms-2" type="button" onclick="loadFormAddressSheet()">แสดงทั้งหมด</button>
+              </div>
+            </div>
+
+            <table class="fl-table ms-3" id="tableaddress" style="min-width: 700px; max-width: 900px;">
+              <thead>
+                <tr style="font-family: sarabun;">
+                  <th style="width: 25%;">ชื่อ</th>
+                  <th style="width: 50%;">ที่อยู่</th>
+                  <th style="width: 25%;">โทร</th>
+                </tr>
+              </thead>
+              <tbody id="resultsaddress">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- WAITING overlay -->
+  <div id="waiting" class="modal-waiting" style="display:none;">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <script>
+
+    /* ===== สลับโหมดการแสดงผลของการ์ดสลาก =====
+       - โหมด "กรอกเอง"     : โชว์ #addressinput (มีปุ่ม #btn01 อยู่ข้างใน)
+       - โหมด "ดูที่เลือก"  : โชว์ #addresspan  (มีปุ่ม #btn02 อยู่ข้างใน)
+       ปุ่ม btn01/btn02 อยู่ในกล่องของตัวเองอยู่แล้ว จึงซ่อน/โชว์ตามกล่องพ่อ
+       ไม่ต้องสั่ง show/hide ปุ่มแยก (เดิมสั่งแยกเลยขัดกันเอง) */
+    function showInputMode() {
+      $("#labelsticker").css('display', 'block');
+      $("#addressinput").css('display', 'block');
+      $("#addresspan").css('display', 'none');
+    }
+
+    function showSelectedMode() {
+      $("#labelsticker").css('display', 'block');
+      $("#addresspan").css('display', 'block');
+      $("#addressinput").css('display', 'none');
+    }
+
+    // กดปุ่ม "+" : เคลียร์ค่าเก่า แล้วเข้าโหมดกรอกเอง
+    function addRecords() {
+      $("#stickername").val('');
+      $("#stickeraddress").val('');
+      $("#stickertel").val('');
+      $("#capture-area").html('');
+      showInputMode();
+    }
+
+    function loadFormSheet() {
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbwxfBjGLgCiW_VsJZ7GhFIw3bO9NQegXRZLM3IPT3vahnRLsqmRhRoWZiY305EKBreS0Q/exec";
+      fetch(scriptUrl)
+        .then(function (response) {
+          if (!response.ok) throw new Error("การเชื่อมต่อผิดพลาด");
+          return response.json();
+        })
+        .then(function (data) {
+          orderData = data;
+          orderData.sort(function (a, b) { return new Date(b.orderDate) - new Date(a.orderDate); });
+          let html = "";
+          for (let i = 0; i < orderData.length; i++) {
+            if (orderData[i].status === "ออเดอร์ใหม่") {
+              html += `
+    <tr style="cursor: pointer;" onclick="openProductDetail(${i})" class="trnew">
+        <td>${formatDate(orderData[i].orderDate)}</td>
+        <td>${orderData[i].orderNumber}</td>
+        <td>${orderData[i].customer}</td>
+        <td>${numberWithCommas(orderData[i].amount)}</td>
+        <td>${orderData[i].callBack}</td>
+        <td>${orderData[i].callBackValue}</td>
+        <td class="neworder fw-bold">New Order</td>
+    </tr>`;
+            } else {
+              html += `
+    <tr style="background-color: lightgray;">
+        <td>${formatDate(orderData[i].orderDate)}</td>
+        <td>${orderData[i].orderNumber}</td>
+        <td>${orderData[i].customer}</td>
+        <td>${numberWithCommas(orderData[i].amount)}</td>
+        <td>${orderData[i].callBack}</td>
+        <td>${orderData[i].callBackValue}</td>
+        <td style="color: white;">Complete</td>
+    </tr>`;
+            }
+          }
+          $("#results").html(html);
+        });
+    }
+
+    function loadFormAddressSheet() {
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbytA_cS0J5jFWuVJ2BNHWPDcOmRtw_Rj-9merdreY175SnjSwdkQpxRLFc68s3chCb2Qg/exec";
+      fetch(scriptUrl)
+        .then(function (response) {
+          if (!response.ok) throw new Error("การเชื่อมต่อผิดพลาด");
+          return response.json();
+        })
+        .then(function (data) {
+          orderData = data;
+          let html = "";
+          for (let i = 0; i < orderData.length; i++) {
+            html += `
+    <tr style="cursor: pointer;" onclick="openAddressDetail(${i})" class="trnew">
+        <td style="width: 25%;">${orderData[i].addressName}</td>
+        <td class="text-start" style="width: 50%;">${orderData[i].address}</td>
+        <td style="width: 25%;">${orderData[i].addressTel}</td>
+    </tr>`;
+          }
+          $("#resultsaddress").html(html);
+        });
+    }
+
+    var orderindex = 0;
+    function openProductDetail(index) {
+      orderindex = index;
+      $("#detail_orderDate").text(formatDate(orderData[index].orderDate));
+      $("#detail_orderNumber").text(orderData[index].orderNumber);
+      $("#detail_customer").text(orderData[index].customer);
+      $("#detail_amount").text(numberWithCommas(orderData[index].amount) + ' THB');
+      $("#detail_callback").text(orderData[index].callback);
+      $("#detail_callbackValue").text(orderData[index].callbackValue);
+      $("#detail_address").text(orderData[index].address);
+      $("#detail_tel").text('0' + (orderData[index].tel));
+      $("#detail_status").text("รอตรวจสอบ");
+    }
+
+    // คลิกแถวในตารางที่อยู่ : โหลดค่าที่เลือก แล้วเข้าโหมดดูที่เลือก
+    function openAddressDetail(index) {
+      orderindex = index;
+      $("#namesticker").text(orderData[index].addressName);
+      $("#addresssticker").text(orderData[index].address);
+      $("#telsticker").text(orderData[index].addressTel);
+      showSelectedMode();
+    }
+
+    function loaddetail() {
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbxkJF-_Swlz8QD3Sb8npLEvckz0MkqlkECXzeEENqsdwMi6Ij6qej86Uqji-1Rc8pfx/exec";
+      fetch(scriptUrl)
+        .then(function (response) {
+          if (!response.ok) throw new Error("การเชื่อมต่อผิดพลาด");
+          return response.json();
+        })
+        .then(function (data) {
+          const numberdetail = document.getElementById('detail_orderNumber').textContent.trim();
+          let html = "";
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].orderId == numberdetail) {
+              html += `<p class="fs-6" style="font-family: sarabun;">${data[i].orderDetail}</p>`;
+              break;
+            }
+          }
+          document.getElementById("mycart").innerHTML = html;
+          document.getElementById("modalCart").style.display = "flex";
+        })
+        .catch(function (error) {
+          console.error("เกิดข้อผิดพลาด:", error);
+          document.getElementById("mycart").innerHTML = "ไม่สามารถโหลดข้อมูลได้";
+        });
+    }
+
+    function updateOrderState() {
+      document.getElementById("waiting").style.display = "flex";
+      setTimeout(() => { updateOrderStatus(); }, 3000);
+      document.getElementById("modalCart").style.display = "none";
+    }
+
+    function updateOrderStatus() {
+      const orderNumber = document.getElementById('detail_orderNumber').textContent;
+      fetch("https://update-sheet.onrender.com/update-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderNumber })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) { alert("อัปเดตสถานะเรียบร้อยแล้ว"); location.reload(); }
+          else { alert("ไม่สามารถอัปเดตได้"); }
+        })
+        .catch(err => console.error("Error:", err));
+    }
+
+    function openSales() {
+      $("#chaptor1").css('display', 'none');
+      $("#chaptor2").css('display', 'none');
+      $("#chaptor3").css('display', 'flex');
+      // ค่าเริ่มต้นตอนเปิดหน้า: โหมดกรอกที่อยู่เอง
+      showInputMode();
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
+    }
+
+    function numberWithCommas(amount) {
+      return Number(amount).toLocaleString("en-US", {
+        minimumFractionDigits: 2, maximumFractionDigits: 2
+      });
+    }
+
+    function loadSummaryData() {
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbxHJl74VVFMdcAbf7mTdJFglEhvBK_fI_eBcswWB4U9ztJL4rpp8wsXIpPTtEqyUoXK4Q/exec";
+      fetch(scriptUrl)
+        .then(function (response) {
+          if (!response.ok) throw new Error("การเชื่อมต่อผิดพลาด");
+          return response.json();
+        })
+        .then(function (data) {
+          let completeData = numberWithCommas(data.C);
+          if (document.getElementById("orderA")) document.getElementById("orderA").textContent = data.B;
+          if (document.getElementById("orderB")) document.getElementById("orderB").textContent = data.A;
+          if (document.getElementById("orderC")) document.getElementById("orderC").textContent = completeData;
+        })
+        .catch(function (error) { console.error("เกิดข้อผิดพลาด:", error); });
+    }
+
+    function printLabel() {
+      const labelName = document.getElementById('stickername').value;
+      const labelAddress = document.getElementById('stickeraddress').value;
+      const labelTel = document.getElementById('stickertel').value;
+      const html = `
+        <div class="fs-4 fw-bold ms-3 text-start" id="printtel">(+66)${labelTel}</div>
+        <div class="card p-2 mb-3 p-3 namebox" style="border-color:black;">
+            <div class="row">
+                <div class="fs-6 fw-bold">ส่งคุณ</div>
+                <div class="ms-5 mt-2 fs-3 fw-bold" style="color: black;" id="printname">${labelName}</div>
+            </div>
+        </div>
+        <div class="card p-2 addressbox" style="border-color:black;">
+            <div class="row">
+                <div class="fs-6 fw-bold">ที่อยู่</div>
+                <div class="ms-2 fs-4 fw-bold" style="color: black;" id="printaddress">${labelAddress}</div>
+            </div>
+        </div>
+        <div class="fw-bold text-center mt-5" style="font-size: 1.5rem;">LALAMOVE</div>
+      `;
+      document.getElementById('capture-area').innerHTML = html;
+      setTimeout(() => { downloadPDF(); }, 200);
+    }
+
+    function printData() {
+      const labelName = document.getElementById('namesticker').textContent.trim();
+      const labelAddress = document.getElementById('addresssticker').textContent.trim();
+      const labelTel = document.getElementById('telsticker').textContent.trim();
+      const html = `
+        <div class="fs-4 fw-bold ms-3 text-start" id="printtel">(+66)${labelTel}</div>
+        <div class="card p-2 mb-3 namebox" style="border-color:black;">
+            <div class="row">
+                <div class="fs-6 fw-bold">ส่งคุณ</div>
+                <div class="ms-5 mt-2 fs-3 fw-bold text-dark" id="printname">${labelName}</div>
+            </div>
+        </div>
+        <div class="card p-2 addressbox" style="border-color:black;">
+            <div class="row">
+                <div class="fs-6 fw-bold">ที่อยู่</div>
+                <div class="ms-2 mt-2 fs-6 text-dark fw-bold" id="printaddress">${labelAddress}</div>
+            </div>
+        </div>
+        <div class="fw-bold text-center mt-5" style="font-size: 1.5rem;">LALAMOVE</div>
+      `;
+      document.getElementById('capture-area').innerHTML = html;
+      setTimeout(() => { downloadPDF(); }, 200);
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById('capture-area');
+
+      html2canvas(element, { scale: 2, useCORS: true }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+
+        // ขนาดฉลาก: กว้าง 75 มม. สูง 100 มม. (แนวตั้ง)
+        const labelW = 75;
+        const labelH = 100;
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [labelW, labelH] });
+
+        // คงสัดส่วนภาพไม่ให้ยืดเบี้ยว + เว้นขอบ + จัดกึ่งกลาง
+        const margin = 4;
+        const maxW = labelW - margin * 2;
+        const maxH = labelH - margin * 2;
+        const ratio = Math.min(maxW / canvas.width, maxH / canvas.height);
+        const imgW = canvas.width * ratio;
+        const imgH = canvas.height * ratio;
+        const x = (labelW - imgW) / 2;
+        const y = margin;
+
+        pdf.addImage(imgData, 'PNG', x, y, imgW, imgH);
+
+        // สั่งให้เด้งหน้าต่าง Print อัตโนมัติเมื่อเปิดไฟล์
+        pdf.autoPrint();
+
+        const blobUrl = pdf.output('bloburl');
+
+        // โหลด PDF ใน iframe ซ่อนไว้ แล้วสั่งพิมพ์เลย (เลี่ยง popup ถูกบล็อก)
+        let iframe = document.getElementById('pdf-print-frame');
+        if (iframe) iframe.remove();
+
+        iframe = document.createElement('iframe');
+        iframe.id = 'pdf-print-frame';
+        iframe.style.position = 'fixed';
+        iframe.style.right = '0';
+        iframe.style.bottom = '0';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = '0';
+        iframe.src = blobUrl;
+
+        iframe.onload = function () {
+          try {
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+          } catch (e) {
+            window.open(blobUrl, '_blank');
+          }
+        };
+
+        document.body.appendChild(iframe);
+      });
+    }
+
+    function filterRecords() {
+      const searchValue = document.getElementById('filter').value.toLowerCase();
+      const url = `https://script.google.com/macros/s/AKfycbwHGBOkZzUR7TRBwDeG8ttBFkxR8dv_LpJMfiUiratGAnRjL76Lkt2Y3IfkZmnJdXTkAg/exec`;
+      fetch(url)
+        .then(function (response) {
+          if (!response.ok) throw new Error("การเชื่อมต่อผิดพลาด");
+          return response.json();
+        })
+        .then(function (data) {
+          addressData = data;
+          let html = "";
+          for (let i = 0; i < addressData.length; i++) {
+            if (addressData[i].aname && addressData[i].aname.toLowerCase().includes(searchValue)) {
+              html += `
+                <tr onclick="openAddressDetail(${i})" style="cursor: pointer;">
+                    <th class="column-5 text-center">${addressData[i].aname}</th>
+                    <td class="column-6">${addressData[i].aaddress}</td>
+                    <td class="text-center">${addressData[i].atel}</td>
+                </tr>`;
+            }
+            $("#resultsaddress").html(html);
+          }
+        });
+    }
+
+    async function updateAddress() {
+      $("#waiting").css('display', 'flex');
+      const bname = document.getElementById('stickername').value;
+      const baddress = document.getElementById('stickeraddress').value;
+      const btel = document.getElementById('stickertel').value;
+      await sentDataToSheet({ bname, baddress, btel });
+      $("#waiting").css('display', 'none');
+    }
+
+    async function sentDataToSheet(orderData) {
+      try {
+        await fetch("https://append-8p73.onrender.com/save-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderData)
+        });
+      } catch (error) {
+        console.error("ส่งข้อมูลไปยัง backend ไม่สำเร็จ:", error);
+      }
+    }
+
+    async function handlePrint() {
+      if (confirm('ต้องการบันทึกหรือไม่?')) {
+        $("#waiting").css('display', 'flex');
+        await updateAddress();
+        $("#waiting").css('display', 'none');
+        await printLabel();
+      } else {
+        printLabel();
+      }
+    }
+
+    function clearAll() {
+      document.getElementById('namesticker').innerText = " ";
+      document.getElementById('addresssticker').innerText = " ";
+      document.getElementById('telsticker').innerText = " ";
+      document.getElementById('stickername').value = " ";
+      document.getElementById('stickeraddress').value = " ";
+      document.getElementById('stickertel').value = " ";
+      document.getElementById('capture-area').innerText = " ";
+    }
+
+    window.onload = function () {
+      loadFormSheet();
+      loadSummaryData();
+      loadFormAddressSheet();
+      openSales();
+    };
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
