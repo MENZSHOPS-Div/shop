@@ -366,7 +366,7 @@
           <button class="btn btn-confirm" id="btnConfirm" onclick="changeStatus('รอจัดส่ง')">
             <i class="fa-solid fa-check me-1"></i> ยืนยัน
           </button>
-          <button class="btn btn-ship" id="btnShip" onclick="changeStatus('สำเร็จ')">
+        <button class="btn btn-ship" id="btnShip" onclick="printLabelAndShip()">จัดส่ง</button>
             <i class="fa-solid fa-truck me-1"></i> จัดส่ง
           </button>
         </div>
@@ -517,6 +517,30 @@
     function toggleAll(box) {
       document.querySelectorAll(".row-check").forEach(c => c.checked = box.checked);
     }
+
+    // === ครอบ changeStatus เดิม: copy ที่อยู่ + เปิด FlashPrinter ก่อนเปลี่ยนสถานะ ===
+function printLabelAndShip() {
+  // 1. ดึงข้อมูลจาก modal ที่กำลังแสดงอยู่ (ก่อน changeStatus จะปิด/รีเฟรชอะไร)
+  const customerName = (document.getElementById('m_customer')?.innerText || '').trim();
+  const tel = (document.getElementById('m_tel')?.innerText || '').trim();
+  const address = (document.getElementById('m_address')?.innerText || '').trim();
+  const addressText = `${customerName}\n${tel}\n${address}`;
+
+  // 2. ส่งให้ WebView2 wrapper copy + เปิด FlashPrinter (ถ้าเปิดผ่าน wrapper)
+  if (window.chrome && window.chrome.webview) {
+    window.chrome.webview.postMessage({
+      action: "copy_and_open_flash_printer",
+      payload: addressText
+    });
+  } else {
+    // เผื่อเปิดผ่านเบราว์เซอร์ปกติ ไม่ใช่ผ่าน wrapper
+    navigator.clipboard.writeText(addressText);
+    alert("คัดลอกที่อยู่แล้ว (ยังไม่ได้เปิดผ่าน wrapper จึงต้องเปิด FlashPrinter เอง)");
+  }
+
+  // 3. เปลี่ยนสถานะตามเดิม (ฟังก์ชันเดิมของพี่ ไม่แก้อะไร)
+  changeStatus('สำเร็จ');
+}
 
     function renderTable() {
       const q = (document.getElementById("search").value || "").toLowerCase().trim();
