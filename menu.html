@@ -926,6 +926,29 @@
     right: 16px;
     z-index: 5;
   }
+  #modalDesc .pd-share {
+    position: absolute;
+    top: 14px;
+    right: 60px;
+    z-index: 5;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(15, 23, 43, 0.06);
+    color: #0F172B;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition: 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #modalDesc .pd-share:hover {
+    background: rgba(240, 138, 22, 0.15);
+    color: #f08a16;
+  }
   #modalDesc .pd-body {
     display: flex;
     gap: 28px;
@@ -1474,6 +1497,7 @@
       <div id="modalDesc" class="modal" style="display: none;">
         <div onclick="closeModal()" class="modal-bg"></div>
         <div class="modal-page pd-card">
+          <button type="button" class="pd-share" onclick="shareProduct()" aria-label="แชร์สินค้า"><i class="fas fa-share-alt"></i></button>
           <button type="button" class="pd-close" onclick="closeModal()" aria-label="ปิด">&times;</button>
           <div class="pd-body">
             <div class="pd-media">
@@ -2030,6 +2054,27 @@ function renderSummaryCarts() {
         }
 
 
+
+        function shareProduct() {
+          const product = productData[productindex];
+          if (!product) return;
+
+          const shareData = {
+            title: product.name,
+            text: `${product.name} - ${numberWithCommas(product.price)} THB`,
+            url: window.location.href
+          };
+
+          if (navigator.share) {
+            navigator.share(shareData).catch(() => {});
+          } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`)
+              .then(() => alert('คัดลอกลิงก์สินค้าแล้ว'))
+              .catch(() => alert('ไม่สามารถคัดลอกลิงก์ได้'));
+          } else {
+            alert('เบราว์เซอร์นี้ไม่รองรับการแชร์');
+          }
+        }
 
         function closeModal() {
           $(".modal").css('display', 'none')
