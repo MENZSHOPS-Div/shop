@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>I DOG Cafe</title>
+    <title>MENZSHOPS</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -41,30 +41,51 @@
 <style>
 
 	.hero-header {
-    background: url("img/idog.png");
+    background: url("css/img/bg.png");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-     #floating-img {
-    position: fixed;
-    bottom: 50px;
-    /* ปรับตำแหน่งแนวตั้ง */
-    right: 10px;
-    /* ปรับตำแหน่งแนวนอน */
-    width: 100px;
-    height: 100px;
-    right: 30px;
-    background: rgba(247, 246, 246, 0.1);
+     #floating-icon {
+    position: relative;
+    top: auto;
+    right: auto;
+    order: 1;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    margin-left: auto;
+    margin-right: 0;
+    background: #fff;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    z-index: 9999;
-    /* ให้ไอคอนอยู่ด้านบน */
+    z-index: 1001;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+    transition: background-color .2s ease, transform .2s ease;
   }
+
+  #floating-icon:hover {
+    background: #f3f4f6;
+    transform: translateY(-1px);
+  }
+
+  #floating-icon .fa-cart-shopping {
+    font-size: 18px;
+    color: #dc3545;
+  }
+
+  #floating-icon .cartcount {
+    top: -6px;
+    right: -7px;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+  }
+
     .icon{
         height: 40px;
     }
@@ -95,40 +116,48 @@
 
 
         <!-- Navbar & Hero Start -->
-        <div class="container-xxl position-relative p-0">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
-              
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                    <span class="fa fa-bars"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
-                    <div class="navbar-nav mx-auto py-0">
-                        <a href="index.html" class="nav-item nav-link">Home</a>
-                        
-                       
-                        <a href="menu.html" class="nav-item nav-link">Shop</a>
-                        <a href="contact.html " class="nav-item nav-link">Ship</a>
-                        <a href="service.html" class="nav-item nav-link">tracking</a>
-                        
-                        <a href="booking.html" class="nav-item nav-link active">Contact</a>
-                    </div>
-                   
-            </nav>
+       <div class="container-xxl position-relative p-0">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+      
+        <!-- <img src="img/logo.png" alt="Logo"> -->
 
-            <div class="container-xxl py-5 hero-header mb-5">
-                <div class="container my-5 py-5">
-                    <div class="row g-5">
-                        <div class="col-lg-6 text-lg-start">
-                            <h1 class="display-3 animated slideInLeft" style="color:darkorange;">Contact Us.<br><small class="text-white fs-1" style="font-family: sarabun;">ติดต่อเรา</small></h1>
-                           
-                           
-                        </div>
-                   
-                    </div>
-                </div>
-            </div>
+        <div id="floating-icon">
+          <div onclick="openCart()" style="cursor: pointer;" class="nav-profile-cart">
+            <i class="fas fa-cart-shopping"></i>
+            <div id="cartcount" class="cartcount" style="display: none;">0</div>
+          </div>
         </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+          <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav ms-auto py-0 pe-4">
+            <a href="index.html" class="nav-item nav-link">Home</a>
+
+
+            <a href="menu.html" class="nav-item nav-link">Shop</a>
+            <a href="contact.html" class="nav-item nav-link">Ship</a>
+            <a href="service.html" class="nav-item nav-link ">tracking</a>
+
+            <a href="booking.html" class="nav-item nav-link active">Contact</a>
+
+      </nav>
+
+      <div class="container-xxl py-5 hero-header mb-5">
+        <div class="container my-5 py-5">
+          <div class="row g-5">
+            <div class="col-lg-6 text-lg-start">
+              <h1 class="display-3  animated slideInLeft" style="color:darkorange;">Contact.<br><small
+                  class="text-white fs-1" style="font-family: sarabun;">ติดต่อเรา</small></h1>
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
         <!-- Navbar & Hero End -->
 
         <div class="row align-items-md-stretch">
