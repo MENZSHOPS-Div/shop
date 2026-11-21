@@ -428,13 +428,14 @@ if (typeof module !== "undefined" && module.exports) module.exports = (typeof gl
 ========================================== */
 
 let cart = [];
+let receiptPdfUrl = null;
 
 const CONFIG = {
     provinceApi:
     "https://script.google.com/macros/s/AKfycbwHU1aqw9TATKgHVNcTFSBomSWAdzortx8dgaKAdjfQstl30yb34jtziUk-XTjcHi134g/exec",
 
     lineApi:
-    "https://line-api-backend.onrender.com/push",
+    "https://line-webhook-nu-lime.vercel.app/push",
 
     sheetApi:
     "https://sheet-backend-lsg9.onrender.com/save-order",
@@ -444,7 +445,7 @@ const CONFIG = {
                เลขบัตรประชาชน / Tax ID (13 หลัก),
                เลข e-Wallet (15 หลัก)
        QR จะถูกสร้างฝั่งหน้าเว็บทันที ไม่ต้องรอ API ภายนอก */
-    promptPayId: "0656682805"
+    promptPayId: "0654982592"
 };
 
 /* ==========================================
@@ -456,6 +457,17 @@ function formatMoney(number) {
     return Number(number)
         .toFixed(2)
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+}
+
+function escapeHtml(value) {
+
+    return String(value == null ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
 
 }
 
@@ -660,23 +672,27 @@ function renderReceiptTable() {
 
     let html = "";
 
-    cart.forEach(item => {
+    cart.forEach((item, index) => {
 
         const total =
-            item.price * item.count;
+            Number(item.price || 0) * Number(item.count || 0);
 
         html += `
         <tr>
 
+            <td class="receipt-index">
+                ${index + 1}
+            </td>
+
             <td>
-                ${item.name}
+                ${escapeHtml(item.name || "")}
             </td>
 
-            <td class="text-center">
-                ${item.count}
+            <td class="receipt-quantity">
+                ${escapeHtml(item.count)}
             </td>
 
-            <td class="text-end">
+            <td class="receipt-price">
                 ${formatMoney(total)}
             </td>
 
@@ -706,6 +722,64 @@ function updateReceiptTotal() {
     $("#recieveAmount").text(
         formatMoney(total)
     );
+
+    $("#recieveDiscount").text("0.00");
+
+    $("#receiptNetAmount").text(
+        formatMoney(total)
+    );
+
+    $("#recieveBahtText").text(
+        amountToBahtText(total)
+    );
+
+}
+
+function thaiNumberToText(number) {
+
+    const value = Math.floor(Math.max(0, Number(number) || 0));
+    const digits = ["ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"];
+
+    if (value === 0) return "ศูนย์";
+
+    if (value >= 1000000) {
+        const millions = Math.floor(value / 1000000);
+        const remainder = value % 1000000;
+        return thaiNumberToText(millions) + "ล้าน" + (remainder ? thaiNumberToText(remainder) : "");
+    }
+
+    const places = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน"];
+    const text = String(value);
+    let result = "";
+
+    for (let i = 0; i < text.length; i++) {
+        const digit = Number(text[i]);
+        if (!digit) continue;
+
+        const place = text.length - i - 1;
+        if (place === 1 && digit === 1) {
+            result += "สิบ";
+        } else if (place === 1 && digit === 2) {
+            result += "ยี่สิบ";
+        } else if (place === 0 && digit === 1 && value > 1) {
+            result += "เอ็ด";
+        } else {
+            result += digits[digit] + places[place];
+        }
+    }
+
+    return result;
+
+}
+
+function amountToBahtText(amount) {
+
+    const satangTotal = Math.round((Number(amount) || 0) * 100);
+    const baht = Math.floor(satangTotal / 100);
+    const satang = satangTotal % 100;
+
+    return thaiNumberToText(baht) + "บาท" +
+        (satang ? thaiNumberToText(satang) + "สตางค์" : "ถ้วน");
 
 }
 
@@ -1486,18 +1560,17 @@ async function sendAll(event) {
 
         await saveOrderToSheet();
 
-        await printLabel();
+        // Keep the order details in place so the customer can access the receipt.
+        $("#completebtn").prop("disabled", true);
 
-        alert(
-            "คำสั่งซื้อสำเร็จ"
-        );
-
-        clearCart();
-
-        resetForm();
-       setTimeout(() => {
-    window.location.href = "index.html";
-}, 1000);
+        try {
+            await printLabel();
+        } catch (receiptError) {
+            console.error("สร้าง PDF ใบเสร็จไม่สำเร็จ:", receiptError);
+            document.getElementById("receiptPanel").hidden = false;
+            $("#receiptStatus").text("บันทึกคำสั่งซื้อแล้ว แต่สร้าง PDF ไม่สำเร็จ คุณยังพิมพ์ใบเสร็จจากหน้านี้ได้");
+            document.getElementById("receiptPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
 
     }
     catch(error){
@@ -1586,173 +1659,132 @@ function resetForm() {
 
 function createReceiptHeader() {
 
-    const data =
-        getCustomerData();
+    const data = getCustomerData();
+    const date = new Intl.DateTimeFormat("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric"
+    }).format(new Date());
 
-    const now =
-        new Date();
-
-    const date =
-        now.toLocaleDateString(
-            "th-TH"
-        );
+    const orderNumber = escapeHtml(data.orderNumber || data.ordernumber || "");
+    const customerName = escapeHtml(`${data.name || ""} ${data.lastname || ""}`.trim());
+    const customerAddress = escapeHtml(
+        [data.address, data.province, data.zipcode].filter(Boolean).join(" ")
+    );
 
     const html = `
-
-    <div class="container-recieve">
-
-        <div class="p-3">
-
-            <div
-            class="recieve-header">
-
+        <div class="receipt-heading">
+            <div class="receipt-store">
+                <img src="img/logo.png" class="receipt-logo" alt="MENZSHOPS">
                 <div>
-
-                    <strong>
-                    MENZSHOPS
-                    </strong>
-
-                    <br>
-
-                    Nonthaburi 11000
-
+                    <div class="receipt-store-name">MENZSHOPS</div>
+                    <div>10/1 ต.บางกระสอ อ.เมืองนนทบุรี</div>
+                    <div>จ.นนทบุรี 11000 โทร 0644522924</div>
                 </div>
-
-                <div>
-
-                    <h4>
-                    ใบเสร็จรับเงิน
-                    </h4>
-
-                </div>
-
             </div>
-
-            <hr>
-
-            <div
-            class="recieve-header">
-
-                <div>
-
-                    เลขคำสั่งซื้อ
-
-                    <br>
-
-                    ${data.orderNumber}
-
-                </div>
-
-                <div>
-
-                    ${date}
-
-                </div>
-
+            <div class="receipt-meta">
+                <div>${date}</div>
+                <div>เลขคำสั่งซื้อ ${orderNumber}</div>
             </div>
-
-            <br>
-
-            <div>
-
-                ผู้รับ :
-                ${data.name}
-                ${data.lastname}
-
-                <br>
-
-                โทร :
-                ${data.tel}
-
-                <br>
-
-                ที่อยู่ :
-
-                ${data.address}
-
-                ${data.province}
-
-                ${data.zipcode}
-
-            </div>
-
         </div>
-
-    </div>
-
+        <h1 class="receipt-title">ใบเสร็จรับเงิน</h1>
+        <div class="receipt-customer">
+            <div><strong>รับเงินจาก</strong> ${customerName}</div>
+            <div><strong>ที่อยู่</strong> ${customerAddress}</div>
+        </div>
+        <div class="receipt-items-title">รายการสินค้า</div>
     `;
 
-    $("#headrecieve")
-        .html(html);
+    $("#headrecieve").html(html);
 
 }
 
-/* ==========================================
-   PRINT LABEL
-========================================== */
+async function generateReceiptPdf() {
+
+    const element = document.getElementById("print-area");
+    const data = getCustomerData();
+    const orderNumber = String(data.orderNumber || data.ordernumber || Date.now())
+        .replace(/[^a-zA-Z0-9_-]/g, "");
+
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+
+    const logo = element.querySelector(".receipt-logo");
+    if (logo && logo.decode) {
+        try { await logo.decode(); } catch (error) { /* Continue if the logo is unavailable. */ }
+    }
+
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+    element.classList.add("receipt-pdf-layout");
+    let blob;
+    try {
+        blob = await html2pdf()
+            .set({
+                margin: 0,
+                image: { type: "jpeg", quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+                jsPDF: { unit: "mm", format: "a5", orientation: "portrait" },
+                pagebreak: { mode: ["css", "legacy"] }
+            })
+            .from(element)
+            .outputPdf("blob");
+    } finally {
+        element.classList.remove("receipt-pdf-layout");
+    }
+
+    if (!(blob instanceof Blob)) throw new Error("ไม่สามารถสร้างไฟล์ PDF ได้");
+
+    if (receiptPdfUrl) URL.revokeObjectURL(receiptPdfUrl);
+    receiptPdfUrl = URL.createObjectURL(blob);
+
+    const downloadButton = document.getElementById("downloadReceiptBtn");
+    downloadButton.dataset.filename = `receipt-${orderNumber}.pdf`;
+    downloadButton.dataset.ready = "true";
+
+}
+
+async function downloadReceiptPdf() {
+
+    const button = document.getElementById("downloadReceiptBtn");
+
+    try {
+        if (!receiptPdfUrl || button.dataset.ready !== "true") {
+            await generateReceiptPdf();
+        }
+
+        const link = document.createElement("a");
+        link.href = receiptPdfUrl;
+        link.download = button.dataset.filename || "receipt.pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    } catch (error) {
+        console.error(error);
+        alert("สร้างไฟล์ PDF ไม่สำเร็จ กรุณาลองอีกครั้ง");
+    }
+
+}
+
+function printReceipt() {
+
+    window.print();
+
+}
 
 async function printLabel() {
 
     createReceiptHeader();
-
     renderReceiptTable();
-
     updateReceiptTotal();
 
-    await new Promise(resolve => {
+    const panel = document.getElementById("receiptPanel");
+    panel.hidden = false;
+    $("#receiptStatus").text("กำลังเตรียมใบเสร็จ PDF...");
 
-        setTimeout(
-            resolve,
-            500
-        );
+    await generateReceiptPdf();
 
-    });
-
-    await downloadPDF();
-
-}
-
-/* ==========================================
-   DOWNLOAD PDF
-========================================== */
-
-async function downloadPDF() {
-
-    const element =
-        document.getElementById(
-            "print-area"
-        );
-
-    return html2pdf()
-
-        .set({
-
-            margin:0,
-
-            filename:
-            `receipt-${Date.now()}.pdf`,
-
-            image:{
-                type:"jpeg",
-                quality:0.98
-            },
-
-            html2canvas:{
-                scale:2,
-                useCORS:true
-            },
-
-            jsPDF:{
-                unit:"mm",
-                format:"a5",
-                orientation:"portrait"
-            }
-
-        })
-
-        .from(element)
-
-        .save();
+    $("#receiptStatus").text("บันทึกคำสั่งซื้อและสร้างใบเสร็จ PDF เรียบร้อยแล้ว");
+    panel.scrollIntoView({ behavior: "smooth", block: "start" });
 
 }
 
