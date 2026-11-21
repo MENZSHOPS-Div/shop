@@ -1556,25 +1556,22 @@ async function sendAll(event) {
 
         showLoading();
 
-        await saveOrderToSheet();
-
-        // LINE notification is best-effort: a CORS failure must not cancel a saved order.
-        let lineNotificationSent = true;
+        // LINE notification is required before an order can be accepted.
         try {
             await sendLineMessage();
         } catch (notificationError) {
-            lineNotificationSent = false;
-            console.warn("บันทึกออเดอร์แล้ว แต่แจ้งเตือน LINE ไม่สำเร็จ:", notificationError);
+            console.error("ส่งแจ้งเตือน LINE ไม่สำเร็จ ออเดอร์ยังไม่ได้บันทึก:", notificationError);
+            alert("แจ้งเตือน LINE ไม่สำเร็จ จึงยังไม่ได้บันทึกคำสั่งซื้อ กรุณาลองอีกครั้ง");
+            return;
         }
+
+        await saveOrderToSheet();
 
         // Keep the order details in place so the customer can access the receipt.
         $("#completebtn").prop("disabled", true);
 
         try {
             await printLabel();
-            if (!lineNotificationSent) {
-                $("#receiptStatus").text("บันทึกคำสั่งซื้อและสร้างใบเสร็จแล้ว แต่แจ้งเตือนร้านทาง LINE ไม่สำเร็จ");
-            }
         } catch (receiptError) {
             console.error("สร้าง PDF ใบเสร็จไม่สำเร็จ:", receiptError);
             document.getElementById("receiptPanel").hidden = false;
