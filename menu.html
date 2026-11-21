@@ -342,22 +342,20 @@
   }
 
   #floating-icon {
-    position: fixed;
-    top: 200px;
-    /* ปรับตำแหน่งแนวตั้ง */
-    right: 20px;
-    /* ปรับตำแหน่งแนวนอน */
-    width: 60px;
-    height: 60px;
-    right: 90px;
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 56px;
+    height: 56px;
+    flex: 0 0 56px;
+    margin-right: auto;
     background: rgba(0, 0, 0, 0.7);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    z-index: 9999;
-    /* ให้ไอคอนอยู่ด้านบน */
+    z-index: 1001;
   }
 
   .fa-cart-shopping {
@@ -662,10 +660,6 @@
 
     .descript {
       font-size: 0.75rem;
-    }
-
-    #floating-icon {
-      right: 30px;
     }
 
     #qrcode {
@@ -1288,6 +1282,13 @@
       
         <!-- <img src="img/logo.png" alt="Logo"> -->
 
+        <div id="floating-icon">
+          <div onclick="openCart()" style="cursor: pointer;" class="nav-profile-cart">
+            <i class="fas fa-cart-shopping"></i>
+            <div id="cartcount" class="cartcount" style="display: none;">0</div>
+          </div>
+        </div>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
           <span class="fa fa-bars"></span>
         </button>
@@ -1334,14 +1335,6 @@
     </div>
     <!-- Payment support banner End -->
 
-    <div id="floating-icon">
-      <div onclick="openCart()" style="cursor: pointer;" class="nav-profile-cart">
-        <i class="fas fa-cart-shopping"></i>
-        <div id="cartcount" class="cartcount" style="display: none;">
-          0
-        </div>
-      </div>
-    </div>
     <div id="waiting" class="modal-waiting" style="display: none;">
        <div class="modal-content" style="min-width: 400px; max-width: 400px; margin-left: 20px; background-color: rgba(0, 0, 0, 0.1); box-shadow: inset 0em em rgba(0, 0, 0, 0), inset 0 .1em 0em rgba(0, 0, 0, 0); border: none;">
       <div class="row">
