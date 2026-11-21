@@ -149,6 +149,26 @@
     }
 }
 
+@media (min-width: 992px) {
+    .navbar-dark .navbar-collapse {
+        position: absolute;
+        left: 50%;
+        width: max-content;
+        flex-grow: 0;
+        transform: translateX(-50%);
+    }
+
+    .navbar-dark .navbar-nav.ms-auto {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .navbar-dark .navbar-nav .nav-link:first-child {
+        margin-left: 0;
+    }
+}
+
 
 /*** Hero Header ***/
 
