@@ -49,7 +49,7 @@
 <style>
 
     .hero-header {
-        background: url("img/bg.png");
+        background: url("css/img/bg.png");
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -67,20 +67,44 @@
         font-family: "sarabun";
     }
 
-    #floating-img {
-        position: fixed;
-        bottom: 50px;
-        right: 30px;
-        width: 100px;
-        height: 100px;
-        background: rgba(247, 246, 246, 0.1);
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        z-index: 9999;
-    }
+     #floating-icon {
+    position: relative;
+    top: auto;
+    right: auto;
+    order: 1;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    margin-left: auto;
+    margin-right: 0;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+    transition: background-color .2s ease, transform .2s ease;
+  }
+
+  #floating-icon:hover {
+    background: #f3f4f6;
+    transform: translateY(-1px);
+  }
+
+  #floating-icon .fa-cart-shopping {
+    font-size: 18px;
+    color: #dc3545;
+  }
+
+  #floating-icon .cartcount {
+    top: -6px;
+    right: -7px;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+  }
 
     .b-example-divider {
         width: 100%;
@@ -105,120 +129,60 @@
 
 <body>
 
-    <div class="container-xxl bg-white p-0">
+     <div class="container-xxl bg-white p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+      class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <!-- Spinner End -->
 
-        <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
 
-            <div class="spinner-border text-primary"
-                style="width: 3rem; height: 3rem;"
-                role="status">
+    <!-- Navbar & Hero Start -->
+    <div class="container-xxl position-relative p-0">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+      
+        <!-- <img src="img/logo.png" alt="Logo"> -->
 
-                <span class="sr-only">Loading...</span>
+        <div id="floating-icon">
+          <div onclick="openCart()" style="cursor: pointer;" class="nav-profile-cart">
+            <i class="fas fa-cart-shopping"></i>
+            <div id="cartcount" class="cartcount" style="display: none;">0</div>
+          </div>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+          <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav ms-auto py-0 pe-4">
+            <a href="index.html" class="nav-item nav-link active">Home</a>
+
+
+            <a href="menu.html" class="nav-item nav-link ">Shop</a>
+            <a href="contact.html" class="nav-item nav-link">Ship</a>
+            <a href="service.html" class="nav-item nav-link">tracking</a>
+
+            <a href="booking.html" class="nav-item nav-link">Contact</a>
+
+      </nav>
+
+      <div class="container-xxl py-5 hero-header mb-5">
+        <div class="container my-5 py-5">
+          <div class="row g-5">
+            <div class="col-lg-6 text-lg-start">
+              <h1 class="display-3  animated slideInLeft" style="color:darkorange;">MENZSHOPS<br><small
+                  class="text-white fs-1" style="font-family: sarabun;">Shop for gentlemen</small></h1>
+
 
             </div>
 
+          </div>
         </div>
-        <!-- Spinner End -->
-
-
-        <!-- Navbar & Hero Start -->
-
-        <div class="container-xxl position-relative p-0">
-
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
-
-              
-
-                <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse">
-
-                    <span class="fa fa-bars"></span>
-
-                </button>
-
-
-                <div class="collapse navbar-collapse justify-content-center"
-                    id="navbarCollapse">
-
-                    <div class="navbar-nav ms-auto py-0 pe-4">
-
-                        <a href="index.html"
-                            class="nav-item nav-link active">
-                            Home
-                        </a>
-
-                        <a href="menu.html"
-                            class="nav-item nav-link">
-                            Shop
-                        </a>
-
-                        <a href="contact.html"
-                            class="nav-item nav-link">
-                            Ship
-                        </a>
-
-                        <a href="service.html"
-                            class="nav-item nav-link">
-                            Tracking
-                        </a>
-
-                        <a href="qrtest.html"
-                            class="nav-item nav-link">
-                            Contact
-                        </a>
-
-                        <a href="login.html"
-                            class="nav-item nav-link"
-                            style="color: white;">
-                            ###
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </nav>
-
-
-            <!-- Hero -->
-
-            <div class="container-xxl py-5 hero-header mb-5">
-
-                <div class="container my-5 py-5">
-
-                    <div class="row g-5">
-
-                        <div class="col-lg-6 text-lg-start">
-
-                            <h1 id="idogcafe"
-                                class="display-3 text-white animated slideInLeft mt-5">
-
-                                MENZSHOPS<br>
-                                Shop for gentlemen.
-
-                            </h1>
-
-                            <a href="menu.html"
-                                class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">
-
-                                Shopping Now
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
+      </div>
+    </div>
         <!-- Navbar & Hero End -->
        <section class="service_section">
     <div class="container-fluid">
@@ -233,7 +197,7 @@
                 Fast Delivery
               </h5>
               <p>
-                variations of passages of Lorem Ipsum available
+                ส่งด่วนทันที ถึงภายใน 1 ชม. ให้บริการเฉพาะ พื้นที่ กรุงเทพมหานคร และ ปริมณฑล
               </p>
             </div>
           </div>
@@ -248,7 +212,7 @@
                 Free Shiping
               </h5>
               <p>
-                variations of passages of Lorem Ipsum available
+                จัดส่งฟรีสำหรับคำสั่งซื้อ 300 บาทขึ้นไป
               </p>
             </div>
           </div>
@@ -263,7 +227,7 @@
                 Best Quality
               </h5>
               <p>
-                variations of passages of Lorem Ipsum available
+                เราคัดสรรสินค้าที่มีคุณภาพและคุ้มค่าที่สุดสำหรับคุณ
               </p>
             </div>
           </div>
@@ -278,7 +242,7 @@
                 24x7 Customer support
               </h5>
               <p>
-                variations of passages of Lorem Ipsum available
+            เราพร้อมให้บริการคุณ ทุกวัน เวลา 8.00 น - 22.00 น. 
               </p>
             </div>
           </div>
@@ -420,14 +384,14 @@
 
                         <a class="border-bottom"
                             href="#">
-                            https://www.idogcafe.com
+                            https://www.menzshops.com
                         </a>,
 
                         Designed By
 
                         <a class="border-bottom"
                             href="">
-                            I DOG Cafe
+                            MENZSHOPS
                         </a>
 
                     </div>
