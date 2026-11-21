@@ -932,6 +932,17 @@ window.addEventListener(
         $("#province").on("change", function () {
             $(this).removeClass("is-invalid");
         });
+
+        document.getElementById("receiptModal")
+            .addEventListener("hidden.bs.modal", () => {
+                clearCart();
+                resetForm();
+                if (receiptPdfUrl) {
+                    URL.revokeObjectURL(receiptPdfUrl);
+                    receiptPdfUrl = null;
+                }
+                window.location.replace("index.html");
+            });
     }
 );
 
@@ -1574,9 +1585,8 @@ async function sendAll(event) {
             await printLabel();
         } catch (receiptError) {
             console.error("สร้าง PDF ใบเสร็จไม่สำเร็จ:", receiptError);
-            document.getElementById("receiptPanel").hidden = false;
-            $("#receiptStatus").text("บันทึกคำสั่งซื้อแล้ว แต่สร้าง PDF ไม่สำเร็จ คุณยังพิมพ์ใบเสร็จจากหน้านี้ได้");
-            document.getElementById("receiptPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+            $("#receiptStatus").text("บันทึกคำสั่งซื้อแล้ว แต่สร้าง PDF ไม่สำเร็จ คุณยังพิมพ์ใบเสร็จจากหน้าต่างนี้ได้");
+            bootstrap.Modal.getOrCreateInstance(document.getElementById("receiptModal")).show();
         }
 
     }
@@ -1784,14 +1794,19 @@ async function printLabel() {
     renderReceiptTable();
     updateReceiptTotal();
 
-    const panel = document.getElementById("receiptPanel");
-    panel.hidden = false;
+    const modalElement = document.getElementById("receiptModal");
+    const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
     $("#receiptStatus").text("กำลังเตรียมใบเสร็จ PDF...");
+
+    const modalShown = new Promise(resolve => {
+        modalElement.addEventListener("shown.bs.modal", resolve, { once: true });
+    });
+    modal.show();
+    await modalShown;
 
     await generateReceiptPdf();
 
     $("#receiptStatus").text("บันทึกคำสั่งซื้อและสร้างใบเสร็จ PDF เรียบร้อยแล้ว");
-    panel.scrollIntoView({ behavior: "smooth", block: "start" });
 
 }
 
