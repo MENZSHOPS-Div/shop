@@ -435,7 +435,7 @@ const CONFIG = {
     "https://script.google.com/macros/s/AKfycbwHU1aqw9TATKgHVNcTFSBomSWAdzortx8dgaKAdjfQstl30yb34jtziUk-XTjcHi134g/exec",
 
     lineApi:
-    "https://line-webhook-nu-lime.vercel.app/push",
+    "https://line-api-backend.onrender.com/push",
 
     sheetApi:
     "https://sheet-backend-lsg9.onrender.com/save-order",
