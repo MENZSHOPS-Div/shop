@@ -424,7 +424,7 @@
     const DELETE_URL = "https://script.google.com/macros/s/YOUR_DELETE_DEPLOY_ID/exec";
 
     // === URL ของ Apps Script ที่ใช้ส่งอีเมลยืนยันให้ลูกค้า (sendConfirmEmail.gs) — วาง URL /exec หลัง Deploy ===
-    const EMAIL_URL = "https://script.google.com/macros/s/AKfycbzxDVibcnPoxv3WBWllF3XbPhOYFk8zcA6xzFkVgchrJq8Wdn307_h_clfATBOKq12BrQ/exec";
+    const EMAIL_URL = "https://script.google.com/macros/s/AKfycbweonxuC5ShHTfZeRhXVWu-5qPnMfHNtNzR-FUvtFPP1PfV050P28l3U7jck1IcDj3taA/exec";
 
     const NEW_STATUS = "ออเดอร์ใหม่";   // ค่า status ที่ถือว่าเป็นคำสั่งซื้อใหม่
 
@@ -608,13 +608,10 @@ function confirmShipment() {
   const tInst = bootstrap.Modal.getInstance(document.getElementById('trackModal'));
   if (tInst) tInst.hide();
 
-  const email = getOrderEmail(currentOrder);
-  if (!email) {
-    alert('ออเดอร์นี้ไม่มีอีเมลลูกค้า จะเปลี่ยนสถานะโดยไม่ส่งอีเมล');
-    changeStatus('สำเร็จ');
-    return;
-  }
+  const email = getOrderEmail(currentOrder);   // อาจเป็นค่าว่าง (ไม่มีอีเมล) ก็ยังบันทึกเลขพัสดุลงชีต
+
   if (EMAIL_URL.indexOf('YOUR_') === 0) {
+    alert('ยังไม่ได้ตั้งค่า EMAIL_URL จึงไม่ได้บันทึกเลขพัสดุและไม่ได้ส่งอีเมล\nเลขพัสดุ: ' + tracking);
     changeStatus('สำเร็จ');
     return;
   }
@@ -630,10 +627,19 @@ function confirmShipment() {
 
   fetch(url)
     .then(res => res.json())
-    .then(r => { if (!r.ok) throw new Error(r.error || 'ส่งอีเมลไม่สำเร็จ'); })
+    .then(r => {
+      const problems = [];
+      if (!r.sheetSaved) problems.push('บันทึกเลขพัสดุลงชีตไม่สำเร็จ');
+      if (!email) problems.push('ออเดอร์นี้ไม่มีอีเมลลูกค้า จึงไม่ได้ส่งอีเมล');
+      else if (!r.emailSent) problems.push('ส่งอีเมลหาลูกค้าไม่สำเร็จ');
+      if (problems.length) {
+        console.error('shipping result:', r);
+        alert(problems.join('\n') + '\nเลขพัสดุ: ' + tracking + '\n(สถานะจะถูกเปลี่ยนตามปกติ)');
+      }
+    })
     .catch(err => {
-      console.error('ส่งอีเมลไม่สำเร็จ:', err);
-      alert('ส่งอีเมลเลขพัสดุให้ลูกค้าไม่สำเร็จ (สถานะจะถูกเปลี่ยนตามปกติ)\nเลขพัสดุ: ' + tracking + '\nกรุณาแจ้งลูกค้าด้วยวิธีอื่น');
+      console.error('เรียกสคริปต์ไม่สำเร็จ:', err);
+      alert('บันทึกเลขพัสดุ/ส่งอีเมลไม่สำเร็จ (สถานะจะถูกเปลี่ยนตามปกติ)\nเลขพัสดุ: ' + tracking);
     })
     .finally(() => changeStatus('สำเร็จ'));
 }
