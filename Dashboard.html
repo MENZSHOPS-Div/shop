@@ -358,17 +358,46 @@
           <div class="p-3 rounded mb-2" style="background:#f8fafc;border:1px solid var(--border);">
             <div id="m_address" style="line-height:1.7;">-</div>
             <div class="text-muted mt-1" id="m_tel"></div>
+            <div class="text-muted mt-1" id="m_email"></div>
           </div>
 
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-          <button class="btn btn-confirm" id="btnConfirm" onclick="changeStatus('รอจัดส่ง')">
+          <button class="btn btn-confirm" id="btnConfirm" onclick="confirmOrder()">
             <i class="fa-solid fa-check me-1"></i> ยืนยัน
           </button>
        <button class="btn btn-ship" id="btnShip" onclick="printLabelAndShip()">
   <i class="fa-solid fa-truck me-1"></i> จัดส่ง
 </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRACKING NUMBER MODAL -->
+  <div class="modal fade modal-detail" id="trackModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fa-solid fa-truck me-2"></i>ใส่เลขพัสดุ</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="mb-2 text-muted" style="font-size:.9rem;">
+            คำสั่งซื้อ <strong id="t_orderNumber">-</strong> · <span id="t_email">-</span>
+          </div>
+          <label for="trackingInput" class="form-label fw-bold">หมายเลขพัสดุ (Flash Express)</label>
+          <input type="text" id="trackingInput" class="form-control form-control-lg"
+                 placeholder="เช่น TH0123456789A" autocomplete="off"
+                 onkeydown="if(event.key==='Enter'){confirmShipment();}">
+          <div class="text-danger mt-2" id="trackingError" style="display:none;font-size:.9rem;"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+          <button class="btn btn-confirm" onclick="confirmShipment()">
+            <i class="fa-solid fa-check me-1"></i> ยืนยัน
+          </button>
         </div>
       </div>
     </div>
@@ -393,6 +422,9 @@
 
     // === URL สำหรับลบคำสั่งซื้อ — ต้องเปลี่ยนเป็น URL จริงหลัง Deploy Apps Script ที่รองรับ POST ลบข้อมูล ===
     const DELETE_URL = "https://script.google.com/macros/s/YOUR_DELETE_DEPLOY_ID/exec";
+
+    // === URL ของ Apps Script ที่ใช้ส่งอีเมลยืนยันให้ลูกค้า (sendConfirmEmail.gs) — วาง URL /exec หลัง Deploy ===
+    const EMAIL_URL = "https://script.google.com/macros/s/AKfycbzxDVibcnPoxv3WBWllF3XbPhOYFk8zcA6xzFkVgchrJq8Wdn307_h_clfATBOKq12BrQ/exec";
 
     const NEW_STATUS = "ออเดอร์ใหม่";   // ค่า status ที่ถือว่าเป็นคำสั่งซื้อใหม่
 
@@ -538,8 +570,72 @@ function printLabelAndShip() {
     alert("คัดลอกที่อยู่แล้ว (ยังไม่ได้เปิดผ่าน wrapper จึงต้องเปิด FlashPrinter เอง)");
   }
 
-  // 3. เปลี่ยนสถานะตามเดิม (ฟังก์ชันเดิมของพี่ ไม่แก้อะไร)
-  changeStatus('สำเร็จ');
+  // 3. ปิด modal รายละเอียด แล้วเปิด modal ใส่เลขพัสดุ (เปลี่ยนสถานะ + ส่งอีเมลตอนกดยืนยันใน modal นั้น)
+  const orderEl = document.getElementById('orderModal');
+  const showTrack = () => {
+    document.getElementById('t_orderNumber').textContent = '#' + (currentOrder?.orderNumber || '-');
+    document.getElementById('t_email').textContent = getOrderEmail(currentOrder || {}) || 'ไม่มีอีเมลลูกค้า';
+    document.getElementById('trackingInput').value = '';
+    document.getElementById('trackingError').style.display = 'none';
+    const tm = bootstrap.Modal.getOrCreateInstance(document.getElementById('trackModal'));
+    document.getElementById('trackModal').addEventListener('shown.bs.modal',
+      () => document.getElementById('trackingInput').focus(), { once: true });
+    tm.show();
+  };
+  const om = bootstrap.Modal.getInstance(orderEl);
+  if (om) {
+    orderEl.addEventListener('hidden.bs.modal', showTrack, { once: true });
+    om.hide();
+  } else {
+    showTrack();
+  }
+}
+
+// กดยืนยันใน modal เลขพัสดุ: ส่งอีเมล "พัสดุกำลังจัดส่ง" ให้ลูกค้า แล้วเปลี่ยนสถานะเป็น "สำเร็จ"
+function confirmShipment() {
+  if (!currentOrder) return;
+  const tracking = document.getElementById('trackingInput').value.trim();
+  const errEl = document.getElementById('trackingError');
+
+  if (!/^[A-Za-z0-9]{6,30}$/.test(tracking)) {
+    errEl.textContent = 'กรุณากรอกเลขพัสดุให้ถูกต้อง (ตัวอักษรภาษาอังกฤษหรือตัวเลข 6-30 ตัว ไม่มีช่องว่าง)';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  // ปิด modal เลขพัสดุ
+  const tInst = bootstrap.Modal.getInstance(document.getElementById('trackModal'));
+  if (tInst) tInst.hide();
+
+  const email = getOrderEmail(currentOrder);
+  if (!email) {
+    alert('ออเดอร์นี้ไม่มีอีเมลลูกค้า จะเปลี่ยนสถานะโดยไม่ส่งอีเมล');
+    changeStatus('สำเร็จ');
+    return;
+  }
+  if (EMAIL_URL.indexOf('YOUR_') === 0) {
+    changeStatus('สำเร็จ');
+    return;
+  }
+
+  showLoading(true);
+  const sep = EMAIL_URL.includes('?') ? '&' : '?';
+  const url = EMAIL_URL + sep
+    + 'type=shipping'
+    + '&orderNumber=' + encodeURIComponent(currentOrder.orderNumber)
+    + '&email=' + encodeURIComponent(email)
+    + '&trackingNumber=' + encodeURIComponent(tracking)
+    + '&t=' + Date.now();
+
+  fetch(url)
+    .then(res => res.json())
+    .then(r => { if (!r.ok) throw new Error(r.error || 'ส่งอีเมลไม่สำเร็จ'); })
+    .catch(err => {
+      console.error('ส่งอีเมลไม่สำเร็จ:', err);
+      alert('ส่งอีเมลเลขพัสดุให้ลูกค้าไม่สำเร็จ (สถานะจะถูกเปลี่ยนตามปกติ)\nเลขพัสดุ: ' + tracking + '\nกรุณาแจ้งลูกค้าด้วยวิธีอื่น');
+    })
+    .finally(() => changeStatus('สำเร็จ'));
 }
 
     function renderTable() {
@@ -605,6 +701,9 @@ function printLabelAndShip() {
       // ที่อยู่ + เบอร์โทร
       document.getElementById("m_address").textContent = o.address || "-";
       document.getElementById("m_tel").textContent     = o.tel ? ("โทร: 0" + o.tel) : "";
+      // อีเมล: ใช้ o.email ถ้ามี ไม่งั้นดูจาก callBackValue (แสดงเฉพาะค่าที่เป็นอีเมลจริง คือมี @)
+      const emailVal = getOrderEmail(o);
+      document.getElementById("m_email").textContent   = emailVal ? ("อีเมล: " + emailVal) : "";
 
       // สินค้า + จำนวน (จาก detailMap ที่ key = orderId == orderNumber)
       const key = String(o.orderNumber).trim();
@@ -630,6 +729,42 @@ function printLabelAndShip() {
         (s !== "สำเร็จ") ? "inline-block" : "none";
 
       new bootstrap.Modal(document.getElementById("orderModal")).show();
+    }
+
+    /* ---------- EMAIL ---------- */
+    // อีเมลลูกค้า: ใช้ o.email ถ้ามี ไม่งั้นดูจาก callBackValue (ต้องเป็นอีเมลจริง)
+    function getOrderEmail(o) {
+      const v = String(o.email || o.callBackValue || "").trim();
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? v : "";
+    }
+
+    // กดปุ่ม "ยืนยัน": ส่งอีเมลยืนยันให้ลูกค้า (ถ้ามีอีเมล) แล้วเปลี่ยนสถานะเป็น "รอจัดส่ง"
+    // ส่งอีเมลไม่สำเร็จจะไม่ขวางการเปลี่ยนสถานะ
+    function confirmOrder() {
+      if (!currentOrder) return;
+      const email = getOrderEmail(currentOrder);
+
+      if (!email || EMAIL_URL.indexOf("YOUR_") === 0) {
+        if (!email) alert("ออเดอร์นี้ไม่มีอีเมลลูกค้า จะเปลี่ยนสถานะโดยไม่ส่งอีเมล");
+        changeStatus('รอจัดส่ง');
+        return;
+      }
+
+      showLoading(true);
+      const sep = EMAIL_URL.includes("?") ? "&" : "?";
+      const url = EMAIL_URL + sep
+        + "orderNumber=" + encodeURIComponent(currentOrder.orderNumber)
+        + "&email=" + encodeURIComponent(email)
+        + "&t=" + Date.now();
+
+      fetch(url)
+        .then(res => res.json())
+        .then(r => { if (!r.ok) throw new Error(r.error || "ส่งอีเมลไม่สำเร็จ"); })
+        .catch(err => {
+          console.error("ส่งอีเมลไม่สำเร็จ:", err);
+          alert("ส่งอีเมลให้ลูกค้าไม่สำเร็จ (สถานะจะถูกเปลี่ยนตามปกติ) กรุณาแจ้งลูกค้าด้วยวิธีอื่น");
+        })
+        .finally(() => changeStatus('รอจัดส่ง'));
     }
 
     /* ---------- UPDATE STATUS ---------- */
